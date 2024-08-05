@@ -449,7 +449,8 @@ def create_tab_interface(workflow_name):
             "video": None, # special case for video selection handled below
             "bool": gr.Checkbox,
             "float": gr.Number,
-            "int": gr.Number  # Special case for int to round?
+            "int": gr.Number,  # Special case for int to round?
+            "radio": gr.Radio, # True radios collect their options from the workflow_definitions.json
         }
 
         if input_type in component_map:
@@ -479,7 +480,10 @@ def create_tab_interface(workflow_name):
                 # Use the mapping to create components based on input_type
                 component_constructor = component_map.get(input_type)
                 # print(f"Component Constructor: {component_constructor}")
-                components.append(component_constructor(label=input_label, elem_id=input_key))
+                if input_type == "radio":
+                    components.append(component_constructor(label=input_label, choices=input_details["choices"], elem_id=input_key))
+                else:
+                    components.append(component_constructor(label=input_label, elem_id=input_key))
         else:
             print(f"Whoa! Unsupported input type: {input_type}")
 

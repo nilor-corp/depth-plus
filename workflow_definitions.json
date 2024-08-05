@@ -60,6 +60,38 @@
         "outputs": {
             "type": "video"
         }
+    },
+    "depth-plus":{
+        "name": "Depth Plus",
+        "description": "Take video input and create data necessary to recreate the footage in a 3D engine",
+        "inputs": {
+            "images-01": {
+                "type": "video",
+                "label": "Path to Video",
+                "node-id": "[\"1\"][\"inputs\"][\"video\"]"
+            },
+            "radio-01": {
+                "type": "radio",
+                "label": "Output Type",
+                "node-id": "[\"3\"][\"inputs\"][\"text\"]",
+                "choices": ["Depth", "Optical Flow", "Segmentation", "All"]
+            },
+            "radio-02": {
+                "type": "radio",
+                "label": "Depth Type",
+                "node-id": "[\"4\"][\"inputs\"][\"type\"]",
+                "choices": ["Relative", "Metric"]
+            },
+            "radio-03":{
+                "type": "radio",
+                "label": "PNG Bit Depth",
+                "node-id": "[\"5\"][\"inputs\"][\"check\"]",
+                "choices": ["8 Bit", "16 Bit"]
+            }
+        },
+        "outputs": {
+            "type": "video"
+        }
     }
     
 }

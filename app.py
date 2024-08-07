@@ -238,17 +238,26 @@ def filter_valid_components(components):
     return valid_components
 
 
+
 def create_tab_interface(workflow_name):
     gr.Markdown("### Workflow Parameters")
     components = []
     component_data_dict = {workflow_name: workflow_definitions[workflow_name]["inputs"]}
     print(f"\nWORKFLOW: {workflow_name}")
 
+    last_group = None
+
     for input_key in workflow_definitions[workflow_name]["inputs"]:
         input_details = workflow_definitions[workflow_name]["inputs"][input_key]
         input_type = input_details["type"]
         input_label = input_details["label"]
         input_node_id = input_details["node-id"]
+
+        try:
+            group = input_details["group"]
+            print(f"Group: {group}")
+        except KeyError:
+            group = None
 
         # Define a mapping of input types to Gradio components
         component_map = {
@@ -260,6 +269,11 @@ def create_tab_interface(workflow_name):
             "int": gr.Number,  # Special case for int to round?
             "radio": gr.Radio, # True radios collect their options from the workflow_definitions.json
         }
+
+
+        if group != last_group:
+            print(f"Group: {group} != Last Group: {last_group}\nMaking New Row")
+            gr.Column() # Start a new row for each group
 
         if input_type in component_map:
             if input_type == "images":
@@ -294,6 +308,8 @@ def create_tab_interface(workflow_name):
                     components.append(component_constructor(label=input_label, elem_id=input_key))
         else:
             print(f"Whoa! Unsupported input type: {input_type}")
+
+        last_group = group
 
     return components, component_data_dict
 

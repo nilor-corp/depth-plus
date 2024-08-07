@@ -25,6 +25,24 @@
                 "label": "PNG Bit Depth",
                 "node-id": "[\"5\"][\"inputs\"][\"check\"]",
                 "choices": ["8 Bit", "16 Bit"]
+            },
+            "bool-01":{
+                "type": "bool",
+                "label": "PNG",
+                "node-id": "[\"6\"][\"inputs\"][\"check\"]",
+                "group": "Output Type"
+            },
+            "bool-02":{
+                "type": "bool",
+                "label": "MP4",
+                "node-id": "[\"7\"][\"inputs\"][\"check\"]",
+                "group": "Output Type"
+            },
+            "bool-03":{
+                "type": "bool",
+                "label": "EXR",
+                "node-id": "[\"8\"][\"inputs\"][\"check\"]",
+                "group": "Output Type"
             }
         },
         "outputs": {

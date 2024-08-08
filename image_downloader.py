@@ -141,7 +141,11 @@ def process_files(files, destination, input_type, singular=False, reorganising=F
         src = os.path.abspath(src)  # Convert to absolute path
         print(f"Source: {src}")
         ext = os.path.splitext(file)[1]
-        new_filename = f"{input_type}{ext}"
+
+        old_filename = os.path.basename(file)
+        # new_filename = f"{input_type}{ext}" # could rename the file to the input type
+        new_filename = old_filename
+
         print(new_filename)
         dst = os.path.join(destination, f"{new_filename}")
         shutil.copy(src, dst)

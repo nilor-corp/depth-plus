@@ -231,7 +231,10 @@
   },
   "353": {
     "inputs": {
-      "frame_rate": 30,
+      "frame_rate": [
+        "774",
+        0
+      ],
       "loop_count": 0,
       "filename_prefix": [
         "719",
@@ -252,7 +255,10 @@
   },
   "354": {
     "inputs": {
-      "frame_rate": 30,
+      "frame_rate": [
+        "774",
+        0
+      ],
       "loop_count": 0,
       "filename_prefix": [
         "727",
@@ -273,7 +279,10 @@
   },
   "355": {
     "inputs": {
-      "frame_rate": 30,
+      "frame_rate": [
+        "774",
+        0
+      ],
       "loop_count": 0,
       "filename_prefix": [
         "729",
@@ -836,7 +845,10 @@
   },
   "644": {
     "inputs": {
-      "frame_rate": 30,
+      "frame_rate": [
+        "774",
+        0
+      ],
       "loop_count": 0,
       "filename_prefix": [
         "733",
@@ -857,7 +869,10 @@
   },
   "645": {
     "inputs": {
-      "frame_rate": 30,
+      "frame_rate": [
+        "774",
+        0
+      ],
       "loop_count": 0,
       "filename_prefix": [
         "735",
@@ -878,7 +893,10 @@
   },
   "646": {
     "inputs": {
-      "frame_rate": 30,
+      "frame_rate": [
+        "774",
+        0
+      ],
       "loop_count": 0,
       "filename_prefix": [
         "737",
@@ -1082,7 +1100,10 @@
   },
   "669": {
     "inputs": {
-      "frame_rate": 30,
+      "frame_rate": [
+        "774",
+        0
+      ],
       "loop_count": 0,
       "filename_prefix": [
         "741",
@@ -1103,7 +1124,10 @@
   },
   "670": {
     "inputs": {
-      "frame_rate": 30,
+      "frame_rate": [
+        "774",
+        0
+      ],
       "loop_count": 0,
       "filename_prefix": [
         "743",
@@ -1124,7 +1148,10 @@
   },
   "671": {
     "inputs": {
-      "frame_rate": 30,
+      "frame_rate": [
+        "774",
+        0
+      ],
       "loop_count": 0,
       "filename_prefix": [
         "745",
@@ -1962,6 +1989,18 @@
     "class_type": "Simple String",
     "_meta": {
       "title": "Input File Path"
+    }
+  },
+  "774": {
+    "inputs": {
+      "video_info": [
+        "161",
+        3
+      ]
+    },
+    "class_type": "VHS_VideoInfoSource",
+    "_meta": {
+      "title": "Video Info (Source) 🎥🅥🅗🅢"
     }
   }
 }

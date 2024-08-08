@@ -1,0 +1,1978 @@
+{
+  "3": {
+    "inputs": {
+      "ckpt_name": "depth_anything_v2_vitl.pth",
+      "resolution": 1024,
+      "image": [
+        "541",
+        0
+      ]
+    },
+    "class_type": "DepthAnythingV2Preprocessor",
+    "_meta": {
+      "title": "Depth Anything V2 - Relative"
+    }
+  },
+  "42": {
+    "inputs": {
+      "int": 6
+    },
+    "class_type": "Primitive integer [Crystools]",
+    "_meta": {
+      "title": "Frame Limit"
+    }
+  },
+  "71": {
+    "inputs": {
+      "images": [
+        "544",
+        0
+      ]
+    },
+    "class_type": "RAFT Run",
+    "_meta": {
+      "title": "RAFT Run"
+    }
+  },
+  "105": {
+    "inputs": {
+      "image": [
+        "161",
+        0
+      ]
+    },
+    "class_type": "Get Image Size",
+    "_meta": {
+      "title": "Get Image Size"
+    }
+  },
+  "159": {
+    "inputs": {
+      "string": "G:\\Shared drives\\nilor\\Projects\\004_MLF_Oceans\\02_Research\\02_Inputs"
+    },
+    "class_type": "Primitive string [Crystools]",
+    "_meta": {
+      "title": "Input Video File Directory"
+    }
+  },
+  "160": {
+    "inputs": {
+      "string": "Coral_04"
+    },
+    "class_type": "Primitive string [Crystools]",
+    "_meta": {
+      "title": "Input Video File Name"
+    }
+  },
+  "161": {
+    "inputs": {
+      "video": [
+        "167",
+        0
+      ],
+      "force_rate": 0,
+      "force_size": "Disabled",
+      "custom_width": 1024,
+      "custom_height": 512,
+      "frame_load_cap": [
+        "532",
+        0
+      ],
+      "skip_first_frames": 0,
+      "select_every_nth": 1
+    },
+    "class_type": "VHS_LoadVideoPath",
+    "_meta": {
+      "title": "Load Video (Path) 🎥🅥🅗🅢"
+    }
+  },
+  "167": {
+    "inputs": {
+      "Prepend": [
+        "159",
+        0
+      ],
+      "Append": [
+        "181",
+        0
+      ],
+      "Delimiter": "/"
+    },
+    "class_type": "DF_String_Concatenate",
+    "_meta": {
+      "title": "String Concatenate"
+    }
+  },
+  "175": {
+    "inputs": {
+      "string": "mlf_oceans"
+    },
+    "class_type": "Primitive string [Crystools]",
+    "_meta": {
+      "title": "Output Video Directory"
+    }
+  },
+  "181": {
+    "inputs": {
+      "a": [
+        "160",
+        0
+      ],
+      "b": ".mp4"
+    },
+    "class_type": "JWStringConcat",
+    "_meta": {
+      "title": "Input Video File Extension"
+    }
+  },
+  "241": {
+    "inputs": {
+      "console": false,
+      "display": true,
+      "prefix": "",
+      "any_value": [
+        "105",
+        0
+      ]
+    },
+    "class_type": "Show any [Crystools]",
+    "_meta": {
+      "title": "🪛 Show any value to console/display"
+    }
+  },
+  "242": {
+    "inputs": {
+      "console": false,
+      "display": true,
+      "prefix": "",
+      "any_value": [
+        "105",
+        1
+      ]
+    },
+    "class_type": "Show any [Crystools]",
+    "_meta": {
+      "title": "🪛 Show any value to console/display"
+    }
+  },
+  "270": {
+    "inputs": {
+      "int": 3
+    },
+    "class_type": "Primitive integer [Crystools]",
+    "_meta": {
+      "title": "Frame Interpolation"
+    }
+  },
+  "271": {
+    "inputs": {
+      "images": [
+        "467",
+        0
+      ]
+    },
+    "class_type": "VHS_GetImageCount",
+    "_meta": {
+      "title": "Get Image Count 🎥🅥🅗🅢"
+    }
+  },
+  "313": {
+    "inputs": {
+      "model": "depth_anything_v2_metric_hypersim_vitl_fp32.safetensors"
+    },
+    "class_type": "DownloadAndLoadDepthAnythingV2Model",
+    "_meta": {
+      "title": "DownloadAndLoadDepthAnythingV2Model"
+    }
+  },
+  "314": {
+    "inputs": {
+      "da_model": [
+        "313",
+        0
+      ],
+      "images": [
+        "541",
+        0
+      ]
+    },
+    "class_type": "DepthAnything_V2",
+    "_meta": {
+      "title": "Depth Anything V2"
+    }
+  },
+  "337": {
+    "inputs": {
+      "text_input": [
+        "761",
+        0
+      ],
+      "task": "caption_to_phrase_grounding",
+      "fill_mask": true,
+      "keep_model_loaded": true,
+      "max_new_tokens": 1024,
+      "num_beams": 3,
+      "do_sample": true,
+      "output_mask_select": "",
+      "seed": 1,
+      "image": [
+        "547",
+        0
+      ],
+      "florence2_model": [
+        "465",
+        0
+      ]
+    },
+    "class_type": "Florence2Run",
+    "_meta": {
+      "title": "Florence2Run"
+    }
+  },
+  "338": {
+    "inputs": {
+      "index": "0",
+      "batch": false,
+      "data": [
+        "337",
+        3
+      ]
+    },
+    "class_type": "Florence2toCoordinates",
+    "_meta": {
+      "title": "Florence2 Coordinates"
+    }
+  },
+  "339": {
+    "inputs": {
+      "keep_model_loaded": "",
+      "coordinates_positive": [
+        "338",
+        0
+      ],
+      "individual_objects": true,
+      "sam2_model": [
+        "466",
+        0
+      ],
+      "image": [
+        "337",
+        0
+      ]
+    },
+    "class_type": "Sam2Segmentation",
+    "_meta": {
+      "title": "Sam2Segmentation"
+    }
+  },
+  "340": {
+    "inputs": {
+      "mask": [
+        "339",
+        0
+      ]
+    },
+    "class_type": "MaskToImage",
+    "_meta": {
+      "title": "Convert Mask to Image"
+    }
+  },
+  "353": {
+    "inputs": {
+      "frame_rate": 30,
+      "loop_count": 0,
+      "filename_prefix": [
+        "719",
+        0
+      ],
+      "format": "video/8bit-png",
+      "pingpong": false,
+      "save_output": true,
+      "images": [
+        "552",
+        0
+      ]
+    },
+    "class_type": "VHS_VideoCombine",
+    "_meta": {
+      "title": "Video Combine 🎥🅥🅗🅢"
+    }
+  },
+  "354": {
+    "inputs": {
+      "frame_rate": 30,
+      "loop_count": 0,
+      "filename_prefix": [
+        "727",
+        0
+      ],
+      "format": "video/16bit-png",
+      "pingpong": false,
+      "save_output": true,
+      "images": [
+        "559",
+        0
+      ]
+    },
+    "class_type": "VHS_VideoCombine",
+    "_meta": {
+      "title": "Video Combine 🎥🅥🅗🅢"
+    }
+  },
+  "355": {
+    "inputs": {
+      "frame_rate": 30,
+      "loop_count": 0,
+      "filename_prefix": [
+        "729",
+        0
+      ],
+      "format": "video/h264-mp4",
+      "pix_fmt": "yuv420p",
+      "crf": 19,
+      "save_metadata": true,
+      "pingpong": false,
+      "save_output": true,
+      "images": [
+        "562",
+        0
+      ]
+    },
+    "class_type": "VHS_VideoCombine",
+    "_meta": {
+      "title": "Video Combine 🎥🅥🅗🅢"
+    }
+  },
+  "356": {
+    "inputs": {
+      "filename_prefix": [
+        "731",
+        0
+      ],
+      "sRGB_to_linear": false,
+      "version": 1,
+      "start_frame": 1001,
+      "frame_pad": 4,
+      "save_workflow": "none",
+      "images": [
+        "564",
+        0
+      ]
+    },
+    "class_type": "SaveEXR",
+    "_meta": {
+      "title": "Save EXR"
+    }
+  },
+  "389": {
+    "inputs": {
+      "comparison": "a == b",
+      "a": [
+        "390",
+        0
+      ],
+      "b": [
+        "391",
+        0
+      ]
+    },
+    "class_type": "easy compare",
+    "_meta": {
+      "title": "Compare"
+    }
+  },
+  "390": {
+    "inputs": {
+      "string": "16 Bit"
+    },
+    "class_type": "Simple String",
+    "_meta": {
+      "title": "PNG Bit Depth String Input"
+    }
+  },
+  "391": {
+    "inputs": {
+      "string": "8 Bit"
+    },
+    "class_type": "Simple String",
+    "_meta": {
+      "title": "Simple String"
+    }
+  },
+  "393": {
+    "inputs": {
+      "boolean": true
+    },
+    "class_type": "Primitive boolean [Crystools]",
+    "_meta": {
+      "title": "PNG Enabler"
+    }
+  },
+  "399": {
+    "inputs": {
+      "boolean": false
+    },
+    "class_type": "Primitive boolean [Crystools]",
+    "_meta": {
+      "title": "MP4 Enabler"
+    }
+  },
+  "401": {
+    "inputs": {
+      "boolean": true
+    },
+    "class_type": "Primitive boolean [Crystools]",
+    "_meta": {
+      "title": "EXR Enabler"
+    }
+  },
+  "415": {
+    "inputs": {
+      "comparison": "a == b",
+      "a": [
+        "416",
+        0
+      ],
+      "b": [
+        "417",
+        0
+      ]
+    },
+    "class_type": "easy compare",
+    "_meta": {
+      "title": "Compare"
+    }
+  },
+  "416": {
+    "inputs": {
+      "string": "Metric"
+    },
+    "class_type": "Simple String",
+    "_meta": {
+      "title": "Depth Type String"
+    }
+  },
+  "417": {
+    "inputs": {
+      "string": "Metric"
+    },
+    "class_type": "Simple String",
+    "_meta": {
+      "title": "Simple String"
+    }
+  },
+  "422": {
+    "inputs": {
+      "string": "Segmentation"
+    },
+    "class_type": "Simple String",
+    "_meta": {
+      "title": "Outputs String"
+    }
+  },
+  "465": {
+    "inputs": {
+      "model": "microsoft/Florence-2-base",
+      "precision": "fp16",
+      "attention": "sdpa"
+    },
+    "class_type": "DownloadAndLoadFlorence2Model",
+    "_meta": {
+      "title": "DownloadAndLoadFlorence2Model"
+    }
+  },
+  "466": {
+    "inputs": {
+      "model": "sam2_hiera_base_plus.safetensors",
+      "segmentor": "single_image",
+      "device": "cuda",
+      "precision": "bf16"
+    },
+    "class_type": "DownloadAndLoadSAM2Model",
+    "_meta": {
+      "title": "(Down)Load SAM2Model"
+    }
+  },
+  "467": {
+    "inputs": {
+      "width": 1024,
+      "height": 1024,
+      "interpolation": "lanczos",
+      "method": "keep proportion",
+      "condition": "always",
+      "multiple_of": 0,
+      "image": [
+        "161",
+        0
+      ]
+    },
+    "class_type": "ImageResize+",
+    "_meta": {
+      "title": "🔧 Image Resize"
+    }
+  },
+  "474": {
+    "inputs": {
+      "Prepend": [
+        "749",
+        0
+      ],
+      "Append": [
+        "750",
+        0
+      ],
+      "Delimiter": "/"
+    },
+    "class_type": "DF_String_Concatenate",
+    "_meta": {
+      "title": "Output Video Subdirectory"
+    }
+  },
+  "482": {
+    "inputs": {
+      "width": [
+        "105",
+        0
+      ],
+      "height": [
+        "105",
+        1
+      ],
+      "interpolation": "lanczos",
+      "method": "keep proportion",
+      "condition": "always",
+      "multiple_of": 0,
+      "image": [
+        "3",
+        0
+      ]
+    },
+    "class_type": "ImageResize+",
+    "_meta": {
+      "title": "🔧 Image Resize"
+    }
+  },
+  "485": {
+    "inputs": {
+      "width": [
+        "105",
+        0
+      ],
+      "height": [
+        "105",
+        1
+      ],
+      "interpolation": "lanczos",
+      "method": "keep proportion",
+      "condition": "always",
+      "multiple_of": 0,
+      "image": [
+        "314",
+        0
+      ]
+    },
+    "class_type": "ImageResize+",
+    "_meta": {
+      "title": "🔧 Image Resize"
+    }
+  },
+  "488": {
+    "inputs": {
+      "width": [
+        "105",
+        0
+      ],
+      "height": [
+        "105",
+        1
+      ],
+      "interpolation": "lanczos",
+      "method": "keep proportion",
+      "condition": "always",
+      "multiple_of": 0,
+      "image": [
+        "71",
+        1
+      ]
+    },
+    "class_type": "ImageResize+",
+    "_meta": {
+      "title": "🔧 Image Resize"
+    }
+  },
+  "491": {
+    "inputs": {
+      "width": [
+        "105",
+        0
+      ],
+      "height": [
+        "105",
+        1
+      ],
+      "interpolation": "lanczos",
+      "method": "keep proportion",
+      "condition": "always",
+      "multiple_of": 0,
+      "image": [
+        "340",
+        0
+      ]
+    },
+    "class_type": "ImageResize+",
+    "_meta": {
+      "title": "🔧 Image Resize"
+    }
+  },
+  "532": {
+    "inputs": {
+      "op": "a * b",
+      "a": [
+        "42",
+        0
+      ],
+      "b": [
+        "270",
+        0
+      ],
+      "c": 0
+    },
+    "class_type": "SeargeIntegerMath",
+    "_meta": {
+      "title": "Integer Math"
+    }
+  },
+  "538": {
+    "inputs": {
+      "switch": [
+        "415",
+        0
+      ],
+      "on_false": [
+        "482",
+        0
+      ],
+      "on_true": [
+        "485",
+        0
+      ]
+    },
+    "class_type": "InversionDemoLazySwitch",
+    "_meta": {
+      "title": "Lazy Switch"
+    }
+  },
+  "541": {
+    "inputs": {
+      "block": [
+        "542",
+        0
+      ],
+      "verbose": false,
+      "input": [
+        "467",
+        0
+      ]
+    },
+    "class_type": "ExecutionBlocker",
+    "_meta": {
+      "title": "Execution Blocker"
+    }
+  },
+  "542": {
+    "inputs": {
+      "boolean": [
+        "713",
+        0
+      ]
+    },
+    "class_type": "Logic NOT",
+    "_meta": {
+      "title": "Logic NOT"
+    }
+  },
+  "544": {
+    "inputs": {
+      "block": [
+        "545",
+        0
+      ],
+      "verbose": false,
+      "input": [
+        "467",
+        0
+      ]
+    },
+    "class_type": "ExecutionBlocker",
+    "_meta": {
+      "title": "Execution Blocker"
+    }
+  },
+  "545": {
+    "inputs": {
+      "boolean": [
+        "715",
+        0
+      ]
+    },
+    "class_type": "Logic NOT",
+    "_meta": {
+      "title": "Logic NOT"
+    }
+  },
+  "547": {
+    "inputs": {
+      "block": [
+        "548",
+        0
+      ],
+      "verbose": false,
+      "input": [
+        "467",
+        0
+      ]
+    },
+    "class_type": "ExecutionBlocker",
+    "_meta": {
+      "title": "Execution Blocker"
+    }
+  },
+  "548": {
+    "inputs": {
+      "boolean": [
+        "716",
+        0
+      ]
+    },
+    "class_type": "Logic NOT",
+    "_meta": {
+      "title": "Logic NOT"
+    }
+  },
+  "551": {
+    "inputs": {
+      "block": [
+        "553",
+        0
+      ],
+      "verbose": false,
+      "input": [
+        "538",
+        0
+      ]
+    },
+    "class_type": "ExecutionBlocker",
+    "_meta": {
+      "title": "Execution Blocker"
+    }
+  },
+  "552": {
+    "inputs": {
+      "block": [
+        "554",
+        0
+      ],
+      "verbose": false,
+      "input": [
+        "551",
+        0
+      ]
+    },
+    "class_type": "ExecutionBlocker",
+    "_meta": {
+      "title": "Execution Blocker"
+    }
+  },
+  "553": {
+    "inputs": {
+      "boolean": [
+        "393",
+        0
+      ]
+    },
+    "class_type": "Logic NOT",
+    "_meta": {
+      "title": "Logic NOT"
+    }
+  },
+  "554": {
+    "inputs": {
+      "boolean": [
+        "389",
+        0
+      ]
+    },
+    "class_type": "Logic NOT",
+    "_meta": {
+      "title": "Logic NOT"
+    }
+  },
+  "559": {
+    "inputs": {
+      "block": [
+        "389",
+        0
+      ],
+      "verbose": false,
+      "input": [
+        "551",
+        0
+      ]
+    },
+    "class_type": "ExecutionBlocker",
+    "_meta": {
+      "title": "Execution Blocker"
+    }
+  },
+  "561": {
+    "inputs": {
+      "boolean": [
+        "399",
+        0
+      ]
+    },
+    "class_type": "Logic NOT",
+    "_meta": {
+      "title": "Logic NOT"
+    }
+  },
+  "562": {
+    "inputs": {
+      "block": [
+        "561",
+        0
+      ],
+      "verbose": false,
+      "input": [
+        "538",
+        0
+      ]
+    },
+    "class_type": "ExecutionBlocker",
+    "_meta": {
+      "title": "Execution Blocker"
+    }
+  },
+  "563": {
+    "inputs": {
+      "boolean": [
+        "401",
+        0
+      ]
+    },
+    "class_type": "Logic NOT",
+    "_meta": {
+      "title": "Logic NOT"
+    }
+  },
+  "564": {
+    "inputs": {
+      "block": [
+        "563",
+        0
+      ],
+      "verbose": false,
+      "input": [
+        "538",
+        0
+      ]
+    },
+    "class_type": "ExecutionBlocker",
+    "_meta": {
+      "title": "Execution Blocker"
+    }
+  },
+  "644": {
+    "inputs": {
+      "frame_rate": 30,
+      "loop_count": 0,
+      "filename_prefix": [
+        "733",
+        0
+      ],
+      "format": "video/8bit-png",
+      "pingpong": false,
+      "save_output": true,
+      "images": [
+        "656",
+        0
+      ]
+    },
+    "class_type": "VHS_VideoCombine",
+    "_meta": {
+      "title": "Video Combine 🎥🅥🅗🅢"
+    }
+  },
+  "645": {
+    "inputs": {
+      "frame_rate": 30,
+      "loop_count": 0,
+      "filename_prefix": [
+        "735",
+        0
+      ],
+      "format": "video/16bit-png",
+      "pingpong": false,
+      "save_output": true,
+      "images": [
+        "659",
+        0
+      ]
+    },
+    "class_type": "VHS_VideoCombine",
+    "_meta": {
+      "title": "Video Combine 🎥🅥🅗🅢"
+    }
+  },
+  "646": {
+    "inputs": {
+      "frame_rate": 30,
+      "loop_count": 0,
+      "filename_prefix": [
+        "737",
+        0
+      ],
+      "format": "video/h264-mp4",
+      "pix_fmt": "yuv420p",
+      "crf": 19,
+      "save_metadata": true,
+      "pingpong": false,
+      "save_output": true,
+      "images": [
+        "662",
+        0
+      ]
+    },
+    "class_type": "VHS_VideoCombine",
+    "_meta": {
+      "title": "Video Combine 🎥🅥🅗🅢"
+    }
+  },
+  "647": {
+    "inputs": {
+      "filename_prefix": [
+        "739",
+        0
+      ],
+      "sRGB_to_linear": false,
+      "version": 1,
+      "start_frame": 1001,
+      "frame_pad": 4,
+      "save_workflow": "none",
+      "images": [
+        "664",
+        0
+      ]
+    },
+    "class_type": "SaveEXR",
+    "_meta": {
+      "title": "Save EXR"
+    }
+  },
+  "648": {
+    "inputs": {
+      "comparison": "a == b",
+      "a": [
+        "390",
+        0
+      ],
+      "b": [
+        "649",
+        0
+      ]
+    },
+    "class_type": "easy compare",
+    "_meta": {
+      "title": "Compare"
+    }
+  },
+  "649": {
+    "inputs": {
+      "string": "8 Bit"
+    },
+    "class_type": "Simple String",
+    "_meta": {
+      "title": "Simple String"
+    }
+  },
+  "655": {
+    "inputs": {
+      "block": [
+        "657",
+        0
+      ],
+      "verbose": false,
+      "input": [
+        "488",
+        0
+      ]
+    },
+    "class_type": "ExecutionBlocker",
+    "_meta": {
+      "title": "Execution Blocker"
+    }
+  },
+  "656": {
+    "inputs": {
+      "block": [
+        "658",
+        0
+      ],
+      "verbose": false,
+      "input": [
+        "655",
+        0
+      ]
+    },
+    "class_type": "ExecutionBlocker",
+    "_meta": {
+      "title": "Execution Blocker"
+    }
+  },
+  "657": {
+    "inputs": {
+      "boolean": [
+        "393",
+        0
+      ]
+    },
+    "class_type": "Logic NOT",
+    "_meta": {
+      "title": "Logic NOT"
+    }
+  },
+  "658": {
+    "inputs": {
+      "boolean": [
+        "648",
+        0
+      ]
+    },
+    "class_type": "Logic NOT",
+    "_meta": {
+      "title": "Logic NOT"
+    }
+  },
+  "659": {
+    "inputs": {
+      "block": [
+        "648",
+        0
+      ],
+      "verbose": false,
+      "input": [
+        "655",
+        0
+      ]
+    },
+    "class_type": "ExecutionBlocker",
+    "_meta": {
+      "title": "Execution Blocker"
+    }
+  },
+  "661": {
+    "inputs": {
+      "boolean": [
+        "399",
+        0
+      ]
+    },
+    "class_type": "Logic NOT",
+    "_meta": {
+      "title": "Logic NOT"
+    }
+  },
+  "662": {
+    "inputs": {
+      "block": [
+        "661",
+        0
+      ],
+      "verbose": false,
+      "input": [
+        "488",
+        0
+      ]
+    },
+    "class_type": "ExecutionBlocker",
+    "_meta": {
+      "title": "Execution Blocker"
+    }
+  },
+  "663": {
+    "inputs": {
+      "boolean": [
+        "401",
+        0
+      ]
+    },
+    "class_type": "Logic NOT",
+    "_meta": {
+      "title": "Logic NOT"
+    }
+  },
+  "664": {
+    "inputs": {
+      "block": [
+        "663",
+        0
+      ],
+      "verbose": false,
+      "input": [
+        "488",
+        0
+      ]
+    },
+    "class_type": "ExecutionBlocker",
+    "_meta": {
+      "title": "Execution Blocker"
+    }
+  },
+  "669": {
+    "inputs": {
+      "frame_rate": 30,
+      "loop_count": 0,
+      "filename_prefix": [
+        "741",
+        0
+      ],
+      "format": "video/8bit-png",
+      "pingpong": false,
+      "save_output": true,
+      "images": [
+        "681",
+        0
+      ]
+    },
+    "class_type": "VHS_VideoCombine",
+    "_meta": {
+      "title": "Video Combine 🎥🅥🅗🅢"
+    }
+  },
+  "670": {
+    "inputs": {
+      "frame_rate": 30,
+      "loop_count": 0,
+      "filename_prefix": [
+        "743",
+        0
+      ],
+      "format": "video/16bit-png",
+      "pingpong": false,
+      "save_output": true,
+      "images": [
+        "684",
+        0
+      ]
+    },
+    "class_type": "VHS_VideoCombine",
+    "_meta": {
+      "title": "Video Combine 🎥🅥🅗🅢"
+    }
+  },
+  "671": {
+    "inputs": {
+      "frame_rate": 30,
+      "loop_count": 0,
+      "filename_prefix": [
+        "745",
+        0
+      ],
+      "format": "video/h264-mp4",
+      "pix_fmt": "yuv420p",
+      "crf": 19,
+      "save_metadata": true,
+      "pingpong": false,
+      "save_output": true,
+      "images": [
+        "687",
+        0
+      ]
+    },
+    "class_type": "VHS_VideoCombine",
+    "_meta": {
+      "title": "Video Combine 🎥🅥🅗🅢"
+    }
+  },
+  "672": {
+    "inputs": {
+      "filename_prefix": [
+        "747",
+        0
+      ],
+      "sRGB_to_linear": false,
+      "version": 1,
+      "start_frame": 1001,
+      "frame_pad": 4,
+      "save_workflow": "none",
+      "images": [
+        "689",
+        0
+      ]
+    },
+    "class_type": "SaveEXR",
+    "_meta": {
+      "title": "Save EXR"
+    }
+  },
+  "673": {
+    "inputs": {
+      "comparison": "a == b",
+      "a": [
+        "390",
+        0
+      ],
+      "b": [
+        "674",
+        0
+      ]
+    },
+    "class_type": "easy compare",
+    "_meta": {
+      "title": "Compare"
+    }
+  },
+  "674": {
+    "inputs": {
+      "string": "8 Bit"
+    },
+    "class_type": "Simple String",
+    "_meta": {
+      "title": "Simple String"
+    }
+  },
+  "680": {
+    "inputs": {
+      "block": [
+        "682",
+        0
+      ],
+      "verbose": false,
+      "input": [
+        "491",
+        0
+      ]
+    },
+    "class_type": "ExecutionBlocker",
+    "_meta": {
+      "title": "Execution Blocker"
+    }
+  },
+  "681": {
+    "inputs": {
+      "block": [
+        "683",
+        0
+      ],
+      "verbose": false,
+      "input": [
+        "680",
+        0
+      ]
+    },
+    "class_type": "ExecutionBlocker",
+    "_meta": {
+      "title": "Execution Blocker"
+    }
+  },
+  "682": {
+    "inputs": {
+      "boolean": [
+        "393",
+        0
+      ]
+    },
+    "class_type": "Logic NOT",
+    "_meta": {
+      "title": "Logic NOT"
+    }
+  },
+  "683": {
+    "inputs": {
+      "boolean": [
+        "673",
+        0
+      ]
+    },
+    "class_type": "Logic NOT",
+    "_meta": {
+      "title": "Logic NOT"
+    }
+  },
+  "684": {
+    "inputs": {
+      "block": [
+        "673",
+        0
+      ],
+      "verbose": false,
+      "input": [
+        "680",
+        0
+      ]
+    },
+    "class_type": "ExecutionBlocker",
+    "_meta": {
+      "title": "Execution Blocker"
+    }
+  },
+  "686": {
+    "inputs": {
+      "boolean": [
+        "399",
+        0
+      ]
+    },
+    "class_type": "Logic NOT",
+    "_meta": {
+      "title": "Logic NOT"
+    }
+  },
+  "687": {
+    "inputs": {
+      "block": [
+        "686",
+        0
+      ],
+      "verbose": false,
+      "input": [
+        "491",
+        0
+      ]
+    },
+    "class_type": "ExecutionBlocker",
+    "_meta": {
+      "title": "Execution Blocker"
+    }
+  },
+  "688": {
+    "inputs": {
+      "boolean": [
+        "401",
+        0
+      ]
+    },
+    "class_type": "Logic NOT",
+    "_meta": {
+      "title": "Logic NOT"
+    }
+  },
+  "689": {
+    "inputs": {
+      "block": [
+        "688",
+        0
+      ],
+      "verbose": false,
+      "input": [
+        "491",
+        0
+      ]
+    },
+    "class_type": "ExecutionBlocker",
+    "_meta": {
+      "title": "Execution Blocker"
+    }
+  },
+  "701": {
+    "inputs": {
+      "a": "Depth",
+      "b": [
+        "422",
+        0
+      ],
+      "operation": "a IN b",
+      "case_sensitive": false
+    },
+    "class_type": "StringConditions",
+    "_meta": {
+      "title": "String Condition"
+    }
+  },
+  "705": {
+    "inputs": {
+      "a": "Flow",
+      "b": [
+        "422",
+        0
+      ],
+      "operation": "a IN b",
+      "case_sensitive": false
+    },
+    "class_type": "StringConditions",
+    "_meta": {
+      "title": "String Condition"
+    }
+  },
+  "707": {
+    "inputs": {
+      "a": "Seg",
+      "b": [
+        "422",
+        0
+      ],
+      "operation": "a IN b",
+      "case_sensitive": false
+    },
+    "class_type": "StringConditions",
+    "_meta": {
+      "title": "String Condition"
+    }
+  },
+  "709": {
+    "inputs": {
+      "text": "false",
+      "anything": [
+        "713",
+        0
+      ]
+    },
+    "class_type": "easy showAnything",
+    "_meta": {
+      "title": "Show Any"
+    }
+  },
+  "710": {
+    "inputs": {
+      "text": "false",
+      "anything": [
+        "715",
+        0
+      ]
+    },
+    "class_type": "easy showAnything",
+    "_meta": {
+      "title": "Show Any"
+    }
+  },
+  "711": {
+    "inputs": {
+      "text": "true",
+      "anything": [
+        "716",
+        0
+      ]
+    },
+    "class_type": "easy showAnything",
+    "_meta": {
+      "title": "Show Any"
+    }
+  },
+  "712": {
+    "inputs": {
+      "a": "All",
+      "b": [
+        "422",
+        0
+      ],
+      "operation": "a IN b",
+      "case_sensitive": false
+    },
+    "class_type": "StringConditions",
+    "_meta": {
+      "title": "String Condition"
+    }
+  },
+  "713": {
+    "inputs": {
+      "switch": [
+        "712",
+        0
+      ],
+      "on_false": [
+        "701",
+        0
+      ],
+      "on_true": [
+        "717",
+        0
+      ]
+    },
+    "class_type": "InversionDemoLazySwitch",
+    "_meta": {
+      "title": "Lazy Switch"
+    }
+  },
+  "715": {
+    "inputs": {
+      "switch": [
+        "712",
+        0
+      ],
+      "on_false": [
+        "705",
+        0
+      ],
+      "on_true": [
+        "717",
+        0
+      ]
+    },
+    "class_type": "InversionDemoLazySwitch",
+    "_meta": {
+      "title": "Lazy Switch"
+    }
+  },
+  "716": {
+    "inputs": {
+      "switch": [
+        "712",
+        0
+      ],
+      "on_false": [
+        "707",
+        0
+      ],
+      "on_true": [
+        "717",
+        0
+      ]
+    },
+    "class_type": "InversionDemoLazySwitch",
+    "_meta": {
+      "title": "Lazy Switch"
+    }
+  },
+  "717": {
+    "inputs": {
+      "boolean": true
+    },
+    "class_type": "Primitive boolean [Crystools]",
+    "_meta": {
+      "title": "🪛 Primitive boolean"
+    }
+  },
+  "719": {
+    "inputs": {
+      "Prepend": [
+        "474",
+        0
+      ],
+      "Append": [
+        "720",
+        0
+      ],
+      "Delimiter": "/"
+    },
+    "class_type": "DF_String_Concatenate",
+    "_meta": {
+      "title": "Output Video Subdirectory"
+    }
+  },
+  "720": {
+    "inputs": {
+      "string": "PNG8/Output"
+    },
+    "class_type": "Simple String",
+    "_meta": {
+      "title": "Simple String"
+    }
+  },
+  "727": {
+    "inputs": {
+      "Prepend": [
+        "474",
+        0
+      ],
+      "Append": [
+        "728",
+        0
+      ],
+      "Delimiter": "/"
+    },
+    "class_type": "DF_String_Concatenate",
+    "_meta": {
+      "title": "Output Video Subdirectory"
+    }
+  },
+  "728": {
+    "inputs": {
+      "string": "PNG16/Output"
+    },
+    "class_type": "Simple String",
+    "_meta": {
+      "title": "Simple String"
+    }
+  },
+  "729": {
+    "inputs": {
+      "Prepend": [
+        "474",
+        0
+      ],
+      "Append": [
+        "730",
+        0
+      ],
+      "Delimiter": "/"
+    },
+    "class_type": "DF_String_Concatenate",
+    "_meta": {
+      "title": "Output Video Subdirectory"
+    }
+  },
+  "730": {
+    "inputs": {
+      "string": "MP4/Output"
+    },
+    "class_type": "Simple String",
+    "_meta": {
+      "title": "Simple String"
+    }
+  },
+  "731": {
+    "inputs": {
+      "Prepend": [
+        "474",
+        0
+      ],
+      "Append": [
+        "732",
+        0
+      ],
+      "Delimiter": "/"
+    },
+    "class_type": "DF_String_Concatenate",
+    "_meta": {
+      "title": "Output Video Subdirectory"
+    }
+  },
+  "732": {
+    "inputs": {
+      "string": "EXR/Output"
+    },
+    "class_type": "Simple String",
+    "_meta": {
+      "title": "Simple String"
+    }
+  },
+  "733": {
+    "inputs": {
+      "Prepend": [
+        "753",
+        0
+      ],
+      "Append": [
+        "734",
+        0
+      ],
+      "Delimiter": "/"
+    },
+    "class_type": "DF_String_Concatenate",
+    "_meta": {
+      "title": "Output Video Subdirectory"
+    }
+  },
+  "734": {
+    "inputs": {
+      "string": "PNG8/Output"
+    },
+    "class_type": "Simple String",
+    "_meta": {
+      "title": "Simple String"
+    }
+  },
+  "735": {
+    "inputs": {
+      "Prepend": [
+        "753",
+        0
+      ],
+      "Append": [
+        "736",
+        0
+      ],
+      "Delimiter": "/"
+    },
+    "class_type": "DF_String_Concatenate",
+    "_meta": {
+      "title": "Output Video Subdirectory"
+    }
+  },
+  "736": {
+    "inputs": {
+      "string": "PNG16/Output"
+    },
+    "class_type": "Simple String",
+    "_meta": {
+      "title": "Simple String"
+    }
+  },
+  "737": {
+    "inputs": {
+      "Prepend": [
+        "753",
+        0
+      ],
+      "Append": [
+        "738",
+        0
+      ],
+      "Delimiter": "/"
+    },
+    "class_type": "DF_String_Concatenate",
+    "_meta": {
+      "title": "Output Video Subdirectory"
+    }
+  },
+  "738": {
+    "inputs": {
+      "string": "MP4/Output"
+    },
+    "class_type": "Simple String",
+    "_meta": {
+      "title": "Simple String"
+    }
+  },
+  "739": {
+    "inputs": {
+      "Prepend": [
+        "753",
+        0
+      ],
+      "Append": [
+        "740",
+        0
+      ],
+      "Delimiter": "/"
+    },
+    "class_type": "DF_String_Concatenate",
+    "_meta": {
+      "title": "Output Video Subdirectory"
+    }
+  },
+  "740": {
+    "inputs": {
+      "string": "EXR/Output"
+    },
+    "class_type": "Simple String",
+    "_meta": {
+      "title": "Simple String"
+    }
+  },
+  "741": {
+    "inputs": {
+      "Prepend": [
+        "758",
+        0
+      ],
+      "Append": [
+        "742",
+        0
+      ],
+      "Delimiter": "/"
+    },
+    "class_type": "DF_String_Concatenate",
+    "_meta": {
+      "title": "Output Video Subdirectory"
+    }
+  },
+  "742": {
+    "inputs": {
+      "string": "PNG8/Output"
+    },
+    "class_type": "Simple String",
+    "_meta": {
+      "title": "Simple String"
+    }
+  },
+  "743": {
+    "inputs": {
+      "Prepend": [
+        "758",
+        0
+      ],
+      "Append": [
+        "744",
+        0
+      ],
+      "Delimiter": "/"
+    },
+    "class_type": "DF_String_Concatenate",
+    "_meta": {
+      "title": "Output Video Subdirectory"
+    }
+  },
+  "744": {
+    "inputs": {
+      "string": "PNG16/Output"
+    },
+    "class_type": "Simple String",
+    "_meta": {
+      "title": "Simple String"
+    }
+  },
+  "745": {
+    "inputs": {
+      "Prepend": [
+        "758",
+        0
+      ],
+      "Append": [
+        "746",
+        0
+      ],
+      "Delimiter": "/"
+    },
+    "class_type": "DF_String_Concatenate",
+    "_meta": {
+      "title": "Output Video Subdirectory"
+    }
+  },
+  "746": {
+    "inputs": {
+      "string": "MP4/Output"
+    },
+    "class_type": "Simple String",
+    "_meta": {
+      "title": "Simple String"
+    }
+  },
+  "747": {
+    "inputs": {
+      "Prepend": [
+        "758",
+        0
+      ],
+      "Append": [
+        "748",
+        0
+      ],
+      "Delimiter": "/"
+    },
+    "class_type": "DF_String_Concatenate",
+    "_meta": {
+      "title": "Output Video Subdirectory"
+    }
+  },
+  "748": {
+    "inputs": {
+      "string": "EXR/Output"
+    },
+    "class_type": "Simple String",
+    "_meta": {
+      "title": "Simple String"
+    }
+  },
+  "749": {
+    "inputs": {
+      "Prepend": [
+        "175",
+        0
+      ],
+      "Append": [
+        "160",
+        0
+      ],
+      "Delimiter": "/"
+    },
+    "class_type": "DF_String_Concatenate",
+    "_meta": {
+      "title": "Output Video Subdirectory"
+    }
+  },
+  "750": {
+    "inputs": {
+      "string": "Depth"
+    },
+    "class_type": "Simple String",
+    "_meta": {
+      "title": "Simple String"
+    }
+  },
+  "753": {
+    "inputs": {
+      "Prepend": [
+        "754",
+        0
+      ],
+      "Append": [
+        "755",
+        0
+      ],
+      "Delimiter": "/"
+    },
+    "class_type": "DF_String_Concatenate",
+    "_meta": {
+      "title": "Output Video Subdirectory"
+    }
+  },
+  "754": {
+    "inputs": {
+      "Prepend": [
+        "175",
+        0
+      ],
+      "Append": [
+        "160",
+        0
+      ],
+      "Delimiter": "/"
+    },
+    "class_type": "DF_String_Concatenate",
+    "_meta": {
+      "title": "Output Video Subdirectory"
+    }
+  },
+  "755": {
+    "inputs": {
+      "string": "Flow"
+    },
+    "class_type": "Simple String",
+    "_meta": {
+      "title": "Simple String"
+    }
+  },
+  "758": {
+    "inputs": {
+      "Prepend": [
+        "759",
+        0
+      ],
+      "Append": [
+        "760",
+        0
+      ],
+      "Delimiter": "/"
+    },
+    "class_type": "DF_String_Concatenate",
+    "_meta": {
+      "title": "Output Video Subdirectory"
+    }
+  },
+  "759": {
+    "inputs": {
+      "Prepend": [
+        "175",
+        0
+      ],
+      "Append": [
+        "160",
+        0
+      ],
+      "Delimiter": "/"
+    },
+    "class_type": "DF_String_Concatenate",
+    "_meta": {
+      "title": "Output Video Subdirectory"
+    }
+  },
+  "760": {
+    "inputs": {
+      "string": "Segmentation"
+    },
+    "class_type": "Simple String",
+    "_meta": {
+      "title": "Simple String"
+    }
+  },
+  "761": {
+    "inputs": {
+      "string": "coral"
+    },
+    "class_type": "Simple String",
+    "_meta": {
+      "title": "Segmentation Prompt"
+    }
+  }
+}

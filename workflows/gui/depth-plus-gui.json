@@ -1,6 +1,6 @@
 {
-  "last_node_id": 825,
-  "last_link_id": 1260,
+  "last_node_id": 869,
+  "last_link_id": 1351,
   "nodes": [
     {
       "id": 238,
@@ -28,66 +28,6 @@
       ],
       "title": "Get_Input_Frame_Limit",
       "properties": {},
-      "widgets_values": [
-        "Input_Frame_Limit"
-      ],
-      "color": "#223"
-    },
-    {
-      "id": 268,
-      "type": "easy setNode",
-      "pos": [
-        -4088.962304565989,
-        832.4103694153565
-      ],
-      "size": {
-        "0": 243.60000610351562,
-        "1": 58
-      },
-      "flags": {},
-      "order": 79,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "INT",
-          "type": "INT",
-          "link": 422
-        }
-      ],
-      "title": "Set_Input_Frame_Interpolation",
-      "properties": {
-        "previousName": "Input_Frame_Interpolation"
-      },
-      "widgets_values": [
-        "Input_Frame_Interpolation"
-      ],
-      "color": "#223"
-    },
-    {
-      "id": 237,
-      "type": "easy setNode",
-      "pos": [
-        -4058.962304565988,
-        722.4103694153565
-      ],
-      "size": {
-        "0": 210,
-        "1": 58
-      },
-      "flags": {},
-      "order": 125,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "INT",
-          "type": "INT",
-          "link": 767
-        }
-      ],
-      "title": "Set_Input_Frame_Limit",
-      "properties": {
-        "previousName": "Input_Frame_Limit"
-      },
       "widgets_values": [
         "Input_Frame_Limit"
       ],
@@ -137,7 +77,7 @@
         "1": 102
       },
       "flags": {},
-      "order": 172,
+      "order": 177,
       "mode": 0,
       "inputs": [
         {
@@ -218,7 +158,7 @@
         "1": 150
       },
       "flags": {},
-      "order": 176,
+      "order": 181,
       "mode": 0,
       "inputs": [
         {
@@ -271,36 +211,6 @@
       ]
     },
     {
-      "id": 177,
-      "type": "easy setNode",
-      "pos": [
-        -4428.962304565993,
-        1382.4103694153564
-      ],
-      "size": {
-        "0": 210,
-        "1": 58
-      },
-      "flags": {},
-      "order": 95,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "STRING",
-          "type": "STRING",
-          "link": 286
-        }
-      ],
-      "title": "Set_Output_Directory",
-      "properties": {
-        "previousName": "Output_Directory"
-      },
-      "widgets_values": [
-        "Output_Directory"
-      ],
-      "color": "#223"
-    },
-    {
       "id": 353,
       "type": "VHS_VideoCombine",
       "pos": [
@@ -312,7 +222,7 @@
         210
       ],
       "flags": {},
-      "order": 217,
+      "order": 224,
       "mode": 0,
       "inputs": [
         {
@@ -395,7 +305,7 @@
         26
       ],
       "flags": {},
-      "order": 122,
+      "order": 125,
       "mode": 0,
       "inputs": [
         {
@@ -432,7 +342,7 @@
         "1": 46
       },
       "flags": {},
-      "order": 169,
+      "order": 174,
       "mode": 0,
       "inputs": [
         {
@@ -566,7 +476,7 @@
         "1": 46
       },
       "flags": {},
-      "order": 134,
+      "order": 137,
       "mode": 0,
       "inputs": [
         {
@@ -615,7 +525,7 @@
       "flags": {
         "collapsed": false
       },
-      "order": 158,
+      "order": 163,
       "mode": 0,
       "inputs": [
         {
@@ -647,7 +557,7 @@
         "1": 58
       },
       "flags": {},
-      "order": 157,
+      "order": 162,
       "mode": 0,
       "inputs": [
         {
@@ -677,7 +587,7 @@
         "1": 58
       },
       "flags": {},
-      "order": 155,
+      "order": 160,
       "mode": 0,
       "inputs": [
         {
@@ -709,7 +619,7 @@
       "flags": {
         "collapsed": false
       },
-      "order": 156,
+      "order": 161,
       "mode": 0,
       "inputs": [
         {
@@ -865,7 +775,7 @@
         "1": 46
       },
       "flags": {},
-      "order": 160,
+      "order": 165,
       "mode": 4,
       "inputs": [
         {
@@ -907,7 +817,7 @@
         "1": 218
       },
       "flags": {},
-      "order": 165,
+      "order": 170,
       "mode": 4,
       "inputs": [
         {
@@ -1011,7 +921,7 @@
         "1": 218
       },
       "flags": {},
-      "order": 171,
+      "order": 176,
       "mode": 0,
       "inputs": [
         {
@@ -1083,7 +993,7 @@
         "1": 26
       },
       "flags": {},
-      "order": 180,
+      "order": 185,
       "mode": 0,
       "inputs": [
         {
@@ -1119,7 +1029,7 @@
         "1": 218
       },
       "flags": {},
-      "order": 183,
+      "order": 188,
       "mode": 0,
       "inputs": [
         {
@@ -1191,7 +1101,7 @@
         "1": 198
       },
       "flags": {},
-      "order": 123,
+      "order": 126,
       "mode": 4,
       "inputs": [
         {
@@ -1300,7 +1210,7 @@
         "1": 58
       },
       "flags": {},
-      "order": 164,
+      "order": 169,
       "mode": 0,
       "inputs": [
         {
@@ -1317,85 +1227,6 @@
         "Input_Frame_Count"
       ],
       "color": "#223"
-    },
-    {
-      "id": 271,
-      "type": "VHS_GetImageCount",
-      "pos": [
-        -1928.2911302551074,
-        439.7105158264155
-      ],
-      "size": {
-        "0": 210,
-        "1": 26
-      },
-      "flags": {},
-      "order": 159,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "images",
-          "type": "*",
-          "link": 716
-        }
-      ],
-      "outputs": [
-        {
-          "name": "count",
-          "type": "INT",
-          "links": [
-            427
-          ],
-          "shape": 3,
-          "slot_index": 0
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "VHS_GetImageCount"
-      },
-      "widgets_values": {}
-    },
-    {
-      "id": 71,
-      "type": "RAFT Run",
-      "pos": [
-        -1001.6505256953715,
-        2315.4080631460506
-      ],
-      "size": {
-        "0": 241.79998779296875,
-        "1": 46
-      },
-      "flags": {},
-      "order": 166,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "images",
-          "type": "IMAGE",
-          "link": 1057
-        }
-      ],
-      "outputs": [
-        {
-          "name": "OPTICAL_FLOW",
-          "type": "OPTICAL_FLOW",
-          "links": null,
-          "shape": 3
-        },
-        {
-          "name": "IMAGE",
-          "type": "IMAGE",
-          "links": [
-            687
-          ],
-          "shape": 3,
-          "slot_index": 1
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "RAFT Run"
-      }
     },
     {
       "id": 465,
@@ -1511,7 +1342,7 @@
         "1": 218
       },
       "flags": {},
-      "order": 174,
+      "order": 179,
       "mode": 0,
       "inputs": [
         {
@@ -1583,7 +1414,7 @@
         "1": 218
       },
       "flags": {},
-      "order": 173,
+      "order": 178,
       "mode": 0,
       "inputs": [
         {
@@ -1687,7 +1518,7 @@
         "1": 82
       },
       "flags": {},
-      "order": 168,
+      "order": 173,
       "mode": 0,
       "inputs": [
         {
@@ -1763,7 +1594,7 @@
         "1": 102
       },
       "flags": {},
-      "order": 111,
+      "order": 106,
       "mode": 0,
       "inputs": [
         {
@@ -1824,7 +1655,7 @@
         30
       ],
       "flags": {},
-      "order": 170,
+      "order": 175,
       "mode": 4,
       "inputs": [
         {
@@ -1875,7 +1706,7 @@
         30
       ],
       "flags": {},
-      "order": 177,
+      "order": 182,
       "mode": 0,
       "inputs": [
         {
@@ -1928,7 +1759,7 @@
         30
       ],
       "flags": {},
-      "order": 178,
+      "order": 183,
       "mode": 0,
       "inputs": [
         {
@@ -1973,7 +1804,7 @@
         "1": 34
       },
       "flags": {},
-      "order": 136,
+      "order": 139,
       "mode": 0,
       "inputs": [
         {
@@ -2047,7 +1878,7 @@
         "1": 78
       },
       "flags": {},
-      "order": 90,
+      "order": 91,
       "mode": 0,
       "inputs": [
         {
@@ -2091,7 +1922,7 @@
         "1": 34
       },
       "flags": {},
-      "order": 138,
+      "order": 142,
       "mode": 0,
       "inputs": [
         {
@@ -2133,7 +1964,7 @@
         "1": 34
       },
       "flags": {},
-      "order": 140,
+      "order": 145,
       "mode": 0,
       "inputs": [
         {
@@ -2207,7 +2038,7 @@
         "1": 82
       },
       "flags": {},
-      "order": 209,
+      "order": 214,
       "mode": 0,
       "inputs": [
         {
@@ -2255,7 +2086,7 @@
         "1": 34
       },
       "flags": {},
-      "order": 112,
+      "order": 115,
       "mode": 0,
       "inputs": [
         {
@@ -2320,7 +2151,7 @@
         "1": 34
       },
       "flags": {},
-      "order": 81,
+      "order": 83,
       "mode": 0,
       "inputs": [
         {
@@ -2362,7 +2193,7 @@
         "1": 82
       },
       "flags": {},
-      "order": 202,
+      "order": 207,
       "mode": 0,
       "inputs": [
         {
@@ -2411,7 +2242,7 @@
         "1": 34
       },
       "flags": {},
-      "order": 82,
+      "order": 84,
       "mode": 0,
       "inputs": [
         {
@@ -2453,7 +2284,7 @@
         "1": 82
       },
       "flags": {},
-      "order": 203,
+      "order": 208,
       "mode": 0,
       "inputs": [
         {
@@ -2501,7 +2332,7 @@
         210
       ],
       "flags": {},
-      "order": 218,
+      "order": 225,
       "mode": 0,
       "inputs": [
         {
@@ -2572,91 +2403,6 @@
       "bgcolor": "#533"
     },
     {
-      "id": 355,
-      "type": "VHS_VideoCombine",
-      "pos": [
-        4550.095881640205,
-        -842.1195150530211
-      ],
-      "size": [
-        390,
-        504.125
-      ],
-      "flags": {},
-      "order": 211,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "images",
-          "type": "*",
-          "link": 820,
-          "slot_index": 0
-        },
-        {
-          "name": "audio",
-          "type": "VHS_AUDIO",
-          "link": null
-        },
-        {
-          "name": "meta_batch",
-          "type": "VHS_BatchManager",
-          "link": null,
-          "slot_index": 2
-        },
-        {
-          "name": "filename_prefix",
-          "type": "STRING",
-          "link": 1099,
-          "widget": {
-            "name": "filename_prefix"
-          }
-        },
-        {
-          "name": "frame_rate",
-          "type": "*",
-          "link": 1176,
-          "widget": {
-            "name": "frame_rate"
-          }
-        }
-      ],
-      "outputs": [
-        {
-          "name": "Filenames",
-          "type": "VHS_FILENAMES",
-          "links": null,
-          "shape": 3
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "VHS_VideoCombine"
-      },
-      "widgets_values": {
-        "frame_rate": 30,
-        "loop_count": 0,
-        "filename_prefix": "mlf_oceans/of_comparison/Coral_03",
-        "format": "video/h264-mp4",
-        "pix_fmt": "yuv420p",
-        "crf": 19,
-        "save_metadata": true,
-        "pingpong": false,
-        "save_output": true,
-        "videopreview": {
-          "hidden": false,
-          "paused": false,
-          "params": {
-            "filename": "Output_00002.mp4",
-            "subfolder": "mlf_oceans\\Coral_03\\Depth\\MP4",
-            "type": "output",
-            "format": "video/h264-mp4",
-            "frame_rate": 29.97002997002997
-          }
-        }
-      },
-      "color": "#232",
-      "bgcolor": "#353"
-    },
-    {
       "id": 633,
       "type": "easy setNode",
       "pos": [
@@ -2698,7 +2444,7 @@
         "1": 78
       },
       "flags": {},
-      "order": 80,
+      "order": 82,
       "mode": 0,
       "inputs": [
         {
@@ -2836,7 +2582,7 @@
         210
       ],
       "flags": {},
-      "order": 198,
+      "order": 203,
       "mode": 0,
       "inputs": [
         {
@@ -2919,7 +2665,7 @@
         210
       ],
       "flags": {},
-      "order": 199,
+      "order": 204,
       "mode": 0,
       "inputs": [
         {
@@ -2990,91 +2736,6 @@
       "bgcolor": "#533"
     },
     {
-      "id": 646,
-      "type": "VHS_VideoCombine",
-      "pos": [
-        4560,
-        1960
-      ],
-      "size": [
-        390,
-        504.125
-      ],
-      "flags": {},
-      "order": 194,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "images",
-          "type": "*",
-          "link": 985,
-          "slot_index": 0
-        },
-        {
-          "name": "audio",
-          "type": "VHS_AUDIO",
-          "link": null
-        },
-        {
-          "name": "meta_batch",
-          "type": "VHS_BatchManager",
-          "link": null,
-          "slot_index": 2
-        },
-        {
-          "name": "filename_prefix",
-          "type": "STRING",
-          "link": 1117,
-          "widget": {
-            "name": "filename_prefix"
-          }
-        },
-        {
-          "name": "frame_rate",
-          "type": "*",
-          "link": 1179,
-          "widget": {
-            "name": "frame_rate"
-          }
-        }
-      ],
-      "outputs": [
-        {
-          "name": "Filenames",
-          "type": "VHS_FILENAMES",
-          "links": null,
-          "shape": 3
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "VHS_VideoCombine"
-      },
-      "widgets_values": {
-        "frame_rate": 30,
-        "loop_count": 0,
-        "filename_prefix": "mlf_oceans/of_comparison/Coral_03",
-        "format": "video/h264-mp4",
-        "pix_fmt": "yuv420p",
-        "crf": 19,
-        "save_metadata": true,
-        "pingpong": false,
-        "save_output": true,
-        "videopreview": {
-          "hidden": false,
-          "paused": false,
-          "params": {
-            "filename": "Output_00002.mp4",
-            "subfolder": "mlf_oceans\\Coral_03\\Flow\\MP4",
-            "type": "output",
-            "format": "video/h264-mp4",
-            "frame_rate": 29.97002997002997
-          }
-        }
-      },
-      "color": "#232",
-      "bgcolor": "#353"
-    },
-    {
       "id": 648,
       "type": "easy compare",
       "pos": [
@@ -3086,7 +2747,7 @@
         "1": 78
       },
       "flags": {},
-      "order": 83,
+      "order": 85,
       "mode": 0,
       "inputs": [
         {
@@ -3163,7 +2824,7 @@
         "1": 82
       },
       "flags": {},
-      "order": 185,
+      "order": 190,
       "mode": 0,
       "inputs": [
         {
@@ -3212,7 +2873,7 @@
         "1": 82
       },
       "flags": {},
-      "order": 192,
+      "order": 195,
       "mode": 0,
       "inputs": [
         {
@@ -3260,7 +2921,7 @@
         "1": 34
       },
       "flags": {},
-      "order": 84,
+      "order": 86,
       "mode": 0,
       "inputs": [
         {
@@ -3302,7 +2963,7 @@
         "1": 34
       },
       "flags": {},
-      "order": 113,
+      "order": 116,
       "mode": 0,
       "inputs": [
         {
@@ -3344,7 +3005,7 @@
         "1": 82
       },
       "flags": {},
-      "order": 193,
+      "order": 196,
       "mode": 0,
       "inputs": [
         {
@@ -3415,7 +3076,7 @@
         "1": 34
       },
       "flags": {},
-      "order": 85,
+      "order": 87,
       "mode": 0,
       "inputs": [
         {
@@ -3457,7 +3118,7 @@
         "1": 82
       },
       "flags": {},
-      "order": 186,
+      "order": 191,
       "mode": 0,
       "inputs": [
         {
@@ -3490,48 +3151,6 @@
       },
       "widgets_values": [
         false,
-        false
-      ]
-    },
-    {
-      "id": 663,
-      "type": "Logic NOT",
-      "pos": [
-        3600,
-        2610
-      ],
-      "size": {
-        "0": 210,
-        "1": 34
-      },
-      "flags": {},
-      "order": 86,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "boolean",
-          "type": "BOOLEAN",
-          "link": 1006,
-          "widget": {
-            "name": "boolean"
-          }
-        }
-      ],
-      "outputs": [
-        {
-          "name": "BOOLEAN",
-          "type": "BOOLEAN",
-          "links": [
-            1008
-          ],
-          "shape": 3,
-          "slot_index": 0
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "Logic NOT"
-      },
-      "widgets_values": [
         false
       ]
     },
@@ -3629,37 +3248,6 @@
       "color": "#223"
     },
     {
-      "id": 668,
-      "type": "easy getNode",
-      "pos": [
-        3280,
-        2590
-      ],
-      "size": {
-        "0": 210,
-        "1": 58
-      },
-      "flags": {},
-      "order": 29,
-      "mode": 0,
-      "outputs": [
-        {
-          "name": "BOOLEAN",
-          "type": "BOOLEAN",
-          "links": [
-            1006
-          ],
-          "slot_index": 0
-        }
-      ],
-      "title": "Get_EXR Enabled",
-      "properties": {},
-      "widgets_values": [
-        "EXR Enabled"
-      ],
-      "color": "#223"
-    },
-    {
       "id": 669,
       "type": "VHS_VideoCombine",
       "pos": [
@@ -3671,7 +3259,7 @@
         210
       ],
       "flags": {},
-      "order": 220,
+      "order": 227,
       "mode": 0,
       "inputs": [
         {
@@ -3754,7 +3342,7 @@
         210
       ],
       "flags": {},
-      "order": 221,
+      "order": 228,
       "mode": 0,
       "inputs": [
         {
@@ -3836,7 +3424,7 @@
         "1": 78
       },
       "flags": {},
-      "order": 87,
+      "order": 88,
       "mode": 0,
       "inputs": [
         {
@@ -3881,7 +3469,7 @@
         "1": 58
       },
       "flags": {},
-      "order": 30,
+      "order": 29,
       "mode": 0,
       "outputs": [
         {
@@ -3913,7 +3501,7 @@
         "1": 82
       },
       "flags": {},
-      "order": 206,
+      "order": 211,
       "mode": 0,
       "inputs": [
         {
@@ -3962,7 +3550,7 @@
         "1": 82
       },
       "flags": {},
-      "order": 213,
+      "order": 220,
       "mode": 0,
       "inputs": [
         {
@@ -4010,7 +3598,7 @@
         "1": 34
       },
       "flags": {},
-      "order": 88,
+      "order": 89,
       "mode": 0,
       "inputs": [
         {
@@ -4052,7 +3640,7 @@
         "1": 34
       },
       "flags": {},
-      "order": 114,
+      "order": 117,
       "mode": 0,
       "inputs": [
         {
@@ -4094,7 +3682,7 @@
         "1": 82
       },
       "flags": {},
-      "order": 214,
+      "order": 221,
       "mode": 0,
       "inputs": [
         {
@@ -4142,7 +3730,7 @@
         "1": 121.44230651855469
       },
       "flags": {},
-      "order": 31,
+      "order": 30,
       "mode": 0,
       "properties": {
         "text": ""
@@ -4165,7 +3753,7 @@
         "1": 34
       },
       "flags": {},
-      "order": 89,
+      "order": 90,
       "mode": 0,
       "inputs": [
         {
@@ -4207,7 +3795,7 @@
         "1": 58
       },
       "flags": {},
-      "order": 32,
+      "order": 31,
       "mode": 0,
       "outputs": [
         {
@@ -4238,7 +3826,7 @@
         "1": 58
       },
       "flags": {},
-      "order": 33,
+      "order": 32,
       "mode": 0,
       "outputs": [
         {
@@ -4269,7 +3857,7 @@
         "1": 58
       },
       "flags": {},
-      "order": 34,
+      "order": 33,
       "mode": 0,
       "outputs": [
         {
@@ -4331,7 +3919,7 @@
         "1": 58
       },
       "flags": {},
-      "order": 35,
+      "order": 34,
       "mode": 0,
       "outputs": [
         {
@@ -4362,7 +3950,7 @@
         "1": 58
       },
       "flags": {},
-      "order": 105,
+      "order": 114,
       "mode": 0,
       "inputs": [
         {
@@ -4393,7 +3981,7 @@
         "1": 78
       },
       "flags": {},
-      "order": 161,
+      "order": 166,
       "mode": 0,
       "inputs": [
         {
@@ -4449,7 +4037,7 @@
         30
       ],
       "flags": {},
-      "order": 175,
+      "order": 180,
       "mode": 0,
       "inputs": [
         {
@@ -4494,7 +4082,7 @@
         "1": 78
       },
       "flags": {},
-      "order": 162,
+      "order": 167,
       "mode": 0,
       "inputs": [
         {
@@ -4550,7 +4138,7 @@
         30
       ],
       "flags": {},
-      "order": 190,
+      "order": 193,
       "mode": 0,
       "inputs": [
         {
@@ -4603,7 +4191,7 @@
         30
       ],
       "flags": {},
-      "order": 154,
+      "order": 159,
       "mode": 0,
       "inputs": [
         {
@@ -4654,7 +4242,7 @@
         "1": 78
       },
       "flags": {},
-      "order": 163,
+      "order": 168,
       "mode": 0,
       "inputs": [
         {
@@ -4695,15 +4283,15 @@
       "id": 709,
       "type": "easy showAnything",
       "pos": [
-        -1986.9417874221238,
-        2324.679426471299
+        -2001.4228846971205,
+        2353.641743091604
       ],
       "size": {
         "0": 210,
-        "1": 76.00001525878906
+        "1": 76.00010681152344
       },
       "flags": {},
-      "order": 137,
+      "order": 140,
       "mode": 0,
       "inputs": [
         {
@@ -4716,218 +4304,28 @@
         "Node name for S&R": "easy showAnything"
       },
       "widgets_values": [
-        "true"
+        "false"
       ]
-    },
-    {
-      "id": 702,
-      "type": "Reroute (rgthree)",
-      "pos": {
-        "0": -1997.9415283203125,
-        "1": 2243.6796875,
-        "2": 0,
-        "3": 0,
-        "4": 0,
-        "5": 0,
-        "6": 0,
-        "7": 0,
-        "8": 0,
-        "9": 0
-      },
-      "size": [
-        40,
-        30
-      ],
-      "flags": {},
-      "order": 126,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "",
-          "type": "*",
-          "link": 1078,
-          "dir": 3,
-          "has_old_label": true,
-          "label": " "
-        }
-      ],
-      "outputs": [
-        {
-          "name": "*",
-          "type": "*",
-          "links": [
-            1053,
-            1059
-          ],
-          "dir": 4,
-          "has_old_label": true,
-          "label": " ",
-          "slot_index": 0
-        }
-      ],
-      "properties": {
-        "resizable": false,
-        "size": [
-          40,
-          30
-        ]
-      }
-    },
-    {
-      "id": 706,
-      "type": "Reroute (rgthree)",
-      "pos": {
-        "0": -2006.941650390625,
-        "1": 2431.6796875,
-        "2": 0,
-        "3": 0,
-        "4": 0,
-        "5": 0,
-        "6": 0,
-        "7": 0,
-        "8": 0,
-        "9": 0
-      },
-      "size": [
-        40,
-        30
-      ],
-      "flags": {},
-      "order": 127,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "",
-          "type": "*",
-          "link": 1081,
-          "dir": 3,
-          "has_old_label": true,
-          "label": " "
-        }
-      ],
-      "outputs": [
-        {
-          "name": "*",
-          "type": "*",
-          "links": [
-            1054,
-            1060
-          ],
-          "dir": 4,
-          "has_old_label": true,
-          "label": " ",
-          "slot_index": 0
-        }
-      ],
-      "properties": {
-        "resizable": false,
-        "size": [
-          40,
-          30
-        ]
-      }
     },
     {
       "id": 710,
       "type": "easy showAnything",
       "pos": [
-        -1986.9417874221238,
-        2531.679426471299
+        -2014.4810972749967,
+        2678.962316620305
       ],
       "size": {
         "0": 210,
-        "1": 76.00001525878906
+        "1": 76.00008392333984
       },
       "flags": {},
-      "order": 139,
+      "order": 143,
       "mode": 0,
       "inputs": [
         {
           "name": "anything",
           "type": "*",
           "link": 1060
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "easy showAnything"
-      },
-      "widgets_values": [
-        "true"
-      ]
-    },
-    {
-      "id": 708,
-      "type": "Reroute (rgthree)",
-      "pos": {
-        "0": -2016.94140625,
-        "1": 2653.6796875,
-        "2": 0,
-        "3": 0,
-        "4": 0,
-        "5": 0,
-        "6": 0,
-        "7": 0,
-        "8": 0,
-        "9": 0
-      },
-      "size": [
-        40,
-        30
-      ],
-      "flags": {},
-      "order": 128,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "",
-          "type": "*",
-          "link": 1084,
-          "dir": 3,
-          "has_old_label": true,
-          "label": " "
-        }
-      ],
-      "outputs": [
-        {
-          "name": "*",
-          "type": "*",
-          "links": [
-            1055,
-            1061
-          ],
-          "dir": 4,
-          "has_old_label": true,
-          "label": " ",
-          "slot_index": 0
-        }
-      ],
-      "properties": {
-        "resizable": false,
-        "size": [
-          40,
-          30
-        ]
-      }
-    },
-    {
-      "id": 711,
-      "type": "easy showAnything",
-      "pos": [
-        -1982.9417874221238,
-        2765.679426471299
-      ],
-      "size": {
-        "0": 210,
-        "1": 76.00001525878906
-      },
-      "flags": {},
-      "order": 141,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "anything",
-          "type": "*",
-          "link": 1061
         }
       ],
       "properties": {
@@ -4941,15 +4339,15 @@
       "id": 697,
       "type": "easy getNode",
       "pos": [
-        -3315.941787422123,
-        2252.679426471299
+        -3330.422884697119,
+        2281.641743091604
       ],
       "size": {
         "0": 210,
         "1": 58
       },
       "flags": {},
-      "order": 36,
+      "order": 35,
       "mode": 0,
       "outputs": [
         {
@@ -4972,70 +4370,18 @@
       "color": "#223"
     },
     {
-      "id": 538,
-      "type": "InversionDemoLazySwitch",
-      "pos": [
-        1234.1421424218752,
-        -61.99998474121094
-      ],
-      "size": {
-        "0": 210,
-        "1": 74
-      },
-      "flags": {},
-      "order": 181,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "on_false",
-          "type": "*",
-          "link": 776
-        },
-        {
-          "name": "on_true",
-          "type": "*",
-          "link": 777
-        },
-        {
-          "name": "switch",
-          "type": "BOOLEAN",
-          "link": 778,
-          "widget": {
-            "name": "switch"
-          }
-        }
-      ],
-      "outputs": [
-        {
-          "name": "*",
-          "type": "*",
-          "links": [
-            1159
-          ],
-          "shape": 3,
-          "slot_index": 0
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "InversionDemoLazySwitch"
-      },
-      "widgets_values": [
-        false
-      ]
-    },
-    {
       "id": 701,
       "type": "StringConditions",
       "pos": [
-        -2799.941787422123,
-        2255.679426471299
+        -2814.422884697119,
+        2284.641743091604
       ],
       "size": {
         "0": 210,
         "1": 106
       },
       "flags": {},
-      "order": 91,
+      "order": 92,
       "mode": 0,
       "inputs": [
         {
@@ -5072,15 +4418,15 @@
       "id": 713,
       "type": "InversionDemoLazySwitch",
       "pos": [
-        -2407.941787422123,
-        2253.679426471299
+        -2422.422884697119,
+        2282.641743091604
       ],
       "size": {
         "0": 210,
         "1": 74
       },
       "flags": {},
-      "order": 115,
+      "order": 118,
       "mode": 0,
       "inputs": [
         {
@@ -5124,15 +4470,15 @@
       "id": 705,
       "type": "StringConditions",
       "pos": [
-        -2799.941787422123,
-        2429.679426471299
+        -2814.422884697119,
+        2458.641743091604
       ],
       "size": {
         "0": 210,
         "1": 106
       },
       "flags": {},
-      "order": 92,
+      "order": 93,
       "mode": 0,
       "inputs": [
         {
@@ -5166,70 +4512,18 @@
       ]
     },
     {
-      "id": 715,
-      "type": "InversionDemoLazySwitch",
-      "pos": [
-        -2397.941787422123,
-        2435.679426471299
-      ],
-      "size": {
-        "0": 210,
-        "1": 74
-      },
-      "flags": {},
-      "order": 116,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "on_false",
-          "type": "*",
-          "link": 1080
-        },
-        {
-          "name": "on_true",
-          "type": "*",
-          "link": 1086
-        },
-        {
-          "name": "switch",
-          "type": "BOOLEAN",
-          "link": 1079,
-          "widget": {
-            "name": "switch"
-          }
-        }
-      ],
-      "outputs": [
-        {
-          "name": "*",
-          "type": "*",
-          "links": [
-            1081
-          ],
-          "shape": 3,
-          "slot_index": 0
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "InversionDemoLazySwitch"
-      },
-      "widgets_values": [
-        false
-      ]
-    },
-    {
       "id": 707,
       "type": "StringConditions",
       "pos": [
-        -2793.941787422123,
-        2612.679426471299
+        -2808.422884697119,
+        2641.641743091604
       ],
       "size": {
         "0": 210,
         "1": 106
       },
       "flags": {},
-      "order": 93,
+      "order": 94,
       "mode": 0,
       "inputs": [
         {
@@ -5263,58 +4557,6 @@
       ]
     },
     {
-      "id": 716,
-      "type": "InversionDemoLazySwitch",
-      "pos": [
-        -2389.941787422123,
-        2631.679426471299
-      ],
-      "size": {
-        "0": 210,
-        "1": 74
-      },
-      "flags": {},
-      "order": 117,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "on_false",
-          "type": "*",
-          "link": 1083
-        },
-        {
-          "name": "on_true",
-          "type": "*",
-          "link": 1087
-        },
-        {
-          "name": "switch",
-          "type": "BOOLEAN",
-          "link": 1082,
-          "widget": {
-            "name": "switch"
-          }
-        }
-      ],
-      "outputs": [
-        {
-          "name": "*",
-          "type": "*",
-          "links": [
-            1084
-          ],
-          "shape": 3,
-          "slot_index": 0
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "InversionDemoLazySwitch"
-      },
-      "widgets_values": [
-        false
-      ]
-    },
-    {
       "id": 337,
       "type": "Florence2Run",
       "pos": [
@@ -5326,7 +4568,7 @@
         "1": 352
       },
       "flags": {},
-      "order": 167,
+      "order": 172,
       "mode": 0,
       "inputs": [
         {
@@ -5403,15 +4645,15 @@
       "id": 717,
       "type": "Primitive boolean [Crystools]",
       "pos": [
-        -2801.941787422123,
-        2852.679426471299
+        -2816.422884697119,
+        2881.641743091604
       ],
       "size": {
         "0": 210,
         "1": 58
       },
       "flags": {},
-      "order": 37,
+      "order": 36,
       "mode": 0,
       "outputs": [
         {
@@ -5437,15 +4679,15 @@
       "id": 712,
       "type": "StringConditions",
       "pos": [
-        -2793.941787422123,
-        2976.679426471299
+        -2808.422884697119,
+        3005.641743091604
       ],
       "size": {
         "0": 210,
         "1": 106
       },
       "flags": {},
-      "order": 94,
+      "order": 95,
       "mode": 0,
       "inputs": [
         {
@@ -5484,15 +4726,15 @@
       "id": 476,
       "type": "Note",
       "pos": [
-        -2805.941787422123,
-        2082.679426471299
+        -2820.422884697119,
+        2111.641743091604
       ],
       "size": {
         "0": 220.668212890625,
         "1": 89.5177001953125
       },
       "flags": {},
-      "order": 38,
+      "order": 37,
       "mode": 0,
       "properties": {
         "text": ""
@@ -5507,15 +4749,15 @@
       "id": 718,
       "type": "Note",
       "pos": [
-        -2407.941787422123,
-        2081.679426471299
+        -2422.422884697119,
+        2110.641743091604
       ],
       "size": {
         "0": 220.668212890625,
         "1": 89.5177001953125
       },
       "flags": {},
-      "order": 39,
+      "order": 38,
       "mode": 0,
       "properties": {
         "text": ""
@@ -5538,7 +4780,7 @@
         "1": 78
       },
       "flags": {},
-      "order": 142,
+      "order": 148,
       "mode": 0,
       "inputs": [
         {
@@ -5594,7 +4836,7 @@
         "1": 58
       },
       "flags": {},
-      "order": 40,
+      "order": 39,
       "mode": 0,
       "outputs": [
         {
@@ -5627,7 +4869,7 @@
         "1": 78
       },
       "flags": {},
-      "order": 143,
+      "order": 149,
       "mode": 0,
       "inputs": [
         {
@@ -5683,7 +4925,7 @@
         "1": 82
       },
       "flags": {},
-      "order": 210,
+      "order": 215,
       "mode": 0,
       "inputs": [
         {
@@ -5731,7 +4973,7 @@
         "1": 58
       },
       "flags": {},
-      "order": 41,
+      "order": 40,
       "mode": 0,
       "outputs": [
         {
@@ -5748,39 +4990,6 @@
       },
       "widgets_values": [
         "MP4/Output"
-      ],
-      "color": "#232",
-      "bgcolor": "#353"
-    },
-    {
-      "id": 732,
-      "type": "Simple String",
-      "pos": [
-        3980,
-        -370
-      ],
-      "size": {
-        "0": 210,
-        "1": 58
-      },
-      "flags": {},
-      "order": 42,
-      "mode": 0,
-      "outputs": [
-        {
-          "name": "STRING",
-          "type": "STRING",
-          "links": [
-            1100
-          ],
-          "shape": 3
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "Simple String"
-      },
-      "widgets_values": [
-        "EXR/Output"
       ],
       "color": "#232",
       "bgcolor": "#353"
@@ -5805,7 +5014,7 @@
         30
       ],
       "flags": {},
-      "order": 129,
+      "order": 132,
       "mode": 0,
       "inputs": [
         {
@@ -5858,7 +5067,7 @@
       "flags": {
         "collapsed": false
       },
-      "order": 144,
+      "order": 150,
       "mode": 0,
       "inputs": [
         {
@@ -5914,7 +5123,7 @@
         "1": 58
       },
       "flags": {},
-      "order": 43,
+      "order": 41,
       "mode": 0,
       "outputs": [
         {
@@ -5947,7 +5156,7 @@
         "1": 58
       },
       "flags": {},
-      "order": 44,
+      "order": 42,
       "mode": 0,
       "outputs": [
         {
@@ -5980,7 +5189,7 @@
         "1": 58
       },
       "flags": {},
-      "order": 45,
+      "order": 43,
       "mode": 0,
       "outputs": [
         {
@@ -6013,7 +5222,7 @@
         "1": 58
       },
       "flags": {},
-      "order": 46,
+      "order": 44,
       "mode": 0,
       "outputs": [
         {
@@ -6054,7 +5263,7 @@
         30
       ],
       "flags": {},
-      "order": 130,
+      "order": 133,
       "mode": 0,
       "inputs": [
         {
@@ -6105,7 +5314,7 @@
         "1": 78
       },
       "flags": {},
-      "order": 146,
+      "order": 152,
       "mode": 0,
       "inputs": [
         {
@@ -6161,7 +5370,7 @@
         "1": 78
       },
       "flags": {},
-      "order": 147,
+      "order": 153,
       "mode": 0,
       "inputs": [
         {
@@ -6219,7 +5428,7 @@
       "flags": {
         "collapsed": false
       },
-      "order": 148,
+      "order": 154,
       "mode": 0,
       "inputs": [
         {
@@ -6275,7 +5484,7 @@
         "1": 58
       },
       "flags": {},
-      "order": 47,
+      "order": 45,
       "mode": 0,
       "outputs": [
         {
@@ -6308,7 +5517,7 @@
         "1": 58
       },
       "flags": {},
-      "order": 48,
+      "order": 46,
       "mode": 0,
       "outputs": [
         {
@@ -6341,7 +5550,7 @@
         "1": 58
       },
       "flags": {},
-      "order": 49,
+      "order": 47,
       "mode": 0,
       "outputs": [
         {
@@ -6374,7 +5583,7 @@
         "1": 58
       },
       "flags": {},
-      "order": 50,
+      "order": 48,
       "mode": 0,
       "outputs": [
         {
@@ -6415,7 +5624,7 @@
         30
       ],
       "flags": {},
-      "order": 131,
+      "order": 134,
       "mode": 0,
       "inputs": [
         {
@@ -6436,7 +5645,6 @@
           "type": "STRING",
           "links": [
             1127,
-            1128,
             1129,
             1130
           ],
@@ -6466,7 +5674,7 @@
         "1": 78
       },
       "flags": {},
-      "order": 150,
+      "order": 156,
       "mode": 0,
       "inputs": [
         {
@@ -6522,13 +5730,13 @@
         "1": 78
       },
       "flags": {},
-      "order": 151,
+      "order": 107,
       "mode": 0,
       "inputs": [
         {
           "name": "Prepend",
           "type": "STRING",
-          "link": 1128,
+          "link": 1301,
           "widget": {
             "name": "Prepend"
           }
@@ -6580,7 +5788,7 @@
       "flags": {
         "collapsed": false
       },
-      "order": 152,
+      "order": 157,
       "mode": 0,
       "inputs": [
         {
@@ -6636,7 +5844,7 @@
         "1": 58
       },
       "flags": {},
-      "order": 51,
+      "order": 49,
       "mode": 0,
       "outputs": [
         {
@@ -6669,7 +5877,7 @@
         "1": 58
       },
       "flags": {},
-      "order": 52,
+      "order": 50,
       "mode": 0,
       "outputs": [
         {
@@ -6700,7 +5908,7 @@
         "1": 78
       },
       "flags": {},
-      "order": 118,
+      "order": 121,
       "mode": 0,
       "inputs": [
         {
@@ -6755,7 +5963,7 @@
         "1": 58
       },
       "flags": {},
-      "order": 53,
+      "order": 51,
       "mode": 0,
       "outputs": [
         {
@@ -6842,7 +6050,7 @@
         "1": 78
       },
       "flags": {},
-      "order": 119,
+      "order": 122,
       "mode": 0,
       "inputs": [
         {
@@ -6953,7 +6161,7 @@
         "1": 78
       },
       "flags": {},
-      "order": 120,
+      "order": 123,
       "mode": 0,
       "inputs": [
         {
@@ -7016,7 +6224,7 @@
         "1": 370
       },
       "flags": {},
-      "order": 54,
+      "order": 52,
       "mode": 0,
       "inputs": [],
       "outputs": [
@@ -7039,41 +6247,6 @@
       "bgcolor": "#353"
     },
     {
-      "id": 175,
-      "type": "Primitive string [Crystools]",
-      "pos": [
-        -4833,
-        1382
-      ],
-      "size": {
-        "0": 315,
-        "1": 58
-      },
-      "flags": {},
-      "order": 55,
-      "mode": 0,
-      "outputs": [
-        {
-          "name": "string",
-          "type": "STRING",
-          "links": [
-            286
-          ],
-          "shape": 3,
-          "slot_index": 0
-        }
-      ],
-      "title": "Output Video Directory",
-      "properties": {
-        "Node name for S&R": "Primitive string [Crystools]"
-      },
-      "widgets_values": [
-        "mlf_oceans"
-      ],
-      "color": "#232",
-      "bgcolor": "#353"
-    },
-    {
       "id": 463,
       "type": "easy getNode",
       "pos": [
@@ -7085,7 +6258,7 @@
         "1": 58
       },
       "flags": {},
-      "order": 56,
+      "order": 53,
       "mode": 0,
       "outputs": [
         {
@@ -7172,7 +6345,7 @@
         "1": 58
       },
       "flags": {},
-      "order": 57,
+      "order": 54,
       "mode": 0,
       "outputs": [
         {
@@ -7206,7 +6379,7 @@
         "1": 58
       },
       "flags": {},
-      "order": 58,
+      "order": 55,
       "mode": 0,
       "outputs": [
         {
@@ -7237,7 +6410,7 @@
         "1": 58
       },
       "flags": {},
-      "order": 59,
+      "order": 56,
       "mode": 0,
       "outputs": [
         {
@@ -7271,7 +6444,7 @@
         "1": 58
       },
       "flags": {},
-      "order": 60,
+      "order": 57,
       "mode": 0,
       "outputs": [
         {
@@ -7302,7 +6475,7 @@
         "1": 58
       },
       "flags": {},
-      "order": 61,
+      "order": 58,
       "mode": 0,
       "outputs": [
         {
@@ -7333,7 +6506,7 @@
         "1": 58
       },
       "flags": {},
-      "order": 62,
+      "order": 59,
       "mode": 0,
       "outputs": [
         {
@@ -7367,7 +6540,7 @@
         "1": 58
       },
       "flags": {},
-      "order": 106,
+      "order": 104,
       "mode": 0,
       "inputs": [
         {
@@ -7397,7 +6570,7 @@
         "1": 58
       },
       "flags": {},
-      "order": 63,
+      "order": 60,
       "mode": 0,
       "outputs": [
         {
@@ -7432,7 +6605,7 @@
         "1": 58
       },
       "flags": {},
-      "order": 107,
+      "order": 113,
       "mode": 0,
       "inputs": [
         {
@@ -7462,7 +6635,7 @@
         "1": 58
       },
       "flags": {},
-      "order": 110,
+      "order": 112,
       "mode": 0,
       "inputs": [
         {
@@ -7492,7 +6665,7 @@
         "1": 58
       },
       "flags": {},
-      "order": 64,
+      "order": 61,
       "mode": 0,
       "outputs": [
         {
@@ -7527,7 +6700,7 @@
         "1": 58
       },
       "flags": {},
-      "order": 104,
+      "order": 105,
       "mode": 0,
       "inputs": [
         {
@@ -7558,7 +6731,7 @@
         "1": 58
       },
       "flags": {},
-      "order": 65,
+      "order": 62,
       "mode": 0,
       "outputs": [
         {
@@ -7576,112 +6749,6 @@
         "Segmentation Prompt"
       ],
       "color": "#223"
-    },
-    {
-      "id": 546,
-      "type": "Reroute (rgthree)",
-      "pos": {
-        "0": 2182,
-        "1": 2335,
-        "2": 0,
-        "3": 0,
-        "4": 0,
-        "5": 0,
-        "6": 0,
-        "7": 0,
-        "8": 0,
-        "9": 0
-      },
-      "size": [
-        40,
-        30
-      ],
-      "flags": {},
-      "order": 179,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "",
-          "type": "*",
-          "link": 1058,
-          "dir": 3,
-          "has_old_label": true,
-          "label": " "
-        }
-      ],
-      "outputs": [
-        {
-          "name": "IMAGE",
-          "type": "IMAGE",
-          "links": [
-            1009
-          ],
-          "dir": 4,
-          "has_old_label": true,
-          "label": " ",
-          "slot_index": 0
-        }
-      ],
-      "properties": {
-        "resizable": false,
-        "size": [
-          40,
-          30
-        ]
-      }
-    },
-    {
-      "id": 549,
-      "type": "Reroute (rgthree)",
-      "pos": {
-        "0": 2192,
-        "1": 3363,
-        "2": 0,
-        "3": 0,
-        "4": 0,
-        "5": 0,
-        "6": 0,
-        "7": 0,
-        "8": 0,
-        "9": 0
-      },
-      "size": [
-        40,
-        30
-      ],
-      "flags": {},
-      "order": 196,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "",
-          "type": "*",
-          "link": 1064,
-          "dir": 3,
-          "has_old_label": true,
-          "label": " "
-        }
-      ],
-      "outputs": [
-        {
-          "name": "IMAGE",
-          "type": "IMAGE",
-          "links": [
-            1038
-          ],
-          "dir": 4,
-          "has_old_label": true,
-          "label": " ",
-          "slot_index": 0
-        }
-      ],
-      "properties": {
-        "resizable": false,
-        "size": [
-          40,
-          30
-        ]
-      }
     },
     {
       "id": 540,
@@ -7703,7 +6770,7 @@
         30
       ],
       "flags": {},
-      "order": 184,
+      "order": 189,
       "mode": 0,
       "inputs": [
         {
@@ -7748,7 +6815,7 @@
         "1": 102
       },
       "flags": {},
-      "order": 121,
+      "order": 124,
       "mode": 0,
       "inputs": [
         {
@@ -7799,7 +6866,7 @@
         "1": 58
       },
       "flags": {},
-      "order": 132,
+      "order": 135,
       "mode": 0,
       "inputs": [
         {
@@ -7880,7 +6947,7 @@
         "1": 58
       },
       "flags": {},
-      "order": 66,
+      "order": 63,
       "mode": 0,
       "outputs": [
         {
@@ -7943,7 +7010,7 @@
         "1": 61.69196701049805
       },
       "flags": {},
-      "order": 67,
+      "order": 64,
       "mode": 0,
       "outputs": [
         {
@@ -7965,41 +7032,6 @@
       ],
       "color": "#223",
       "bgcolor": "#335"
-    },
-    {
-      "id": 761,
-      "type": "Simple String",
-      "pos": [
-        -4910,
-        2730
-      ],
-      "size": {
-        "0": 210,
-        "1": 58
-      },
-      "flags": {},
-      "order": 68,
-      "mode": 0,
-      "outputs": [
-        {
-          "name": "STRING",
-          "type": "STRING",
-          "links": [
-            1157
-          ],
-          "shape": 3,
-          "slot_index": 0
-        }
-      ],
-      "title": "Segmentation Prompt",
-      "properties": {
-        "Node name for S&R": "Simple String"
-      },
-      "widgets_values": [
-        "fish"
-      ],
-      "color": "#222",
-      "bgcolor": "#000"
     },
     {
       "id": 161,
@@ -8111,7 +7143,7 @@
         "1": 106
       },
       "flags": {},
-      "order": 124,
+      "order": 127,
       "mode": 0,
       "inputs": [
         {
@@ -8172,7 +7204,7 @@
         "1": 58
       },
       "flags": {},
-      "order": 135,
+      "order": 138,
       "mode": 0,
       "inputs": [
         {
@@ -8202,7 +7234,7 @@
         "1": 58
       },
       "flags": {},
-      "order": 69,
+      "order": 65,
       "mode": 0,
       "outputs": [
         {
@@ -8235,7 +7267,7 @@
         "1": 58
       },
       "flags": {},
-      "order": 70,
+      "order": 66,
       "mode": 0,
       "outputs": [
         {
@@ -8268,7 +7300,7 @@
         "1": 58
       },
       "flags": {},
-      "order": 71,
+      "order": 67,
       "mode": 0,
       "outputs": [
         {
@@ -8290,287 +7322,6 @@
       "color": "#223"
     },
     {
-      "id": 731,
-      "type": "DF_String_Concatenate",
-      "pos": [
-        4250,
-        -370
-      ],
-      "size": {
-        "0": 210,
-        "1": 78
-      },
-      "flags": {},
-      "order": 145,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "Prepend",
-          "type": "STRING",
-          "link": 1101,
-          "widget": {
-            "name": "Prepend"
-          }
-        },
-        {
-          "name": "Append",
-          "type": "STRING",
-          "link": 1100,
-          "widget": {
-            "name": "Append"
-          },
-          "slot_index": 1
-        }
-      ],
-      "outputs": [
-        {
-          "name": "TEXT",
-          "type": "STRING",
-          "links": [
-            1250
-          ],
-          "shape": 3,
-          "slot_index": 0
-        }
-      ],
-      "title": "Output Video Subdirectory",
-      "properties": {
-        "Node name for S&R": "DF_String_Concatenate"
-      },
-      "widgets_values": [
-        "",
-        "SAM1-turtle",
-        "/"
-      ],
-      "color": "#232",
-      "bgcolor": "#353"
-    },
-    {
-      "id": 816,
-      "type": "ImageToMask",
-      "pos": [
-        3920,
-        2730
-      ],
-      "size": {
-        "0": 210,
-        "1": 58
-      },
-      "flags": {},
-      "order": 189,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "image",
-          "type": "IMAGE",
-          "link": 1256
-        }
-      ],
-      "outputs": [
-        {
-          "name": "MASK",
-          "type": "MASK",
-          "links": [
-            1229
-          ],
-          "shape": 3,
-          "slot_index": 0
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "ImageToMask"
-      },
-      "widgets_values": [
-        "blue"
-      ]
-    },
-    {
-      "id": 815,
-      "type": "ImageToMask",
-      "pos": [
-        3920,
-        2620
-      ],
-      "size": {
-        "0": 210,
-        "1": 58
-      },
-      "flags": {},
-      "order": 188,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "image",
-          "type": "IMAGE",
-          "link": 1255
-        }
-      ],
-      "outputs": [
-        {
-          "name": "MASK",
-          "type": "MASK",
-          "links": [
-            1228
-          ],
-          "shape": 3,
-          "slot_index": 0
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "ImageToMask"
-      },
-      "widgets_values": [
-        "green"
-      ]
-    },
-    {
-      "id": 739,
-      "type": "DF_String_Concatenate",
-      "pos": [
-        4270,
-        2330
-      ],
-      "size": {
-        "0": 210,
-        "1": 78
-      },
-      "flags": {},
-      "order": 149,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "Prepend",
-          "type": "STRING",
-          "link": 1114,
-          "widget": {
-            "name": "Prepend"
-          }
-        },
-        {
-          "name": "Append",
-          "type": "STRING",
-          "link": 1110,
-          "widget": {
-            "name": "Append"
-          },
-          "slot_index": 1
-        }
-      ],
-      "outputs": [
-        {
-          "name": "TEXT",
-          "type": "STRING",
-          "links": [
-            1248
-          ],
-          "shape": 3,
-          "slot_index": 0
-        }
-      ],
-      "title": "Output Video Subdirectory",
-      "properties": {
-        "Node name for S&R": "DF_String_Concatenate"
-      },
-      "widgets_values": [
-        "",
-        "SAM1-turtle",
-        "/"
-      ],
-      "color": "#232",
-      "bgcolor": "#353"
-    },
-    {
-      "id": 747,
-      "type": "DF_String_Concatenate",
-      "pos": [
-        4250,
-        5260
-      ],
-      "size": {
-        "0": 210,
-        "1": 78
-      },
-      "flags": {},
-      "order": 153,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "Prepend",
-          "type": "STRING",
-          "link": 1130,
-          "widget": {
-            "name": "Prepend"
-          }
-        },
-        {
-          "name": "Append",
-          "type": "STRING",
-          "link": 1126,
-          "widget": {
-            "name": "Append"
-          },
-          "slot_index": 1
-        }
-      ],
-      "outputs": [
-        {
-          "name": "TEXT",
-          "type": "STRING",
-          "links": [
-            1246
-          ],
-          "shape": 3,
-          "slot_index": 0
-        }
-      ],
-      "title": "Output Video Subdirectory",
-      "properties": {
-        "Node name for S&R": "DF_String_Concatenate"
-      },
-      "widgets_values": [
-        "",
-        "SAM1-turtle",
-        "/"
-      ],
-      "color": "#232",
-      "bgcolor": "#353"
-    },
-    {
-      "id": 422,
-      "type": "Simple String",
-      "pos": [
-        -4930,
-        2200
-      ],
-      "size": {
-        "0": 218.39999389648438,
-        "1": 58
-      },
-      "flags": {},
-      "order": 72,
-      "mode": 0,
-      "outputs": [
-        {
-          "name": "STRING",
-          "type": "STRING",
-          "links": [
-            1041
-          ],
-          "shape": 3,
-          "slot_index": 0
-        }
-      ],
-      "title": "Outputs String",
-      "properties": {
-        "Node name for S&R": "Simple String"
-      },
-      "widgets_values": [
-        "Depth + Flow"
-      ],
-      "color": "#432",
-      "bgcolor": "#653"
-    },
-    {
       "id": 393,
       "type": "Primitive boolean [Crystools]",
       "pos": [
@@ -8582,7 +7333,7 @@
         "1": 58
       },
       "flags": {},
-      "order": 73,
+      "order": 68,
       "mode": 0,
       "outputs": [
         {
@@ -8606,41 +7357,6 @@
       "bgcolor": "#533"
     },
     {
-      "id": 399,
-      "type": "Primitive boolean [Crystools]",
-      "pos": [
-        -4340,
-        2580
-      ],
-      "size": {
-        "0": 210,
-        "1": 58
-      },
-      "flags": {},
-      "order": 74,
-      "mode": 0,
-      "outputs": [
-        {
-          "name": "boolean",
-          "type": "BOOLEAN",
-          "links": [
-            971
-          ],
-          "shape": 3,
-          "slot_index": 0
-        }
-      ],
-      "title": "MP4 Enabler",
-      "properties": {
-        "Node name for S&R": "Primitive boolean [Crystools]"
-      },
-      "widgets_values": [
-        true
-      ],
-      "color": "#232",
-      "bgcolor": "#353"
-    },
-    {
       "id": 467,
       "type": "ImageResize+",
       "pos": [
@@ -8652,7 +7368,7 @@
         "1": 218
       },
       "flags": {},
-      "order": 133,
+      "order": 136,
       "mode": 0,
       "inputs": [
         {
@@ -8716,7 +7432,7 @@
         30
       ],
       "flags": {},
-      "order": 191,
+      "order": 194,
       "mode": 0,
       "inputs": [
         {
@@ -8761,7 +7477,7 @@
         "1": 82
       },
       "flags": {},
-      "order": 207,
+      "order": 212,
       "mode": 0,
       "inputs": [
         {
@@ -8809,7 +7525,7 @@
         504.125
       ],
       "flags": {},
-      "order": 215,
+      "order": 222,
       "mode": 0,
       "inputs": [
         {
@@ -8871,8 +7587,8 @@
           "hidden": false,
           "paused": false,
           "params": {
-            "filename": "Output_00003.mp4",
-            "subfolder": "mlf_oceans\\Coral_03\\Segmentation\\MP4",
+            "filename": "Output_00001.mp4",
+            "subfolder": "2024-08-09T19-10-40\\Coral_03\\Segmentation\\MP4",
             "type": "output",
             "format": "video/h264-mp4",
             "frame_rate": 29.97002997002997
@@ -8881,6 +7597,364 @@
       },
       "color": "#232",
       "bgcolor": "#353"
+    },
+    {
+      "id": 747,
+      "type": "DF_String_Concatenate",
+      "pos": [
+        4250,
+        5260
+      ],
+      "size": {
+        "0": 210,
+        "1": 78
+      },
+      "flags": {},
+      "order": 158,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "Prepend",
+          "type": "STRING",
+          "link": 1130,
+          "widget": {
+            "name": "Prepend"
+          }
+        },
+        {
+          "name": "Append",
+          "type": "STRING",
+          "link": 1126,
+          "widget": {
+            "name": "Append"
+          },
+          "slot_index": 1
+        }
+      ],
+      "outputs": [
+        {
+          "name": "TEXT",
+          "type": "STRING",
+          "links": [
+            1288
+          ],
+          "shape": 3,
+          "slot_index": 0
+        }
+      ],
+      "title": "Output Video Subdirectory",
+      "properties": {
+        "Node name for S&R": "DF_String_Concatenate"
+      },
+      "widgets_values": [
+        "",
+        "SAM1-turtle",
+        "/"
+      ],
+      "color": "#232",
+      "bgcolor": "#353"
+    },
+    {
+      "id": 761,
+      "type": "Simple String",
+      "pos": [
+        -4910,
+        2730
+      ],
+      "size": {
+        "0": 210,
+        "1": 58
+      },
+      "flags": {},
+      "order": 69,
+      "mode": 0,
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": [
+            1157
+          ],
+          "shape": 3,
+          "slot_index": 0
+        }
+      ],
+      "title": "Segmentation Prompt",
+      "properties": {
+        "Node name for S&R": "Simple String"
+      },
+      "widgets_values": [
+        "turtle"
+      ],
+      "color": "#222",
+      "bgcolor": "#000"
+    },
+    {
+      "id": 71,
+      "type": "RAFT Run",
+      "pos": [
+        -1002,
+        2315
+      ],
+      "size": {
+        "0": 241.79998779296875,
+        "1": 46
+      },
+      "flags": {},
+      "order": 171,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 1057
+        }
+      ],
+      "outputs": [
+        {
+          "name": "OPTICAL_FLOW",
+          "type": "OPTICAL_FLOW",
+          "links": null,
+          "shape": 3
+        },
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            687
+          ],
+          "shape": 3,
+          "slot_index": 1
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "RAFT Run"
+      }
+    },
+    {
+      "id": 654,
+      "type": "Reroute (rgthree)",
+      "pos": {
+        "0": 3430,
+        "1": 1710,
+        "2": 0,
+        "3": 0,
+        "4": 0,
+        "5": 0,
+        "6": 0,
+        "7": 0,
+        "8": 0,
+        "9": 0
+      },
+      "size": [
+        40,
+        30
+      ],
+      "flags": {},
+      "order": 187,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "",
+          "type": "*",
+          "link": 1009,
+          "dir": 3,
+          "has_old_label": true,
+          "label": " "
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            995,
+            1004,
+            1272
+          ],
+          "dir": 4,
+          "has_old_label": true,
+          "label": " ",
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "resizable": false,
+        "size": [
+          40,
+          30
+        ]
+      }
+    },
+    {
+      "id": 237,
+      "type": "easy setNode",
+      "pos": [
+        -4059,
+        722
+      ],
+      "size": {
+        "0": 210,
+        "1": 58
+      },
+      "flags": {},
+      "order": 128,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "INT",
+          "type": "INT",
+          "link": 767
+        }
+      ],
+      "title": "Set_Input_Frame_Limit",
+      "properties": {
+        "previousName": "Input_Frame_Limit"
+      },
+      "widgets_values": [
+        "Input_Frame_Limit"
+      ],
+      "color": "#223"
+    },
+    {
+      "id": 268,
+      "type": "easy setNode",
+      "pos": [
+        -4089,
+        832
+      ],
+      "size": {
+        "0": 243.60000610351562,
+        "1": 58
+      },
+      "flags": {},
+      "order": 81,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "INT",
+          "type": "INT",
+          "link": 422
+        }
+      ],
+      "title": "Set_Input_Frame_Interpolation",
+      "properties": {
+        "previousName": "Input_Frame_Interpolation"
+      },
+      "widgets_values": [
+        "Input_Frame_Interpolation"
+      ],
+      "color": "#223"
+    },
+    {
+      "id": 271,
+      "type": "VHS_GetImageCount",
+      "pos": [
+        -1919,
+        429
+      ],
+      "size": {
+        "0": 210,
+        "1": 26
+      },
+      "flags": {},
+      "order": 164,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "*",
+          "link": 716
+        }
+      ],
+      "outputs": [
+        {
+          "name": "count",
+          "type": "INT",
+          "links": [
+            427
+          ],
+          "shape": 3,
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "VHS_GetImageCount"
+      },
+      "widgets_values": {}
+    },
+    {
+      "id": 42,
+      "type": "Primitive integer [Crystools]",
+      "pos": [
+        -4849,
+        722
+      ],
+      "size": {
+        "0": 268.79998779296875,
+        "1": 58
+      },
+      "flags": {},
+      "order": 70,
+      "mode": 0,
+      "outputs": [
+        {
+          "name": "int",
+          "type": "INT",
+          "links": [
+            765
+          ],
+          "shape": 3,
+          "slot_index": 0
+        }
+      ],
+      "title": "Frame Limit",
+      "properties": {
+        "Node name for S&R": "Primitive integer [Crystools]"
+      },
+      "widgets_values": [
+        4
+      ],
+      "color": "#232",
+      "bgcolor": "#353"
+    },
+    {
+      "id": 844,
+      "type": "Reroute",
+      "pos": [
+        4165,
+        4211.132689585563
+      ],
+      "size": [
+        75,
+        26
+      ],
+      "flags": {},
+      "order": 71,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "",
+          "type": "*",
+          "link": null,
+          "widget": {
+            "name": "value"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "",
+          "type": "*",
+          "links": [
+            1301
+          ]
+        }
+      ],
+      "properties": {
+        "showOutputText": false,
+        "horizontal": false
+      }
     },
     {
       "id": 679,
@@ -8902,7 +7976,7 @@
         30
       ],
       "flags": {},
-      "order": 201,
+      "order": 206,
       "mode": 0,
       "inputs": [
         {
@@ -8921,7 +7995,7 @@
           "links": [
             1024,
             1033,
-            1242
+            1305
           ],
           "dir": 4,
           "has_old_label": true,
@@ -8938,18 +8012,288 @@
       }
     },
     {
+      "id": 732,
+      "type": "Simple String",
+      "pos": [
+        3989,
+        -542
+      ],
+      "size": {
+        "0": 210,
+        "1": 58
+      },
+      "flags": {},
+      "order": 72,
+      "mode": 0,
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": [
+            1100
+          ],
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "Simple String"
+      },
+      "widgets_values": [
+        "EXR/Output"
+      ],
+      "color": "#232",
+      "bgcolor": "#353"
+    },
+    {
+      "id": 175,
+      "type": "Primitive string [Crystools]",
+      "pos": [
+        -4818,
+        1403
+      ],
+      "size": {
+        "0": 315,
+        "1": 58
+      },
+      "flags": {},
+      "order": 73,
+      "mode": 0,
+      "outputs": [
+        {
+          "name": "string",
+          "type": "STRING",
+          "links": [],
+          "shape": 3,
+          "slot_index": 0
+        }
+      ],
+      "title": "Output Video Directory",
+      "properties": {
+        "Node name for S&R": "Primitive string [Crystools]"
+      },
+      "widgets_values": [
+        "mlf_oceans"
+      ],
+      "color": "#232",
+      "bgcolor": "#353"
+    },
+    {
+      "id": 848,
+      "type": "JWDatetimeString",
+      "pos": [
+        -4817,
+        1527
+      ],
+      "size": {
+        "0": 315,
+        "1": 58
+      },
+      "flags": {},
+      "order": 74,
+      "mode": 0,
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": [
+            1313
+          ],
+          "shape": 3,
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "JWDatetimeString"
+      },
+      "widgets_values": [
+        "%Y-%m-%dT%H-%M-%S"
+      ],
+      "color": "#232",
+      "bgcolor": "#353"
+    },
+    {
+      "id": 177,
+      "type": "easy setNode",
+      "pos": [
+        -4437,
+        1460
+      ],
+      "size": {
+        "0": 210,
+        "1": 58
+      },
+      "flags": {},
+      "order": 108,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "link": 1313
+        }
+      ],
+      "title": "Set_Output_Directory",
+      "properties": {
+        "previousName": "Output_Directory"
+      },
+      "widgets_values": [
+        "Output_Directory"
+      ],
+      "color": "#223"
+    },
+    {
+      "id": 538,
+      "type": "InversionDemoLazySwitch",
+      "pos": [
+        1234,
+        -62
+      ],
+      "size": {
+        "0": 210,
+        "1": 74
+      },
+      "flags": {},
+      "order": 186,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "on_false",
+          "type": "*",
+          "link": 776
+        },
+        {
+          "name": "on_true",
+          "type": "*",
+          "link": 777
+        },
+        {
+          "name": "switch",
+          "type": "BOOLEAN",
+          "link": 778,
+          "widget": {
+            "name": "switch"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "*",
+          "type": "*",
+          "links": [
+            1159
+          ],
+          "shape": 3,
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "InversionDemoLazySwitch"
+      },
+      "widgets_values": [
+        false
+      ]
+    },
+    {
+      "id": 820,
+      "type": "ImageToMask",
+      "pos": [
+        4093,
+        5445
+      ],
+      "size": {
+        "0": 210,
+        "1": 58
+      },
+      "flags": {},
+      "order": 223,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 1306
+        }
+      ],
+      "outputs": [
+        {
+          "name": "MASK",
+          "type": "MASK",
+          "links": [
+            1302,
+            1315
+          ],
+          "shape": 3,
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "ImageToMask"
+      },
+      "widgets_values": [
+        "red"
+      ]
+    },
+    {
+      "id": 689,
+      "type": "ExecutionBlocker",
+      "pos": [
+        3833,
+        5445
+      ],
+      "size": {
+        "0": 210,
+        "1": 82
+      },
+      "flags": {},
+      "order": 213,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "input",
+          "type": "*",
+          "link": 1305
+        },
+        {
+          "name": "block",
+          "type": "BOOLEAN",
+          "link": 1037,
+          "widget": {
+            "name": "block"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "output",
+          "type": "*",
+          "links": [
+            1306
+          ],
+          "shape": 3,
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "ExecutionBlocker"
+      },
+      "widgets_values": [
+        false,
+        false
+      ]
+    },
+    {
       "id": 688,
       "type": "Logic NOT",
       "pos": [
-        3529,
-        5475
+        3530,
+        5471
       ],
       "size": {
         "0": 210,
         "1": 34
       },
       "flags": {},
-      "order": 108,
+      "order": 109,
       "mode": 0,
       "inputs": [
         {
@@ -8983,8 +8327,8 @@
       "id": 693,
       "type": "easy getNode",
       "pos": [
-        3235,
-        5460
+        3247,
+        5472
       ],
       "size": {
         "0": 210,
@@ -9011,29 +8355,29 @@
       "color": "#223"
     },
     {
-      "id": 824,
+      "id": 837,
       "type": "Nilor Save EXR Arbitrary",
       "pos": [
-        4625,
-        -232
+        4724,
+        -149
       ],
       "size": [
         210,
         54
       ],
       "flags": {},
-      "order": 223,
+      "order": 232,
       "mode": 0,
       "inputs": [
         {
           "name": "channels",
           "type": "*",
-          "link": 1253
+          "link": 1324
         },
         {
           "name": "filename_prefix",
           "type": 0,
-          "link": 1250,
+          "link": 1290,
           "widget": {
             "name": "filename_prefix"
           }
@@ -9049,160 +8393,103 @@
       "bgcolor": "#335"
     },
     {
-      "id": 503,
-      "type": "Reroute (rgthree)",
-      "pos": {
-        "0": 3420.09619140625,
-        "1": -1092.119384765625,
-        "2": 0,
-        "3": 0,
-        "4": 0,
-        "5": 0,
-        "6": 0,
-        "7": 0,
-        "8": 0,
-        "9": 0
-      },
+      "id": 646,
+      "type": "VHS_VideoCombine",
+      "pos": [
+        4560,
+        1960
+      ],
       "size": [
-        40,
-        30
+        390,
+        282
       ],
       "flags": {},
       "order": 197,
       "mode": 0,
       "inputs": [
         {
-          "name": "",
+          "name": "images",
           "type": "*",
-          "link": 968,
-          "dir": 3,
-          "has_old_label": true,
-          "label": " "
-        }
-      ],
-      "outputs": [
-        {
-          "name": "*",
-          "type": "*",
-          "links": [
-            802,
-            817,
-            1252
-          ],
-          "dir": 4,
-          "has_old_label": true,
-          "label": " ",
+          "link": 985,
           "slot_index": 0
-        }
-      ],
-      "properties": {
-        "resizable": false,
-        "size": [
-          40,
-          30
-        ]
-      }
-    },
-    {
-      "id": 811,
-      "type": "ImageToMask",
-      "pos": [
-        3893,
-        -228
-      ],
-      "size": [
-        210,
-        58
-      ],
-      "flags": {},
-      "order": 204,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "image",
-          "type": "IMAGE",
-          "link": 1252
-        }
-      ],
-      "outputs": [
-        {
-          "name": "MASK",
-          "type": "MASK",
-          "links": [
-            1220
-          ],
-          "shape": 3,
-          "slot_index": 0
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "ImageToMask"
-      },
-      "widgets_values": [
-        "red"
-      ]
-    },
-    {
-      "id": 564,
-      "type": "ExecutionBlocker",
-      "pos": [
-        4347,
-        -165
-      ],
-      "size": {
-        "0": 210,
-        "1": 82
-      },
-      "flags": {},
-      "order": 219,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "input",
-          "type": "*",
-          "link": 1251
         },
         {
-          "name": "block",
-          "type": "BOOLEAN",
-          "link": 821,
+          "name": "audio",
+          "type": "VHS_AUDIO",
+          "link": null
+        },
+        {
+          "name": "meta_batch",
+          "type": "VHS_BatchManager",
+          "link": null,
+          "slot_index": 2
+        },
+        {
+          "name": "filename_prefix",
+          "type": "STRING",
+          "link": 1117,
           "widget": {
-            "name": "block"
+            "name": "filename_prefix"
+          }
+        },
+        {
+          "name": "frame_rate",
+          "type": "*",
+          "link": 1179,
+          "widget": {
+            "name": "frame_rate"
           }
         }
       ],
       "outputs": [
         {
-          "name": "output",
-          "type": "*",
-          "links": [
-            1253
-          ],
-          "shape": 3,
-          "slot_index": 0
+          "name": "Filenames",
+          "type": "VHS_FILENAMES",
+          "links": null,
+          "shape": 3
         }
       ],
       "properties": {
-        "Node name for S&R": "ExecutionBlocker"
+        "Node name for S&R": "VHS_VideoCombine"
       },
-      "widgets_values": [
-        false,
-        false
-      ]
+      "widgets_values": {
+        "frame_rate": 30,
+        "loop_count": 0,
+        "filename_prefix": "mlf_oceans/of_comparison/Coral_03",
+        "format": "video/h264-mp4",
+        "pix_fmt": "yuv420p",
+        "crf": 19,
+        "save_metadata": true,
+        "pingpong": false,
+        "save_output": true,
+        "videopreview": {
+          "hidden": false,
+          "paused": false,
+          "params": {
+            "filename": "Output_00002.mp4",
+            "subfolder": "mlf_oceans\\Coral_03\\Flow\\MP4",
+            "type": "output",
+            "format": "video/h264-mp4",
+            "frame_rate": 29.97002997002997
+          }
+        }
+      },
+      "color": "#232",
+      "bgcolor": "#353"
     },
     {
       "id": 563,
       "type": "Logic NOT",
       "pos": [
-        3586,
-        -136
+        3533,
+        -337
       ],
       "size": {
         "0": 210,
         "1": 34
       },
       "flags": {},
-      "order": 109,
+      "order": 110,
       "mode": 0,
       "inputs": [
         {
@@ -9233,11 +8520,214 @@
       ]
     },
     {
+      "id": 503,
+      "type": "Reroute (rgthree)",
+      "pos": {
+        "0": 3420.09619140625,
+        "1": -1092.119384765625,
+        "2": 0,
+        "3": 0,
+        "4": 0,
+        "5": 0,
+        "6": 0,
+        "7": 0,
+        "8": 0,
+        "9": 0
+      },
+      "size": [
+        40,
+        30
+      ],
+      "flags": {},
+      "order": 202,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "",
+          "type": "*",
+          "link": 968,
+          "dir": 3,
+          "has_old_label": true,
+          "label": " "
+        }
+      ],
+      "outputs": [
+        {
+          "name": "*",
+          "type": "*",
+          "links": [
+            802,
+            817,
+            1308
+          ],
+          "dir": 4,
+          "has_old_label": true,
+          "label": " ",
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "resizable": false,
+        "size": [
+          40,
+          30
+        ]
+      }
+    },
+    {
+      "id": 564,
+      "type": "ExecutionBlocker",
+      "pos": [
+        3836,
+        -359
+      ],
+      "size": {
+        "0": 210,
+        "1": 82
+      },
+      "flags": {},
+      "order": 209,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "input",
+          "type": "*",
+          "link": 1308
+        },
+        {
+          "name": "block",
+          "type": "BOOLEAN",
+          "link": 821,
+          "widget": {
+            "name": "block"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "output",
+          "type": "*",
+          "links": [
+            1309
+          ],
+          "shape": 3,
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "ExecutionBlocker"
+      },
+      "widgets_values": [
+        false,
+        false
+      ]
+    },
+    {
+      "id": 841,
+      "type": "ImageToMask",
+      "pos": [
+        4119,
+        -360
+      ],
+      "size": {
+        "0": 210,
+        "1": 58
+      },
+      "flags": {},
+      "order": 217,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 1309
+        }
+      ],
+      "outputs": [
+        {
+          "name": "MASK",
+          "type": "MASK",
+          "links": [
+            1297,
+            1327
+          ],
+          "shape": 3,
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "ImageToMask"
+      },
+      "widgets_values": [
+        "red"
+      ]
+    },
+    {
+      "id": 854,
+      "type": "easy setNode",
+      "pos": [
+        -1995.4810972749967,
+        2167.962316620305
+      ],
+      "size": {
+        "0": 210,
+        "1": 58
+      },
+      "flags": {},
+      "order": 141,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "*",
+          "type": "*",
+          "link": 1328
+        }
+      ],
+      "title": "Set_Depth Enabled",
+      "properties": {
+        "previousName": "Depth Enabled"
+      },
+      "widgets_values": [
+        "Depth Enabled"
+      ],
+      "color": "#223"
+    },
+    {
+      "id": 855,
+      "type": "easy setNode",
+      "pos": [
+        -2013.4810972749967,
+        2500.962316620305
+      ],
+      "size": {
+        "0": 210,
+        "1": 58
+      },
+      "flags": {},
+      "order": 144,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "*",
+          "type": "*",
+          "link": 1329
+        }
+      ],
+      "title": "Set_Flow Enabled",
+      "properties": {
+        "previousName": "Flow Enabled"
+      },
+      "widgets_values": [
+        "Flow Enabled"
+      ],
+      "color": "#223"
+    },
+    {
       "id": 643,
       "type": "easy getNode",
       "pos": [
-        3267,
-        -171
+        3223,
+        -336
       ],
       "size": {
         "0": 210,
@@ -9264,91 +8754,196 @@
       "color": "#223"
     },
     {
-      "id": 654,
-      "type": "Reroute (rgthree)",
-      "pos": {
-        "0": 3430,
-        "1": 1710,
-        "2": 0,
-        "3": 0,
-        "4": 0,
-        "5": 0,
-        "6": 0,
-        "7": 0,
-        "8": 0,
-        "9": 0
-      },
-      "size": [
-        40,
-        30
+      "id": 859,
+      "type": "easy setNode",
+      "pos": [
+        -2009.4810972749967,
+        2863.962316620305
       ],
+      "size": {
+        "0": 210,
+        "1": 58
+      },
       "flags": {},
-      "order": 182,
+      "order": 146,
       "mode": 0,
       "inputs": [
         {
-          "name": "",
+          "name": "*",
           "type": "*",
-          "link": 1009,
-          "dir": 3,
-          "has_old_label": true,
-          "label": " "
+          "link": 1333
+        }
+      ],
+      "title": "Set_Segmentation Enabled",
+      "properties": {
+        "previousName": "Segmentation Enabled"
+      },
+      "widgets_values": [
+        "Segmentation Enabled"
+      ],
+      "color": "#223"
+    },
+    {
+      "id": 716,
+      "type": "InversionDemoLazySwitch",
+      "pos": [
+        -2409.481097274996,
+        2958.962316620305
+      ],
+      "size": {
+        "0": 210,
+        "1": 74
+      },
+      "flags": {},
+      "order": 120,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "on_false",
+          "type": "*",
+          "link": 1083
+        },
+        {
+          "name": "on_true",
+          "type": "*",
+          "link": 1087
+        },
+        {
+          "name": "switch",
+          "type": "BOOLEAN",
+          "link": 1082,
+          "widget": {
+            "name": "switch"
+          }
         }
       ],
       "outputs": [
         {
-          "name": "IMAGE",
-          "type": "IMAGE",
+          "name": "*",
+          "type": "*",
           "links": [
-            995,
-            1004,
-            1254,
-            1255,
-            1256
+            1084
           ],
-          "dir": 4,
-          "has_old_label": true,
-          "label": " ",
+          "shape": 3,
           "slot_index": 0
         }
       ],
       "properties": {
-        "resizable": false,
-        "size": [
-          40,
-          30
-        ]
-      }
+        "Node name for S&R": "InversionDemoLazySwitch"
+      },
+      "widgets_values": [
+        false
+      ]
     },
     {
-      "id": 813,
-      "type": "List of any [Crystools]",
+      "id": 715,
+      "type": "InversionDemoLazySwitch",
       "pos": [
-        4180,
-        2630
+        -2433.481097274996,
+        2558.962316620305
       ],
       "size": {
-        "0": 140,
+        "0": 210,
+        "1": 74
+      },
+      "flags": {},
+      "order": 119,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "on_false",
+          "type": "*",
+          "link": 1080
+        },
+        {
+          "name": "on_true",
+          "type": "*",
+          "link": 1086
+        },
+        {
+          "name": "switch",
+          "type": "BOOLEAN",
+          "link": 1079,
+          "widget": {
+            "name": "switch"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "*",
+          "type": "*",
+          "links": [
+            1081
+          ],
+          "shape": 3,
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "InversionDemoLazySwitch"
+      },
+      "widgets_values": [
+        false
+      ]
+    },
+    {
+      "id": 860,
+      "type": "easy showAnything",
+      "pos": [
+        -2014.4810972749967,
+        3088.962316620305
+      ],
+      "size": [
+        210,
+        76.00008583068848
+      ],
+      "flags": {},
+      "order": 147,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "anything",
+          "type": "*",
+          "link": 1334
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "easy showAnything"
+      },
+      "widgets_values": [
+        "true"
+      ]
+    },
+    {
+      "id": 840,
+      "type": "List of any [Crystools]",
+      "pos": [
+        4373,
+        -365
+      ],
+      "size": {
+        "0": 210,
         "1": 166
       },
       "flags": {},
-      "order": 195,
+      "order": 226,
       "mode": 0,
       "inputs": [
         {
           "name": "any_1",
           "type": "*",
-          "link": 1224
+          "link": 1297
         },
         {
           "name": "any_2",
           "type": "*",
-          "link": 1228
+          "link": null
         },
         {
           "name": "any_3",
           "type": "*",
-          "link": 1229
+          "link": null
         },
         {
           "name": "any_4",
@@ -9381,7 +8976,7 @@
           "name": "any_list",
           "type": "COMBO",
           "links": [
-            1257
+            1323
           ],
           "shape": 6,
           "slot_index": 0
@@ -9392,116 +8987,348 @@
       }
     },
     {
-      "id": 814,
-      "type": "ImageToMask",
+      "id": 853,
+      "type": "InversionDemoLazySwitch",
       "pos": [
-        3920,
-        2490
+        4370,
+        -150
       ],
       "size": {
         "0": 210,
-        "1": 58
+        "1": 74
       },
       "flags": {},
-      "order": 187,
+      "order": 230,
       "mode": 0,
       "inputs": [
         {
-          "name": "image",
-          "type": "IMAGE",
-          "link": 1254
-        }
-      ],
-      "outputs": [
-        {
-          "name": "MASK",
-          "type": "MASK",
-          "links": [
-            1224
-          ],
-          "shape": 3,
-          "slot_index": 0
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "ImageToMask"
-      },
-      "widgets_values": [
-        "red"
-      ]
-    },
-    {
-      "id": 664,
-      "type": "ExecutionBlocker",
-      "pos": [
-        4364,
-        2629
-      ],
-      "size": {
-        "0": 210,
-        "1": 82
-      },
-      "flags": {},
-      "order": 200,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "input",
+          "name": "on_false",
           "type": "*",
-          "link": 1257
+          "link": 1327
         },
         {
-          "name": "block",
+          "name": "on_true",
+          "type": "*",
+          "link": 1323
+        },
+        {
+          "name": "switch",
           "type": "BOOLEAN",
-          "link": 1008,
+          "link": 1336,
           "widget": {
-            "name": "block"
+            "name": "switch"
           }
         }
       ],
       "outputs": [
         {
-          "name": "output",
+          "name": "*",
           "type": "*",
           "links": [
-            1258
+            1324
           ],
           "shape": 3,
           "slot_index": 0
         }
       ],
       "properties": {
-        "Node name for S&R": "ExecutionBlocker"
+        "Node name for S&R": "InversionDemoLazySwitch"
       },
       "widgets_values": [
-        false,
         false
       ]
     },
     {
-      "id": 823,
+      "id": 708,
+      "type": "Reroute (rgthree)",
+      "pos": {
+        "0": -2054.48095703125,
+        "1": 2978.9619140625,
+        "2": 0,
+        "3": 0,
+        "4": 0,
+        "5": 0,
+        "6": 0,
+        "7": 0,
+        "8": 0,
+        "9": 0
+      },
+      "size": [
+        40,
+        30
+      ],
+      "flags": {},
+      "order": 131,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "",
+          "type": "*",
+          "link": 1084,
+          "dir": 3,
+          "has_old_label": true,
+          "label": " ",
+          "widget": {
+            "name": "value"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "*",
+          "type": "*",
+          "links": [
+            1055,
+            1333,
+            1334,
+            1335
+          ],
+          "dir": 4,
+          "has_old_label": true,
+          "label": " ",
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "resizable": false,
+        "size": [
+          40,
+          30
+        ]
+      }
+    },
+    {
+      "id": 702,
+      "type": "Reroute (rgthree)",
+      "pos": {
+        "0": -2012.4224853515625,
+        "1": 2272.6416015625,
+        "2": 0,
+        "3": 0,
+        "4": 0,
+        "5": 0,
+        "6": 0,
+        "7": 0,
+        "8": 0,
+        "9": 0
+      },
+      "size": [
+        40,
+        30
+      ],
+      "flags": {},
+      "order": 129,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "",
+          "type": "*",
+          "link": 1078,
+          "dir": 3,
+          "has_old_label": true,
+          "label": " ",
+          "widget": {
+            "name": "value"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "*",
+          "type": "*",
+          "links": [
+            1053,
+            1059,
+            1328,
+            1336
+          ],
+          "dir": 4,
+          "has_old_label": true,
+          "label": " ",
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "resizable": false,
+        "size": [
+          40,
+          30
+        ]
+      }
+    },
+    {
+      "id": 845,
+      "type": "List of any [Crystools]",
+      "pos": [
+        4360,
+        5430
+      ],
+      "size": {
+        "0": 210,
+        "1": 166
+      },
+      "flags": {},
+      "order": 229,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "any_1",
+          "type": "*",
+          "link": 1302
+        },
+        {
+          "name": "any_2",
+          "type": "*",
+          "link": null
+        },
+        {
+          "name": "any_3",
+          "type": "*",
+          "link": null
+        },
+        {
+          "name": "any_4",
+          "type": "*",
+          "link": null
+        },
+        {
+          "name": "any_5",
+          "type": "*",
+          "link": null
+        },
+        {
+          "name": "any_6",
+          "type": "*",
+          "link": null
+        },
+        {
+          "name": "any_7",
+          "type": "*",
+          "link": null
+        },
+        {
+          "name": "any_8",
+          "type": "*",
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "any_list",
+          "type": "COMBO",
+          "links": [
+            1317
+          ],
+          "shape": 6,
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "List of any [Crystools]"
+      }
+    },
+    {
+      "id": 850,
+      "type": "InversionDemoLazySwitch",
+      "pos": [
+        4370,
+        5680
+      ],
+      "size": {
+        "0": 210,
+        "1": 74
+      },
+      "flags": {},
+      "order": 231,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "on_false",
+          "type": "*",
+          "link": 1315
+        },
+        {
+          "name": "on_true",
+          "type": "*",
+          "link": 1317
+        },
+        {
+          "name": "switch",
+          "type": "BOOLEAN",
+          "link": 1335,
+          "widget": {
+            "name": "switch"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "*",
+          "type": "*",
+          "links": [
+            1316,
+            1318
+          ],
+          "shape": 3,
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "InversionDemoLazySwitch"
+      },
+      "widgets_values": [
+        false
+      ]
+    },
+    {
+      "id": 847,
+      "type": "Show any [Crystools]",
+      "pos": [
+        4670,
+        5650
+      ],
+      "size": {
+        "0": 315,
+        "1": 148
+      },
+      "flags": {},
+      "order": 234,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "any_value",
+          "type": "*",
+          "link": 1318
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "Show any [Crystools]"
+      }
+    },
+    {
+      "id": 836,
       "type": "Nilor Save EXR Arbitrary",
       "pos": [
-        4686,
-        2632
+        4700,
+        5450
       ],
       "size": [
         210,
         54
       ],
       "flags": {},
-      "order": 205,
+      "order": 233,
       "mode": 0,
       "inputs": [
         {
           "name": "channels",
           "type": "*",
-          "link": 1258
+          "link": 1316
         },
         {
           "name": "filename_prefix",
           "type": 0,
-          "link": 1248,
+          "link": 1288,
           "widget": {
             "name": "filename_prefix"
           }
@@ -9517,6 +9344,549 @@
       "bgcolor": "#335"
     },
     {
+      "id": 865,
+      "type": "InversionDemoLazySwitch",
+      "pos": [
+        4383,
+        2713
+      ],
+      "size": {
+        "0": 210,
+        "1": 74
+      },
+      "flags": {},
+      "order": 210,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "on_false",
+          "type": "*",
+          "link": 1349
+        },
+        {
+          "name": "on_true",
+          "type": "*",
+          "link": 1341
+        },
+        {
+          "name": "switch",
+          "type": "BOOLEAN",
+          "link": 1351,
+          "widget": {
+            "name": "switch"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "*",
+          "type": "*",
+          "links": [
+            1337,
+            1340
+          ],
+          "shape": 3,
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "InversionDemoLazySwitch"
+      },
+      "widgets_values": [
+        false
+      ]
+    },
+    {
+      "id": 668,
+      "type": "easy getNode",
+      "pos": [
+        3229,
+        2487
+      ],
+      "size": {
+        "0": 210,
+        "1": 58
+      },
+      "flags": {},
+      "order": 77,
+      "mode": 0,
+      "outputs": [
+        {
+          "name": "BOOLEAN",
+          "type": "BOOLEAN",
+          "links": [
+            1006
+          ],
+          "slot_index": 0
+        }
+      ],
+      "title": "Get_EXR Enabled",
+      "properties": {},
+      "widgets_values": [
+        "EXR Enabled"
+      ],
+      "color": "#223"
+    },
+    {
+      "id": 663,
+      "type": "Logic NOT",
+      "pos": [
+        3467,
+        2491
+      ],
+      "size": {
+        "0": 210,
+        "1": 34
+      },
+      "flags": {},
+      "order": 111,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "boolean",
+          "type": "BOOLEAN",
+          "link": 1006,
+          "widget": {
+            "name": "boolean"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "BOOLEAN",
+          "type": "BOOLEAN",
+          "links": [
+            1008
+          ],
+          "shape": 3,
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "Logic NOT"
+      },
+      "widgets_values": [
+        false
+      ]
+    },
+    {
+      "id": 868,
+      "type": "ImageToMask",
+      "pos": [
+        4025,
+        2576
+      ],
+      "size": {
+        "0": 210,
+        "1": 58
+      },
+      "flags": {},
+      "order": 199,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 1345
+        }
+      ],
+      "outputs": [
+        {
+          "name": "MASK",
+          "type": "MASK",
+          "links": [
+            1346
+          ],
+          "shape": 3,
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "ImageToMask"
+      },
+      "widgets_values": [
+        "green"
+      ]
+    },
+    {
+      "id": 664,
+      "type": "ExecutionBlocker",
+      "pos": [
+        3749,
+        2471
+      ],
+      "size": {
+        "0": 210,
+        "1": 82
+      },
+      "flags": {},
+      "order": 192,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "input",
+          "type": "*",
+          "link": 1272
+        },
+        {
+          "name": "block",
+          "type": "BOOLEAN",
+          "link": 1008,
+          "widget": {
+            "name": "block"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "output",
+          "type": "*",
+          "links": [
+            1343,
+            1345,
+            1347
+          ],
+          "shape": 3,
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "ExecutionBlocker"
+      },
+      "widgets_values": [
+        false,
+        false
+      ]
+    },
+    {
+      "id": 869,
+      "type": "ImageToMask",
+      "pos": [
+        4036,
+        2690
+      ],
+      "size": {
+        "0": 210,
+        "1": 58
+      },
+      "flags": {},
+      "order": 200,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 1347
+        }
+      ],
+      "outputs": [
+        {
+          "name": "MASK",
+          "type": "MASK",
+          "links": [
+            1348
+          ],
+          "shape": 3,
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "ImageToMask"
+      },
+      "widgets_values": [
+        "blue"
+      ]
+    },
+    {
+      "id": 867,
+      "type": "ImageToMask",
+      "pos": [
+        4024,
+        2468
+      ],
+      "size": [
+        210,
+        58
+      ],
+      "flags": {},
+      "order": 198,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 1343
+        }
+      ],
+      "outputs": [
+        {
+          "name": "MASK",
+          "type": "MASK",
+          "links": [
+            1344,
+            1349
+          ],
+          "shape": 3,
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "ImageToMask"
+      },
+      "widgets_values": [
+        "red"
+      ]
+    },
+    {
+      "id": 863,
+      "type": "List of any [Crystools]",
+      "pos": [
+        4374,
+        2488
+      ],
+      "size": {
+        "0": 210,
+        "1": 166
+      },
+      "flags": {},
+      "order": 205,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "any_1",
+          "type": "*",
+          "link": 1344
+        },
+        {
+          "name": "any_2",
+          "type": "*",
+          "link": 1346
+        },
+        {
+          "name": "any_3",
+          "type": "*",
+          "link": 1348
+        },
+        {
+          "name": "any_4",
+          "type": "*",
+          "link": null
+        },
+        {
+          "name": "any_5",
+          "type": "*",
+          "link": null
+        },
+        {
+          "name": "any_6",
+          "type": "*",
+          "link": null
+        },
+        {
+          "name": "any_7",
+          "type": "*",
+          "link": null
+        },
+        {
+          "name": "any_8",
+          "type": "*",
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "any_list",
+          "type": "COMBO",
+          "links": [
+            1341
+          ],
+          "shape": 6,
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "List of any [Crystools]"
+      }
+    },
+    {
+      "id": 739,
+      "type": "DF_String_Concatenate",
+      "pos": [
+        4270,
+        2330
+      ],
+      "size": {
+        "0": 210,
+        "1": 78
+      },
+      "flags": {},
+      "order": 155,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "Prepend",
+          "type": "STRING",
+          "link": 1114,
+          "widget": {
+            "name": "Prepend"
+          }
+        },
+        {
+          "name": "Append",
+          "type": "STRING",
+          "link": 1110,
+          "widget": {
+            "name": "Append"
+          },
+          "slot_index": 1
+        }
+      ],
+      "outputs": [
+        {
+          "name": "TEXT",
+          "type": "STRING",
+          "links": [
+            1350
+          ],
+          "shape": 3,
+          "slot_index": 0
+        }
+      ],
+      "title": "Output Video Subdirectory",
+      "properties": {
+        "Node name for S&R": "DF_String_Concatenate"
+      },
+      "widgets_values": [
+        "",
+        "SAM1-turtle",
+        "/"
+      ],
+      "color": "#232",
+      "bgcolor": "#353"
+    },
+    {
+      "id": 862,
+      "type": "Nilor Save EXR Arbitrary",
+      "pos": [
+        4665,
+        2481
+      ],
+      "size": {
+        "0": 210,
+        "1": 54
+      },
+      "flags": {},
+      "order": 218,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "channels",
+          "type": "*",
+          "link": 1337
+        },
+        {
+          "name": "filename_prefix",
+          "type": 0,
+          "link": 1350,
+          "widget": {
+            "name": "filename_prefix"
+          }
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "Nilor Save EXR Arbitrary"
+      },
+      "widgets_values": [
+        "output"
+      ],
+      "color": "#223",
+      "bgcolor": "#335"
+    },
+    {
+      "id": 864,
+      "type": "Show any [Crystools]",
+      "pos": [
+        4649,
+        2610
+      ],
+      "size": {
+        "0": 315,
+        "1": 148
+      },
+      "flags": {},
+      "order": 219,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "any_value",
+          "type": "*",
+          "link": 1340
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "Show any [Crystools]"
+      }
+    },
+    {
+      "id": 706,
+      "type": "Reroute (rgthree)",
+      "pos": {
+        "0": -2034.48095703125,
+        "1": 2578.9619140625,
+        "2": 0,
+        "3": 0,
+        "4": 0,
+        "5": 0,
+        "6": 0,
+        "7": 0,
+        "8": 0,
+        "9": 0
+      },
+      "size": [
+        40,
+        30
+      ],
+      "flags": {},
+      "order": 130,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "",
+          "type": "*",
+          "link": 1081,
+          "dir": 3,
+          "has_old_label": true,
+          "label": " ",
+          "widget": {
+            "name": "value"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "*",
+          "type": "*",
+          "links": [
+            1054,
+            1060,
+            1329,
+            1351
+          ],
+          "dir": 4,
+          "has_old_label": true,
+          "label": " ",
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "resizable": false,
+        "size": [
+          40,
+          30
+        ]
+      }
+    },
+    {
       "id": 401,
       "type": "Primitive boolean [Crystools]",
       "pos": [
@@ -9528,7 +9898,7 @@
         "1": 58
       },
       "flags": {},
-      "order": 77,
+      "order": 78,
       "mode": 0,
       "outputs": [
         {
@@ -9552,306 +9922,321 @@
       "bgcolor": "#335"
     },
     {
-      "id": 42,
-      "type": "Primitive integer [Crystools]",
+      "id": 399,
+      "type": "Primitive boolean [Crystools]",
       "pos": [
-        -4849,
-        722
+        -4340,
+        2580
       ],
       "size": {
-        "0": 268.79998779296875,
+        "0": 210,
         "1": 58
       },
       "flags": {},
-      "order": 78,
+      "order": 79,
       "mode": 0,
       "outputs": [
         {
-          "name": "int",
-          "type": "INT",
+          "name": "boolean",
+          "type": "BOOLEAN",
           "links": [
-            765
+            971
           ],
           "shape": 3,
           "slot_index": 0
         }
       ],
-      "title": "Frame Limit",
+      "title": "MP4 Enabler",
       "properties": {
-        "Node name for S&R": "Primitive integer [Crystools]"
+        "Node name for S&R": "Primitive boolean [Crystools]"
       },
       "widgets_values": [
-        0
+        true
       ],
       "color": "#232",
       "bgcolor": "#353"
     },
     {
-      "id": 822,
-      "type": "Nilor Save EXR Arbitrary",
+      "id": 731,
+      "type": "DF_String_Concatenate",
       "pos": [
-        4678,
-        5463
-      ],
-      "size": [
-        210,
-        54
-      ],
-      "flags": {},
-      "order": 224,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "channels",
-          "type": "*",
-          "link": 1245
-        },
-        {
-          "name": "filename_prefix",
-          "type": 0,
-          "link": 1246,
-          "widget": {
-            "name": "filename_prefix"
-          }
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "Nilor Save EXR Arbitrary"
-      },
-      "widgets_values": [
-        "output"
-      ],
-      "color": "#223",
-      "bgcolor": "#335"
-    },
-    {
-      "id": 810,
-      "type": "List of any [Crystools]",
-      "pos": [
-        4155,
-        -228
-      ],
-      "size": [
-        140,
-        166
-      ],
-      "flags": {},
-      "order": 212,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "any_1",
-          "type": "*",
-          "link": 1220
-        },
-        {
-          "name": "any_2",
-          "type": "*",
-          "link": null
-        },
-        {
-          "name": "any_3",
-          "type": "*",
-          "link": null
-        },
-        {
-          "name": "any_4",
-          "type": "*",
-          "link": null
-        },
-        {
-          "name": "any_5",
-          "type": "*",
-          "link": null
-        },
-        {
-          "name": "any_6",
-          "type": "*",
-          "link": null
-        },
-        {
-          "name": "any_7",
-          "type": "*",
-          "link": null
-        },
-        {
-          "name": "any_8",
-          "type": "*",
-          "link": null
-        }
-      ],
-      "outputs": [
-        {
-          "name": "any_list",
-          "type": "COMBO",
-          "links": [
-            1251
-          ],
-          "shape": 6,
-          "slot_index": 0
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "List of any [Crystools]"
-      }
-    },
-    {
-      "id": 689,
-      "type": "ExecutionBlocker",
-      "pos": [
-        4335,
-        5472
+        4279,
+        -557
       ],
       "size": {
         "0": 210,
-        "1": 82
+        "1": 78
       },
       "flags": {},
-      "order": 222,
+      "order": 151,
       "mode": 0,
       "inputs": [
         {
-          "name": "input",
-          "type": "*",
-          "link": 1260
+          "name": "Prepend",
+          "type": "STRING",
+          "link": 1101,
+          "widget": {
+            "name": "Prepend"
+          }
         },
         {
-          "name": "block",
-          "type": "BOOLEAN",
-          "link": 1037,
+          "name": "Append",
+          "type": "STRING",
+          "link": 1100,
           "widget": {
-            "name": "block"
-          }
+            "name": "Append"
+          },
+          "slot_index": 1
         }
       ],
       "outputs": [
         {
-          "name": "output",
-          "type": "*",
+          "name": "TEXT",
+          "type": "STRING",
           "links": [
-            1245
+            1290
           ],
           "shape": 3,
           "slot_index": 0
         }
       ],
+      "title": "Output Video Subdirectory",
       "properties": {
-        "Node name for S&R": "ExecutionBlocker"
+        "Node name for S&R": "DF_String_Concatenate"
       },
       "widgets_values": [
-        false,
-        false
-      ]
+        "",
+        "SAM1-turtle",
+        "/"
+      ],
+      "color": "#232",
+      "bgcolor": "#353"
     },
     {
-      "id": 820,
-      "type": "ImageToMask",
+      "id": 355,
+      "type": "VHS_VideoCombine",
       "pos": [
-        3850,
-        5394
+        4539,
+        -965
       ],
-      "size": {
-        "0": 210,
-        "1": 58
-      },
-      "flags": {},
-      "order": 208,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "image",
-          "type": "IMAGE",
-          "link": 1242
-        }
+      "size": [
+        390,
+        504.125
       ],
-      "outputs": [
-        {
-          "name": "MASK",
-          "type": "MASK",
-          "links": [
-            1259
-          ],
-          "shape": 3,
-          "slot_index": 0
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "ImageToMask"
-      },
-      "widgets_values": [
-        "red"
-      ]
-    },
-    {
-      "id": 825,
-      "type": "List of any [Crystools]",
-      "pos": [
-        4132,
-        5415
-      ],
-      "size": {
-        "0": 140,
-        "1": 166
-      },
       "flags": {},
       "order": 216,
       "mode": 0,
       "inputs": [
         {
-          "name": "any_1",
+          "name": "images",
           "type": "*",
-          "link": 1259
+          "link": 820,
+          "slot_index": 0
         },
         {
-          "name": "any_2",
-          "type": "*",
+          "name": "audio",
+          "type": "VHS_AUDIO",
           "link": null
         },
         {
-          "name": "any_3",
-          "type": "*",
-          "link": null
+          "name": "meta_batch",
+          "type": "VHS_BatchManager",
+          "link": null,
+          "slot_index": 2
         },
         {
-          "name": "any_4",
-          "type": "*",
-          "link": null
+          "name": "filename_prefix",
+          "type": "STRING",
+          "link": 1099,
+          "widget": {
+            "name": "filename_prefix"
+          }
         },
         {
-          "name": "any_5",
+          "name": "frame_rate",
           "type": "*",
-          "link": null
-        },
-        {
-          "name": "any_6",
-          "type": "*",
-          "link": null
-        },
-        {
-          "name": "any_7",
-          "type": "*",
-          "link": null
-        },
-        {
-          "name": "any_8",
-          "type": "*",
-          "link": null
+          "link": 1176,
+          "widget": {
+            "name": "frame_rate"
+          }
         }
       ],
       "outputs": [
         {
-          "name": "any_list",
-          "type": "COMBO",
+          "name": "Filenames",
+          "type": "VHS_FILENAMES",
+          "links": null,
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "VHS_VideoCombine"
+      },
+      "widgets_values": {
+        "frame_rate": 30,
+        "loop_count": 0,
+        "filename_prefix": "mlf_oceans/of_comparison/Coral_03",
+        "format": "video/h264-mp4",
+        "pix_fmt": "yuv420p",
+        "crf": 19,
+        "save_metadata": true,
+        "pingpong": false,
+        "save_output": true,
+        "videopreview": {
+          "hidden": false,
+          "paused": false,
+          "params": {
+            "filename": "Output_00001.mp4",
+            "subfolder": "2024-08-09T19-08-28\\Coral_03\\Depth\\MP4",
+            "type": "output",
+            "format": "video/h264-mp4",
+            "frame_rate": 29.97002997002997
+          }
+        }
+      },
+      "color": "#232",
+      "bgcolor": "#353"
+    },
+    {
+      "id": 546,
+      "type": "Reroute (rgthree)",
+      "pos": {
+        "0": 2984,
+        "1": 2276,
+        "2": 0,
+        "3": 0,
+        "4": 0,
+        "5": 0,
+        "6": 0,
+        "7": 0,
+        "8": 0,
+        "9": 0
+      },
+      "size": [
+        40,
+        30
+      ],
+      "flags": {},
+      "order": 184,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "",
+          "type": "*",
+          "link": 1058,
+          "dir": 3,
+          "has_old_label": true,
+          "label": " "
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
           "links": [
-            1260
+            1009
           ],
-          "shape": 6,
+          "dir": 4,
+          "has_old_label": true,
+          "label": " ",
           "slot_index": 0
         }
       ],
       "properties": {
-        "Node name for S&R": "List of any [Crystools]"
+        "resizable": false,
+        "size": [
+          40,
+          30
+        ]
       }
+    },
+    {
+      "id": 549,
+      "type": "Reroute (rgthree)",
+      "pos": {
+        "0": 2845,
+        "1": 3330,
+        "2": 0,
+        "3": 0,
+        "4": 0,
+        "5": 0,
+        "6": 0,
+        "7": 0,
+        "8": 0,
+        "9": 0
+      },
+      "size": [
+        40,
+        30
+      ],
+      "flags": {},
+      "order": 201,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "",
+          "type": "*",
+          "link": 1064,
+          "dir": 3,
+          "has_old_label": true,
+          "label": " "
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            1038
+          ],
+          "dir": 4,
+          "has_old_label": true,
+          "label": " ",
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "resizable": false,
+        "size": [
+          40,
+          30
+        ]
+      }
+    },
+    {
+      "id": 422,
+      "type": "Simple String",
+      "pos": [
+        -4930,
+        2200
+      ],
+      "size": {
+        "0": 218.39999389648438,
+        "1": 58
+      },
+      "flags": {},
+      "order": 80,
+      "mode": 0,
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": [
+            1041
+          ],
+          "shape": 3,
+          "slot_index": 0
+        }
+      ],
+      "title": "Outputs String",
+      "properties": {
+        "Node name for S&R": "Simple String"
+      },
+      "widgets_values": [
+        "Seg"
+      ],
+      "color": "#432",
+      "bgcolor": "#653"
     }
   ],
   "links": [
@@ -9868,14 +10253,6 @@
       105,
       1,
       107,
-      0,
-      "*"
-    ],
-    [
-      286,
-      175,
-      0,
-      177,
       0,
       "*"
     ],
@@ -10896,14 +11273,6 @@
       "*"
     ],
     [
-      1061,
-      708,
-      0,
-      711,
-      0,
-      "*"
-    ],
-    [
       1062,
       496,
       0,
@@ -11280,14 +11649,6 @@
       "STRING"
     ],
     [
-      1128,
-      676,
-      0,
-      743,
-      0,
-      "STRING"
-    ],
-    [
       1129,
       676,
       0,
@@ -11592,156 +11953,292 @@
       "FLOAT"
     ],
     [
-      1220,
-      811,
+      1272,
+      654,
       0,
-      810,
-      0,
-      "*"
-    ],
-    [
-      1224,
-      814,
-      0,
-      813,
+      664,
       0,
       "*"
     ],
     [
-      1228,
-      815,
+      1288,
+      747,
       0,
-      813,
+      836,
+      1,
+      "STRING"
+    ],
+    [
+      1290,
+      731,
+      0,
+      837,
+      1,
+      "STRING"
+    ],
+    [
+      1297,
+      841,
+      0,
+      840,
+      0,
+      "*"
+    ],
+    [
+      1301,
+      844,
+      0,
+      743,
+      0,
+      "STRING"
+    ],
+    [
+      1302,
+      820,
+      0,
+      845,
+      0,
+      "*"
+    ],
+    [
+      1305,
+      679,
+      0,
+      689,
+      0,
+      "*"
+    ],
+    [
+      1306,
+      689,
+      0,
+      820,
+      0,
+      "IMAGE"
+    ],
+    [
+      1308,
+      503,
+      0,
+      564,
+      0,
+      "*"
+    ],
+    [
+      1309,
+      564,
+      0,
+      841,
+      0,
+      "IMAGE"
+    ],
+    [
+      1313,
+      848,
+      0,
+      177,
+      0,
+      "*"
+    ],
+    [
+      1315,
+      820,
+      0,
+      850,
+      0,
+      "*"
+    ],
+    [
+      1316,
+      850,
+      0,
+      836,
+      0,
+      "*"
+    ],
+    [
+      1317,
+      845,
+      0,
+      850,
       1,
       "*"
     ],
     [
-      1229,
-      816,
+      1318,
+      850,
       0,
-      813,
+      847,
+      0,
+      "*"
+    ],
+    [
+      1323,
+      840,
+      0,
+      853,
+      1,
+      "*"
+    ],
+    [
+      1324,
+      853,
+      0,
+      837,
+      0,
+      "*"
+    ],
+    [
+      1327,
+      841,
+      0,
+      853,
+      0,
+      "*"
+    ],
+    [
+      1328,
+      702,
+      0,
+      854,
+      0,
+      "*"
+    ],
+    [
+      1329,
+      706,
+      0,
+      855,
+      0,
+      "*"
+    ],
+    [
+      1333,
+      708,
+      0,
+      859,
+      0,
+      "*"
+    ],
+    [
+      1334,
+      708,
+      0,
+      860,
+      0,
+      "*"
+    ],
+    [
+      1335,
+      708,
+      0,
+      850,
+      2,
+      "BOOLEAN"
+    ],
+    [
+      1336,
+      702,
+      0,
+      853,
+      2,
+      "BOOLEAN"
+    ],
+    [
+      1337,
+      865,
+      0,
+      862,
+      0,
+      "*"
+    ],
+    [
+      1340,
+      865,
+      0,
+      864,
+      0,
+      "*"
+    ],
+    [
+      1341,
+      863,
+      0,
+      865,
+      1,
+      "*"
+    ],
+    [
+      1343,
+      664,
+      0,
+      867,
+      0,
+      "IMAGE"
+    ],
+    [
+      1344,
+      867,
+      0,
+      863,
+      0,
+      "*"
+    ],
+    [
+      1345,
+      664,
+      0,
+      868,
+      0,
+      "IMAGE"
+    ],
+    [
+      1346,
+      868,
+      0,
+      863,
+      1,
+      "*"
+    ],
+    [
+      1347,
+      664,
+      0,
+      869,
+      0,
+      "IMAGE"
+    ],
+    [
+      1348,
+      869,
+      0,
+      863,
       2,
       "*"
     ],
     [
-      1242,
-      679,
+      1349,
+      867,
       0,
-      820,
-      0,
-      "IMAGE"
-    ],
-    [
-      1245,
-      689,
-      0,
-      822,
+      865,
       0,
       "*"
     ],
     [
-      1246,
-      747,
-      0,
-      822,
-      1,
-      "STRING"
-    ],
-    [
-      1248,
+      1350,
       739,
       0,
-      823,
+      862,
       1,
       "STRING"
     ],
     [
-      1250,
-      731,
+      1351,
+      706,
       0,
-      824,
-      1,
-      "STRING"
-    ],
-    [
-      1251,
-      810,
-      0,
-      564,
-      0,
-      "*"
-    ],
-    [
-      1252,
-      503,
-      0,
-      811,
-      0,
-      "IMAGE"
-    ],
-    [
-      1253,
-      564,
-      0,
-      824,
-      0,
-      "*"
-    ],
-    [
-      1254,
-      654,
-      0,
-      814,
-      0,
-      "IMAGE"
-    ],
-    [
-      1255,
-      654,
-      0,
-      815,
-      0,
-      "IMAGE"
-    ],
-    [
-      1256,
-      654,
-      0,
-      816,
-      0,
-      "IMAGE"
-    ],
-    [
-      1257,
-      813,
-      0,
-      664,
-      0,
-      "*"
-    ],
-    [
-      1258,
-      664,
-      0,
-      823,
-      0,
-      "*"
-    ],
-    [
-      1259,
-      820,
-      0,
-      825,
-      0,
-      "*"
-    ],
-    [
-      1260,
-      825,
-      0,
-      689,
-      0,
-      "*"
+      865,
+      2,
+      "BOOLEAN"
     ]
   ],
   "groups": [
@@ -11803,8 +12300,8 @@
     {
       "title": "Control Requested Data",
       "bounding": [
-        -3339,
-        1948,
+        -3353,
+        1977,
         1654,
         1223
       ],
@@ -11816,8 +12313,8 @@
       "bounding": [
         -4933,
         -501,
-        3273,
-        2001
+        3296,
+        2137
       ],
       "color": "#3f789e",
       "font_size": 24
@@ -11893,8 +12390,8 @@
       "bounding": [
         3177,
         2954,
-        1835,
-        2672
+        1853,
+        2868
       ],
       "color": "#3f789e",
       "font_size": 24
@@ -11914,10 +12411,10 @@
   "config": {},
   "extra": {
     "ds": {
-      "scale": 1.1,
+      "scale": 0.12284597357367237,
       "offset": [
-        4956.116073631813,
-        -1874.765256044491
+        10089.63057625824,
+        3300.131399794584
       ]
     },
     "groupNodes": {}

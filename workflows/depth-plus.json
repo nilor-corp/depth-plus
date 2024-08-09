@@ -15,7 +15,7 @@
   },
   "42": {
     "inputs": {
-      "int": 0
+      "int": 4
     },
     "class_type": "Primitive integer [Crystools]",
     "_meta": {
@@ -403,7 +403,7 @@
   },
   "422": {
     "inputs": {
-      "string": "Depth + Flow"
+      "string": "Seg"
     },
     "class_type": "Simple String",
     "_meta": {
@@ -813,7 +813,7 @@
       ],
       "verbose": false,
       "input": [
-        "810",
+        "538",
         0
       ]
     },
@@ -1047,7 +1047,7 @@
       ],
       "verbose": false,
       "input": [
-        "813",
+        "488",
         0
       ]
     },
@@ -1281,7 +1281,7 @@
       ],
       "verbose": false,
       "input": [
-        "825",
+        "491",
         0
       ]
     },
@@ -1337,7 +1337,7 @@
   },
   "709": {
     "inputs": {
-      "text": "true",
+      "text": "false",
       "anything": [
         "713",
         0
@@ -1350,22 +1350,9 @@
   },
   "710": {
     "inputs": {
-      "text": "true",
-      "anything": [
-        "715",
-        0
-      ]
-    },
-    "class_type": "easy showAnything",
-    "_meta": {
-      "title": "Show Any"
-    }
-  },
-  "711": {
-    "inputs": {
       "text": "false",
       "anything": [
-        "716",
+        "715",
         0
       ]
     },
@@ -1694,10 +1681,7 @@
   },
   "743": {
     "inputs": {
-      "Prepend": [
-        "758",
-        0
-      ],
+      "Prepend": "",
       "Append": [
         "744",
         0
@@ -1773,7 +1757,7 @@
   "749": {
     "inputs": {
       "Prepend": [
-        "175",
+        "848",
         0
       ],
       "Append": [
@@ -1816,7 +1800,7 @@
   "754": {
     "inputs": {
       "Prepend": [
-        "175",
+        "848",
         0
       ],
       "Append": [
@@ -1859,7 +1843,7 @@
   "759": {
     "inputs": {
       "Prepend": [
-        "175",
+        "848",
         0
       ],
       "Append": [
@@ -1884,7 +1868,7 @@
   },
   "761": {
     "inputs": {
-      "string": "fish"
+      "string": "turtle"
     },
     "class_type": "Simple String",
     "_meta": {
@@ -1940,95 +1924,11 @@
       "title": "Video Info (Source) 🎥🅥🅗🅢"
     }
   },
-  "810": {
-    "inputs": {
-      "any_1": [
-        "811",
-        0
-      ]
-    },
-    "class_type": "List of any [Crystools]",
-    "_meta": {
-      "title": "🪛 List of any"
-    }
-  },
-  "811": {
-    "inputs": {
-      "channel": "red",
-      "image": [
-        "538",
-        0
-      ]
-    },
-    "class_type": "ImageToMask",
-    "_meta": {
-      "title": "Convert Image to Mask"
-    }
-  },
-  "813": {
-    "inputs": {
-      "any_1": [
-        "814",
-        0
-      ],
-      "any_2": [
-        "815",
-        0
-      ],
-      "any_3": [
-        "816",
-        0
-      ]
-    },
-    "class_type": "List of any [Crystools]",
-    "_meta": {
-      "title": "🪛 List of any"
-    }
-  },
-  "814": {
-    "inputs": {
-      "channel": "red",
-      "image": [
-        "488",
-        0
-      ]
-    },
-    "class_type": "ImageToMask",
-    "_meta": {
-      "title": "Convert Image to Mask"
-    }
-  },
-  "815": {
-    "inputs": {
-      "channel": "green",
-      "image": [
-        "488",
-        0
-      ]
-    },
-    "class_type": "ImageToMask",
-    "_meta": {
-      "title": "Convert Image to Mask"
-    }
-  },
-  "816": {
-    "inputs": {
-      "channel": "blue",
-      "image": [
-        "488",
-        0
-      ]
-    },
-    "class_type": "ImageToMask",
-    "_meta": {
-      "title": "Convert Image to Mask"
-    }
-  },
   "820": {
     "inputs": {
       "channel": "red",
       "image": [
-        "491",
+        "689",
         0
       ]
     },
@@ -2037,14 +1937,14 @@
       "title": "Convert Image to Mask"
     }
   },
-  "822": {
+  "836": {
     "inputs": {
       "filename_prefix": [
         "747",
         0
       ],
       "channels": [
-        "689",
+        "850",
         0
       ]
     },
@@ -2053,30 +1953,14 @@
       "title": "👺 Save EXR Arbitrary"
     }
   },
-  "823": {
-    "inputs": {
-      "filename_prefix": [
-        "739",
-        0
-      ],
-      "channels": [
-        "664",
-        0
-      ]
-    },
-    "class_type": "Nilor Save EXR Arbitrary",
-    "_meta": {
-      "title": "👺 Save EXR Arbitrary"
-    }
-  },
-  "824": {
+  "837": {
     "inputs": {
       "filename_prefix": [
         "731",
         0
       ],
       "channels": [
-        "564",
+        "853",
         0
       ]
     },
@@ -2085,7 +1969,32 @@
       "title": "👺 Save EXR Arbitrary"
     }
   },
-  "825": {
+  "840": {
+    "inputs": {
+      "any_1": [
+        "841",
+        0
+      ]
+    },
+    "class_type": "List of any [Crystools]",
+    "_meta": {
+      "title": "🪛 List of any"
+    }
+  },
+  "841": {
+    "inputs": {
+      "channel": "red",
+      "image": [
+        "564",
+        0
+      ]
+    },
+    "class_type": "ImageToMask",
+    "_meta": {
+      "title": "Convert Image to Mask"
+    }
+  },
+  "845": {
     "inputs": {
       "any_1": [
         "820",
@@ -2095,6 +2004,193 @@
     "class_type": "List of any [Crystools]",
     "_meta": {
       "title": "🪛 List of any"
+    }
+  },
+  "847": {
+    "inputs": {
+      "console": false,
+      "display": true,
+      "prefix": "",
+      "any_value": [
+        "850",
+        0
+      ]
+    },
+    "class_type": "Show any [Crystools]",
+    "_meta": {
+      "title": "🪛 Show any value to console/display"
+    }
+  },
+  "848": {
+    "inputs": {
+      "format": "%Y-%m-%dT%H-%M-%S"
+    },
+    "class_type": "JWDatetimeString",
+    "_meta": {
+      "title": "Datetime String"
+    }
+  },
+  "850": {
+    "inputs": {
+      "switch": [
+        "716",
+        0
+      ],
+      "on_false": [
+        "820",
+        0
+      ],
+      "on_true": [
+        "845",
+        0
+      ]
+    },
+    "class_type": "InversionDemoLazySwitch",
+    "_meta": {
+      "title": "Lazy Switch"
+    }
+  },
+  "853": {
+    "inputs": {
+      "switch": [
+        "713",
+        0
+      ],
+      "on_false": [
+        "841",
+        0
+      ],
+      "on_true": [
+        "840",
+        0
+      ]
+    },
+    "class_type": "InversionDemoLazySwitch",
+    "_meta": {
+      "title": "Lazy Switch"
+    }
+  },
+  "860": {
+    "inputs": {
+      "text": "true",
+      "anything": [
+        "716",
+        0
+      ]
+    },
+    "class_type": "easy showAnything",
+    "_meta": {
+      "title": "Show Any"
+    }
+  },
+  "862": {
+    "inputs": {
+      "filename_prefix": [
+        "739",
+        0
+      ],
+      "channels": [
+        "865",
+        0
+      ]
+    },
+    "class_type": "Nilor Save EXR Arbitrary",
+    "_meta": {
+      "title": "👺 Save EXR Arbitrary"
+    }
+  },
+  "863": {
+    "inputs": {
+      "any_1": [
+        "867",
+        0
+      ],
+      "any_2": [
+        "868",
+        0
+      ],
+      "any_3": [
+        "869",
+        0
+      ]
+    },
+    "class_type": "List of any [Crystools]",
+    "_meta": {
+      "title": "🪛 List of any"
+    }
+  },
+  "864": {
+    "inputs": {
+      "console": false,
+      "display": true,
+      "prefix": "",
+      "any_value": [
+        "865",
+        0
+      ]
+    },
+    "class_type": "Show any [Crystools]",
+    "_meta": {
+      "title": "🪛 Show any value to console/display"
+    }
+  },
+  "865": {
+    "inputs": {
+      "switch": [
+        "715",
+        0
+      ],
+      "on_false": [
+        "867",
+        0
+      ],
+      "on_true": [
+        "863",
+        0
+      ]
+    },
+    "class_type": "InversionDemoLazySwitch",
+    "_meta": {
+      "title": "Lazy Switch"
+    }
+  },
+  "867": {
+    "inputs": {
+      "channel": "red",
+      "image": [
+        "664",
+        0
+      ]
+    },
+    "class_type": "ImageToMask",
+    "_meta": {
+      "title": "Convert Image to Mask"
+    }
+  },
+  "868": {
+    "inputs": {
+      "channel": "green",
+      "image": [
+        "664",
+        0
+      ]
+    },
+    "class_type": "ImageToMask",
+    "_meta": {
+      "title": "Convert Image to Mask"
+    }
+  },
+  "869": {
+    "inputs": {
+      "channel": "blue",
+      "image": [
+        "664",
+        0
+      ]
+    },
+    "class_type": "ImageToMask",
+    "_meta": {
+      "title": "Convert Image to Mask"
     }
   }
 }

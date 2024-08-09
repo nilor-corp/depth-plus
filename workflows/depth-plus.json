@@ -304,27 +304,6 @@
       "title": "Video Combine 🎥🅥🅗🅢"
     }
   },
-  "356": {
-    "inputs": {
-      "filename_prefix": [
-        "731",
-        0
-      ],
-      "sRGB_to_linear": false,
-      "version": 1,
-      "start_frame": 1001,
-      "frame_pad": 4,
-      "save_workflow": "none",
-      "images": [
-        "564",
-        0
-      ]
-    },
-    "class_type": "SaveEXR",
-    "_meta": {
-      "title": "Save EXR"
-    }
-  },
   "389": {
     "inputs": {
       "comparison": "a == b",
@@ -362,7 +341,7 @@
   },
   "393": {
     "inputs": {
-      "boolean": true
+      "boolean": false
     },
     "class_type": "Primitive boolean [Crystools]",
     "_meta": {
@@ -380,7 +359,7 @@
   },
   "401": {
     "inputs": {
-      "boolean": true
+      "boolean": false
     },
     "class_type": "Primitive boolean [Crystools]",
     "_meta": {
@@ -424,7 +403,7 @@
   },
   "422": {
     "inputs": {
-      "string": "Depth + Seg"
+      "string": "Depth + Flow"
     },
     "class_type": "Simple String",
     "_meta": {
@@ -460,7 +439,7 @@
       "height": 1024,
       "interpolation": "lanczos",
       "method": "keep proportion",
-      "condition": "always",
+      "condition": "downscale if bigger",
       "multiple_of": 0,
       "image": [
         "161",
@@ -834,7 +813,7 @@
       ],
       "verbose": false,
       "input": [
-        "538",
+        "810",
         0
       ]
     },
@@ -916,27 +895,6 @@
     "class_type": "VHS_VideoCombine",
     "_meta": {
       "title": "Video Combine 🎥🅥🅗🅢"
-    }
-  },
-  "647": {
-    "inputs": {
-      "filename_prefix": [
-        "739",
-        0
-      ],
-      "sRGB_to_linear": false,
-      "version": 1,
-      "start_frame": 1001,
-      "frame_pad": 4,
-      "save_workflow": "none",
-      "images": [
-        "664",
-        0
-      ]
-    },
-    "class_type": "SaveEXR",
-    "_meta": {
-      "title": "Save EXR"
     }
   },
   "648": {
@@ -1089,7 +1047,7 @@
       ],
       "verbose": false,
       "input": [
-        "488",
+        "813",
         0
       ]
     },
@@ -1171,27 +1129,6 @@
     "class_type": "VHS_VideoCombine",
     "_meta": {
       "title": "Video Combine 🎥🅥🅗🅢"
-    }
-  },
-  "672": {
-    "inputs": {
-      "filename_prefix": [
-        "747",
-        0
-      ],
-      "sRGB_to_linear": false,
-      "version": 1,
-      "start_frame": 1001,
-      "frame_pad": 4,
-      "save_workflow": "none",
-      "images": [
-        "689",
-        0
-      ]
-    },
-    "class_type": "SaveEXR",
-    "_meta": {
-      "title": "Save EXR"
     }
   },
   "673": {
@@ -1344,7 +1281,7 @@
       ],
       "verbose": false,
       "input": [
-        "491",
+        "820",
         0
       ]
     },
@@ -1413,7 +1350,7 @@
   },
   "710": {
     "inputs": {
-      "text": "false",
+      "text": "true",
       "anything": [
         "715",
         0
@@ -1426,7 +1363,7 @@
   },
   "711": {
     "inputs": {
-      "text": "true",
+      "text": "false",
       "anything": [
         "716",
         0
@@ -2001,6 +1938,151 @@
     "class_type": "VHS_VideoInfoSource",
     "_meta": {
       "title": "Video Info (Source) 🎥🅥🅗🅢"
+    }
+  },
+  "810": {
+    "inputs": {
+      "any_1": [
+        "811",
+        0
+      ]
+    },
+    "class_type": "List of any [Crystools]",
+    "_meta": {
+      "title": "🪛 List of any"
+    }
+  },
+  "811": {
+    "inputs": {
+      "channel": "red",
+      "image": [
+        "538",
+        0
+      ]
+    },
+    "class_type": "ImageToMask",
+    "_meta": {
+      "title": "Convert Image to Mask"
+    }
+  },
+  "813": {
+    "inputs": {
+      "any_1": [
+        "814",
+        0
+      ],
+      "any_2": [
+        "815",
+        0
+      ],
+      "any_3": [
+        "816",
+        0
+      ]
+    },
+    "class_type": "List of any [Crystools]",
+    "_meta": {
+      "title": "🪛 List of any"
+    }
+  },
+  "814": {
+    "inputs": {
+      "channel": "red",
+      "image": [
+        "488",
+        0
+      ]
+    },
+    "class_type": "ImageToMask",
+    "_meta": {
+      "title": "Convert Image to Mask"
+    }
+  },
+  "815": {
+    "inputs": {
+      "channel": "green",
+      "image": [
+        "488",
+        0
+      ]
+    },
+    "class_type": "ImageToMask",
+    "_meta": {
+      "title": "Convert Image to Mask"
+    }
+  },
+  "816": {
+    "inputs": {
+      "channel": "blue",
+      "image": [
+        "488",
+        0
+      ]
+    },
+    "class_type": "ImageToMask",
+    "_meta": {
+      "title": "Convert Image to Mask"
+    }
+  },
+  "820": {
+    "inputs": {
+      "channel": "red",
+      "image": [
+        "491",
+        0
+      ]
+    },
+    "class_type": "ImageToMask",
+    "_meta": {
+      "title": "Convert Image to Mask"
+    }
+  },
+  "822": {
+    "inputs": {
+      "filename_prefix": [
+        "747",
+        0
+      ],
+      "channels": [
+        "689",
+        0
+      ]
+    },
+    "class_type": "Nilor Save EXR Arbitrary",
+    "_meta": {
+      "title": "👺 Save EXR Arbitrary"
+    }
+  },
+  "823": {
+    "inputs": {
+      "filename_prefix": [
+        "739",
+        0
+      ],
+      "channels": [
+        "664",
+        0
+      ]
+    },
+    "class_type": "Nilor Save EXR Arbitrary",
+    "_meta": {
+      "title": "👺 Save EXR Arbitrary"
+    }
+  },
+  "824": {
+    "inputs": {
+      "filename_prefix": [
+        "731",
+        0
+      ],
+      "channels": [
+        "564",
+        0
+      ]
+    },
+    "class_type": "Nilor Save EXR Arbitrary",
+    "_meta": {
+      "title": "👺 Save EXR Arbitrary"
     }
   }
 }

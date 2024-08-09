@@ -1,6 +1,6 @@
 {
-  "last_node_id": 824,
-  "last_link_id": 1258,
+  "last_node_id": 825,
+  "last_link_id": 1260,
   "nodes": [
     {
       "id": 238,
@@ -8938,45 +8938,6 @@
       }
     },
     {
-      "id": 820,
-      "type": "ImageToMask",
-      "pos": [
-        3850,
-        5394
-      ],
-      "size": {
-        "0": 210,
-        "1": 58
-      },
-      "flags": {},
-      "order": 208,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "image",
-          "type": "IMAGE",
-          "link": 1242
-        }
-      ],
-      "outputs": [
-        {
-          "name": "MASK",
-          "type": "MASK",
-          "links": [
-            1243
-          ],
-          "shape": 3,
-          "slot_index": 0
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "ImageToMask"
-      },
-      "widgets_values": [
-        "red"
-      ]
-    },
-    {
       "id": 688,
       "type": "Logic NOT",
       "pos": [
@@ -9048,92 +9009,6 @@
         "EXR Enabled"
       ],
       "color": "#223"
-    },
-    {
-      "id": 689,
-      "type": "ExecutionBlocker",
-      "pos": [
-        4099,
-        5464
-      ],
-      "size": {
-        "0": 210,
-        "1": 82
-      },
-      "flags": {},
-      "order": 216,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "input",
-          "type": "*",
-          "link": 1243
-        },
-        {
-          "name": "block",
-          "type": "BOOLEAN",
-          "link": 1037,
-          "widget": {
-            "name": "block"
-          }
-        }
-      ],
-      "outputs": [
-        {
-          "name": "output",
-          "type": "*",
-          "links": [
-            1245
-          ],
-          "shape": 3,
-          "slot_index": 0
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "ExecutionBlocker"
-      },
-      "widgets_values": [
-        false,
-        false
-      ]
-    },
-    {
-      "id": 822,
-      "type": "Nilor Save EXR Arbitrary",
-      "pos": [
-        4664,
-        5419
-      ],
-      "size": [
-        210,
-        54
-      ],
-      "flags": {},
-      "order": 222,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "channels",
-          "type": "*",
-          "link": 1245
-        },
-        {
-          "name": "filename_prefix",
-          "type": 0,
-          "link": 1246,
-          "widget": {
-            "name": "filename_prefix"
-          }
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "Nilor Save EXR Arbitrary"
-      },
-      "widgets_values": [
-        "output"
-      ],
-      "color": "#223",
-      "bgcolor": "#335"
     },
     {
       "id": 824,
@@ -9266,77 +9141,6 @@
       "widgets_values": [
         "red"
       ]
-    },
-    {
-      "id": 810,
-      "type": "List of any [Crystools]",
-      "pos": [
-        4155,
-        -228
-      ],
-      "size": [
-        140,
-        166
-      ],
-      "flags": {},
-      "order": 212,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "any_1",
-          "type": "*",
-          "link": 1220
-        },
-        {
-          "name": "any_2",
-          "type": "*",
-          "link": null
-        },
-        {
-          "name": "any_3",
-          "type": "*",
-          "link": null
-        },
-        {
-          "name": "any_4",
-          "type": "*",
-          "link": null
-        },
-        {
-          "name": "any_5",
-          "type": "*",
-          "link": null
-        },
-        {
-          "name": "any_6",
-          "type": "*",
-          "link": null
-        },
-        {
-          "name": "any_7",
-          "type": "*",
-          "link": null
-        },
-        {
-          "name": "any_8",
-          "type": "*",
-          "link": null
-        }
-      ],
-      "outputs": [
-        {
-          "name": "any_list",
-          "type": "COMBO",
-          "links": [
-            1251
-          ],
-          "shape": 6,
-          "slot_index": 0
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "List of any [Crystools]"
-      }
     },
     {
       "id": 564,
@@ -9751,8 +9555,8 @@
       "id": 42,
       "type": "Primitive integer [Crystools]",
       "pos": [
-        -4848.962304565994,
-        722.4103694153565
+        -4849,
+        722
       ],
       "size": {
         "0": 268.79998779296875,
@@ -9777,10 +9581,277 @@
         "Node name for S&R": "Primitive integer [Crystools]"
       },
       "widgets_values": [
-        6
+        0
       ],
       "color": "#232",
       "bgcolor": "#353"
+    },
+    {
+      "id": 822,
+      "type": "Nilor Save EXR Arbitrary",
+      "pos": [
+        4678,
+        5463
+      ],
+      "size": [
+        210,
+        54
+      ],
+      "flags": {},
+      "order": 224,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "channels",
+          "type": "*",
+          "link": 1245
+        },
+        {
+          "name": "filename_prefix",
+          "type": 0,
+          "link": 1246,
+          "widget": {
+            "name": "filename_prefix"
+          }
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "Nilor Save EXR Arbitrary"
+      },
+      "widgets_values": [
+        "output"
+      ],
+      "color": "#223",
+      "bgcolor": "#335"
+    },
+    {
+      "id": 810,
+      "type": "List of any [Crystools]",
+      "pos": [
+        4155,
+        -228
+      ],
+      "size": [
+        140,
+        166
+      ],
+      "flags": {},
+      "order": 212,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "any_1",
+          "type": "*",
+          "link": 1220
+        },
+        {
+          "name": "any_2",
+          "type": "*",
+          "link": null
+        },
+        {
+          "name": "any_3",
+          "type": "*",
+          "link": null
+        },
+        {
+          "name": "any_4",
+          "type": "*",
+          "link": null
+        },
+        {
+          "name": "any_5",
+          "type": "*",
+          "link": null
+        },
+        {
+          "name": "any_6",
+          "type": "*",
+          "link": null
+        },
+        {
+          "name": "any_7",
+          "type": "*",
+          "link": null
+        },
+        {
+          "name": "any_8",
+          "type": "*",
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "any_list",
+          "type": "COMBO",
+          "links": [
+            1251
+          ],
+          "shape": 6,
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "List of any [Crystools]"
+      }
+    },
+    {
+      "id": 689,
+      "type": "ExecutionBlocker",
+      "pos": [
+        4335,
+        5472
+      ],
+      "size": {
+        "0": 210,
+        "1": 82
+      },
+      "flags": {},
+      "order": 222,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "input",
+          "type": "*",
+          "link": 1260
+        },
+        {
+          "name": "block",
+          "type": "BOOLEAN",
+          "link": 1037,
+          "widget": {
+            "name": "block"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "output",
+          "type": "*",
+          "links": [
+            1245
+          ],
+          "shape": 3,
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "ExecutionBlocker"
+      },
+      "widgets_values": [
+        false,
+        false
+      ]
+    },
+    {
+      "id": 820,
+      "type": "ImageToMask",
+      "pos": [
+        3850,
+        5394
+      ],
+      "size": {
+        "0": 210,
+        "1": 58
+      },
+      "flags": {},
+      "order": 208,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 1242
+        }
+      ],
+      "outputs": [
+        {
+          "name": "MASK",
+          "type": "MASK",
+          "links": [
+            1259
+          ],
+          "shape": 3,
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "ImageToMask"
+      },
+      "widgets_values": [
+        "red"
+      ]
+    },
+    {
+      "id": 825,
+      "type": "List of any [Crystools]",
+      "pos": [
+        4132,
+        5415
+      ],
+      "size": {
+        "0": 140,
+        "1": 166
+      },
+      "flags": {},
+      "order": 216,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "any_1",
+          "type": "*",
+          "link": 1259
+        },
+        {
+          "name": "any_2",
+          "type": "*",
+          "link": null
+        },
+        {
+          "name": "any_3",
+          "type": "*",
+          "link": null
+        },
+        {
+          "name": "any_4",
+          "type": "*",
+          "link": null
+        },
+        {
+          "name": "any_5",
+          "type": "*",
+          "link": null
+        },
+        {
+          "name": "any_6",
+          "type": "*",
+          "link": null
+        },
+        {
+          "name": "any_7",
+          "type": "*",
+          "link": null
+        },
+        {
+          "name": "any_8",
+          "type": "*",
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "any_list",
+          "type": "COMBO",
+          "links": [
+            1260
+          ],
+          "shape": 6,
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "List of any [Crystools]"
+      }
     }
   ],
   "links": [
@@ -11561,14 +11632,6 @@
       "IMAGE"
     ],
     [
-      1243,
-      820,
-      0,
-      689,
-      0,
-      "*"
-    ],
-    [
       1245,
       689,
       0,
@@ -11661,6 +11724,22 @@
       664,
       0,
       823,
+      0,
+      "*"
+    ],
+    [
+      1259,
+      820,
+      0,
+      825,
+      0,
+      "*"
+    ],
+    [
+      1260,
+      825,
+      0,
+      689,
       0,
       "*"
     ]
@@ -11835,10 +11914,10 @@
   "config": {},
   "extra": {
     "ds": {
-      "scale": 0.17985878990921372,
+      "scale": 1.1,
       "offset": [
-        4939.482555303993,
-        2269.578044135093
+        4956.116073631813,
+        -1874.765256044491
       ]
     },
     "groupNodes": {}

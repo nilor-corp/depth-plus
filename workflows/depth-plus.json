@@ -1281,7 +1281,7 @@
       ],
       "verbose": false,
       "input": [
-        "820",
+        "825",
         0
       ]
     },
@@ -2083,6 +2083,18 @@
     "class_type": "Nilor Save EXR Arbitrary",
     "_meta": {
       "title": "👺 Save EXR Arbitrary"
+    }
+  },
+  "825": {
+    "inputs": {
+      "any_1": [
+        "820",
+        0
+      ]
+    },
+    "class_type": "List of any [Crystools]",
+    "_meta": {
+      "title": "🪛 List of any"
     }
   }
 }

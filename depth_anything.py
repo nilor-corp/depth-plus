@@ -65,13 +65,17 @@ class DepthPlusDepth:
         }
         return da_model
 
-    def process_depth(self):
-        #video_path = r"test-video\S1_DOLPHINS_A_v1-trim.mp4"
-        video_path=r"test-video"
-        outdir=r"test-video-output"
-        #model_path = r"models\depth_anything_v2_vitl.pth"
-        model_path = r"models\depth_anything_v2_metric_hypersim_vitl_fp32.safetensors"
+    def process_depth(self, video_path=None, outdir=None, metric=False, mp4=True, png=False, exr=False):
 
+        if(video_path is None):
+            video_path=r"test-video"
+        if(outdir is None):    
+            outdir=r"test-video-output"
+        if metric:
+            model_path = r"models\depth_anything_v2_metric_hypersim_vitl_fp32.safetensors"
+        else:
+            #relative
+            model_path = r"models\depth_anything_v2_vitl.pth"
 
         print("Processing depth")
         device = 'cuda' if torch.cuda.is_available() else 'mps' if torch.backends.mps.is_available else 'cpu'

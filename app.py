@@ -10,7 +10,7 @@ from image_downloader import resolve_online_collection
 from image_downloader import organise_local_files
 from image_downloader import copy_uploaded_files_to_local_dir
 import asyncio
-from depth_anything import process_depth
+from depth_anything import DepthPlusDepth 
 
 with open("config.json") as f:
     config = json.load(f)
@@ -155,7 +155,8 @@ def run_workflow_with_name(workflow_name, raw_components, component_info_dict):
 
 def run_depth_plus():
     print("Running depth plus")
-    process_depth()
+    depth = DepthPlusDepth()
+    depth.process_depth()
     return None
 
 def update_gif(workflow_name):

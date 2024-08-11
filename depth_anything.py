@@ -12,5 +12,9 @@ try:
 except:
     pass
 
-def process_depth():
-    print("Processing depth")
+class DepthPlusDepth:
+    def load_model(self, model_path, device):
+        pass
+
+    def process_depth(self):
+        print("Processing depth")

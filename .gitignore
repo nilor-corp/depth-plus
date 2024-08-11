@@ -7,3 +7,4 @@ kohya-trainer/
 *.env
 .DS_Store
 *.egg-info
+test-video/

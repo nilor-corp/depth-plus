@@ -7,6 +7,7 @@ from contextlib import nullcontext
 from contextlib import nullcontext
 from utils import load_torch_file
 from depth_anything_v2.dpt import DepthAnythingV2
+import cv2
 
 try:
     from accelerate import init_empty_weights
@@ -16,8 +17,7 @@ except:
     pass
 
 class DepthPlusDepth:
-    def load_model(self, model_path):
-        device = 'cuda' if torch.cuda.is_available() else 'mps' if torch.backends.mps.is_available else 'cpu'
+    def load_model(self, model_path, device):
         dtype = torch.float16 if "fp16" in model_path else torch.float32
         model_configs = {
             'vits': {'encoder': 'vits', 'features': 64, 'out_channels': [48, 96, 192, 384]},
@@ -64,5 +64,55 @@ class DepthPlusDepth:
 
     def process_depth(self):
         print("Processing depth")
-        self.load_model(r"models\depth_anything_v2_vitl.pth")
+        device = 'cuda' if torch.cuda.is_available() else 'mps' if torch.backends.mps.is_available else 'cpu'
+        da_model = self.load_model(r"models\depth_anything_v2_vitl.pth", device)
         print("Loaded model")
+        model = da_model["model"]
+        dtype = da_model["dtype"]
+
+        video_path = r"test-video\S1_DOLPHINS_A_v1-trim.mp4"
+        outdir=r"test-video-output"
+        if os.path.isfile(video_path):
+            if(video_path.endswith(".mp4")):
+                print("Video file found at: ", video_path)
+                filenames = [video_path]
+            else:
+                raise ValueError("The file is not an mp4 file")
+        else :
+            raise FileNotFoundError("The file does not exist")
+        os.makedirs(outdir, exist_ok=True)
+
+        for k, filename in enumerate(filenames):
+            print(f'Progress: {k+1}/{len(filenames)}: {filename}')
+
+            raw_video = cv2.VideoCapture(filename)
+            frame_width, frame_height = int(raw_video.get(cv2.CAP_PROP_FRAME_WIDTH)), int(raw_video.get(cv2.CAP_PROP_FRAME_HEIGHT))
+            frame_rate = raw_video.get(cv2.CAP_PROP_FPS)
+            output_width = frame_width
+
+            filename = os.path.basename(filename)
+            basename = filename[:filename.rfind('.')]
+            output_dir = os.path.join(outdir, basename)
+            if not os.path.exists(output_dir):
+                os.makedirs(output_dir)
+            output_path = os.path.join(output_dir, f'{basename}_depth.mp4')
+            
+            out = cv2.VideoWriter(output_path, cv2.VideoWriter_fourcc(*'mp4v'), frame_rate, (output_width, frame_height))
+            while raw_video.isOpened():
+                ret, frame = raw_video.read()
+                if not ret:
+                    break
+                out.write(frame)
+            raw_video.release()
+            out.release()
+        print("Depth processing complete")
+
+            
+
+
+
+
+
+
+
+

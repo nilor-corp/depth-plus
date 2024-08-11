@@ -44,8 +44,10 @@ class DepthPlusDepth:
 
         with (init_empty_weights() if is_accelerate_available else nullcontext()):
             if 'metric' in model_path:
+                print("Loading depth v2 metric model")
                 model = DepthAnythingV2(**{**model_configs[encoder], 'is_metric': True, 'max_depth': max_depth})
             else:
+                print("Loading depth v2 relative model")
                 model = DepthAnythingV2(**model_configs[encoder])
         
         state_dict = load_torch_file(model_path)
@@ -64,16 +66,21 @@ class DepthPlusDepth:
         return da_model
 
     def process_depth(self):
+        video_path = r"test-video\S1_DOLPHINS_A_v1-trim.mp4"
+        outdir=r"test-video-output"
+        #model_path = r"models\depth_anything_v2_vitl.pth"
+        model_path = r"models\depth_anything_v2_metric_hypersim_vitl_fp32.safetensors"
+
+
         print("Processing depth")
         device = 'cuda' if torch.cuda.is_available() else 'mps' if torch.backends.mps.is_available else 'cpu'
-        da_model = self.load_model(r"models\depth_anything_v2_vitl.pth", device)
+        da_model = self.load_model(model_path, device)
         print("Loaded model")
         model = da_model["model"]
         dtype = da_model["dtype"]
         bitsize, nptype = get_bitsize_from_torch_type(torch.float8_e4m3fn)
 
-        video_path = r"test-video\S2_Humpback_A_v1.mp4"
-        outdir=r"test-video-output"
+
         if os.path.isfile(video_path):
             if(video_path.endswith(".mp4")):
                 print("Video file found at: ", video_path)

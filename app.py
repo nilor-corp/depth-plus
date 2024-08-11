@@ -153,6 +153,9 @@ def run_workflow_with_name(workflow_name, raw_components, component_info_dict):
 
     return wrapper
 
+def hello_world():
+    print("hello_world")
+    return None
 
 def update_gif(workflow_name):
     workflow_json = workflow_definitions[workflow_name]["name"]
@@ -360,10 +363,13 @@ with gr.Blocks(title="WorkFlower") as demo:
                         # investigate trigger_mode=multiple for run_button.click event
 
                         run_button.click(
-                            fn=run_workflow_with_name(workflow_name, components, component_dict[workflow_name]),
-                            inputs=components,
-                            outputs=[output_player],
-                            trigger_mode="multiple",
+                            #fn=run_workflow_with_name(workflow_name, components, component_dict[workflow_name]),
+                            fn=hello_world,
+                            inputs=None,
+                            outputs=None,
+                            #inputs=components,
+                            #outputs=[output_player],
+                            #trigger_mode="multiple",
                         )
    
 

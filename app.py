@@ -335,15 +335,15 @@ with gr.Blocks(title="WorkFlower") as demo:
                     # make a tab for each workflow
                     with gr.TabItem(label=workflow_definitions[workflow_name]["name"]):
                         with gr.Row():
-                            with gr.Column():
-                                with gr.Row():
-                                    preview_gif = gr.Image(
-                                        label="Preview GIF",
-                                        value=update_gif(workflow_name),
-                                    )
-                                info = gr.Markdown(
-                                    workflow_definitions[workflow_name].get("description", "")
-                                )
+                            # with gr.Column():
+                            #     with gr.Row():
+                            #         preview_gif = gr.Image(
+                            #             label="Preview GIF",
+                            #             value=update_gif(workflow_name),
+                            #         )
+                            #     info = gr.Markdown(
+                            #         workflow_definitions[workflow_name].get("description", "")
+                            #     )
                             # main input construction
                             with gr.Column():
                                 run_button = gr.Button("Run Depth+")

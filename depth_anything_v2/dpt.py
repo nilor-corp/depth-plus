@@ -5,8 +5,6 @@ import torch.nn.functional as F
 from .dinov2 import DINOv2
 from .util.blocks import FeatureFusionBlock, _make_scratch
 
-import comfy.ops
-ops = comfy.ops.manual_cast
 
 def _make_fusion_block(features, use_bn, size=None):
     return FeatureFusionBlock(
@@ -24,7 +22,7 @@ class ConvBlock(nn.Module):
         super().__init__()
         
         self.conv_block = nn.Sequential(
-            ops.Conv2d(in_feature, out_feature, kernel_size=3, stride=1, padding=1),
+            nn.Conv2d(in_feature, out_feature, kernel_size=3, stride=1, padding=1),
             nn.BatchNorm2d(out_feature),
             nn.ReLU(True)
         )
@@ -48,7 +46,7 @@ class DPTHead(nn.Module):
         self.is_metric=is_metric
         
         self.projects = nn.ModuleList([
-            ops.Conv2d(
+            nn.Conv2d(
                 in_channels=in_channels,
                 out_channels=out_channel,
                 kernel_size=1,
@@ -71,7 +69,7 @@ class DPTHead(nn.Module):
                 stride=2,
                 padding=0),
             nn.Identity(),
-            ops.Conv2d(
+            nn.Conv2d(
                 in_channels=out_channels[3],
                 out_channels=out_channels[3],
                 kernel_size=3,
@@ -84,7 +82,7 @@ class DPTHead(nn.Module):
             for _ in range(len(self.projects)):
                 self.readout_projects.append(
                     nn.Sequential(
-                        ops.Linear(2 * in_channels, in_channels),
+                        nn.Linear(2 * in_channels, in_channels),
                         nn.GELU()))
         
         self.scratch = _make_scratch(
@@ -104,19 +102,19 @@ class DPTHead(nn.Module):
         head_features_1 = features
         head_features_2 = 32
         
-        self.scratch.output_conv1 = ops.Conv2d(head_features_1, head_features_1 // 2, kernel_size=3, stride=1, padding=1)
+        self.scratch.output_conv1 = nn.Conv2d(head_features_1, head_features_1 // 2, kernel_size=3, stride=1, padding=1)
         if self.is_metric:
             self.scratch.output_conv2 = nn.Sequential(
-                ops.Conv2d(head_features_1 // 2, head_features_2, kernel_size=3, stride=1, padding=1),
+                nn.Conv2d(head_features_1 // 2, head_features_2, kernel_size=3, stride=1, padding=1),
                 nn.ReLU(True),
-                ops.Conv2d(head_features_2, 1, kernel_size=1, stride=1, padding=0),
+                nn.Conv2d(head_features_2, 1, kernel_size=1, stride=1, padding=0),
                 nn.Sigmoid()
             )
         else:
             self.scratch.output_conv2 = nn.Sequential(
-                ops.Conv2d(head_features_1 // 2, head_features_2, kernel_size=3, stride=1, padding=1),
+                nn.Conv2d(head_features_1 // 2, head_features_2, kernel_size=3, stride=1, padding=1),
                 nn.ReLU(True),
-                ops.Conv2d(head_features_2, 1, kernel_size=1, stride=1, padding=0),
+                nn.Conv2d(head_features_2, 1, kernel_size=1, stride=1, padding=0),
                 nn.ReLU(True),
                 nn.Identity(),
             )

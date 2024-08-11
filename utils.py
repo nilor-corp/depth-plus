@@ -30,7 +30,7 @@ def get_bitsize_from_torch_type(torch_type):
     bit32 = 4294967295
     print("torch_type: ", torch_type)
 
-    if(torch_type == torch.float8_e4m3fn or torch_type == torch.float8_e5m2 or torch_type == torch.float8_e4m3fnuz or torch_type == torch.float8_e5m2uz):
+    if(torch_type == torch.float8_e4m3fn or torch_type == torch.float8_e5m2 or torch_type == torch.float8_e4m3fnuz):
         return bit8, np.uint8
     elif(torch_type == torch.float16):
         return bit16, np.uint16

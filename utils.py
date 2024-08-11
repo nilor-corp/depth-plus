@@ -1,5 +1,6 @@
 import torch
 import safetensors.torch
+import numpy as np
 
 def load_torch_file(ckpt, safe_load=False, device=None):
     if device is None:
@@ -22,3 +23,19 @@ def load_torch_file(ckpt, safe_load=False, device=None):
         else:
             sd = pl_sd
     return sd
+
+def get_bitsize_from_torch_type(torch_type):
+    bit8 = 255
+    bit16 = 65535
+    bit32 = 4294967295
+    print("torch_type: ", torch_type)
+
+    if(torch_type == torch.float8_e4m3fn or torch_type == torch.float8_e5m2 or torch_type == torch.float8_e4m3fnuz or torch_type == torch.float8_e5m2uz):
+        return bit8, np.uint8
+    elif(torch_type == torch.float16):
+        return bit16, np.uint16
+    elif(torch_type == torch.float32):
+        return bit32, np.uint32
+    else:
+        raise ValueError("Invalid torch type get_bitsize_from_torch_type")
+    

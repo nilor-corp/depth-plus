@@ -72,7 +72,7 @@ class DepthPlusDepth:
         dtype = da_model["dtype"]
         bitsize, nptype = get_bitsize_from_torch_type(torch.float8_e4m3fn)
 
-        video_path = r"test-video\S1_DOLPHINS_A_v1.mp4"
+        video_path = r"test-video\S2_Humpback_A_v1.mp4"
         outdir=r"test-video-output"
         if os.path.isfile(video_path):
             if(video_path.endswith(".mp4")):

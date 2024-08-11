@@ -5,3 +5,5 @@ loras/
 kohya-trainer/
 /.vs
 *.env
+.DS_Store
+*.egg-info

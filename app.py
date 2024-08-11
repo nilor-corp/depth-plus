@@ -153,8 +153,8 @@ def run_workflow_with_name(workflow_name, raw_components, component_info_dict):
 
     return wrapper
 
-def hello_world():
-    print("hello_world")
+def run_depth_plus():
+    print("Running depth plus")
     process_depth()
     return None
 
@@ -346,7 +346,7 @@ with gr.Blocks(title="WorkFlower") as demo:
                                 )
                             # main input construction
                             with gr.Column():
-                                run_button = gr.Button("Run Workflow")
+                                run_button = gr.Button("Run Depth+")
                                 # also make a dictionary with the components' data
                                 components, component_dict = create_tab_interface(workflow_name)
                             # output player construction
@@ -365,7 +365,7 @@ with gr.Blocks(title="WorkFlower") as demo:
 
                         run_button.click(
                             #fn=run_workflow_with_name(workflow_name, components, component_dict[workflow_name]),
-                            fn=hello_world,
+                            fn=run_depth_plus,
                             inputs=None,
                             outputs=None,
                             #inputs=components,

@@ -66,7 +66,8 @@ class DepthPlusDepth:
         return da_model
 
     def process_depth(self):
-        video_path = r"test-video\S1_DOLPHINS_A_v1-trim.mp4"
+        #video_path = r"test-video\S1_DOLPHINS_A_v1-trim.mp4"
+        video_path=r"test-video"
         outdir=r"test-video-output"
         #model_path = r"models\depth_anything_v2_vitl.pth"
         model_path = r"models\depth_anything_v2_metric_hypersim_vitl_fp32.safetensors"
@@ -80,7 +81,7 @@ class DepthPlusDepth:
         dtype = da_model["dtype"]
         bitsize, nptype = get_bitsize_from_torch_type(torch.float8_e4m3fn)
 
-
+        # You can provide a file path or a directory full of videos
         if os.path.isfile(video_path):
             if(video_path.endswith(".mp4")):
                 print("Video file found at: ", video_path)
@@ -88,7 +89,9 @@ class DepthPlusDepth:
             else:
                 raise ValueError("The file is not an mp4 file")
         else :
-            raise FileNotFoundError("The file does not exist")
+            filenames = os.listdir(video_path)
+            filenames = [os.path.join(video_path, file) for file in filenames if file.endswith(".mp4")]
+
         os.makedirs(outdir, exist_ok=True)
 
         for k, filename in enumerate(filenames):

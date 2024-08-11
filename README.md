@@ -69,6 +69,9 @@ cd zenerator
 python -m pip install -r requirements.txt
 ```
 
+### Install torch
+pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121
+
 ### Env Variables
 
 - (in zenerator root, where you should be if you've been following the above commands) create a .env file and add:

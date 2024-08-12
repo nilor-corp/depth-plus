@@ -412,7 +412,7 @@ with gr.Blocks(title="WorkFlower") as demo:
                                 )
                                 if output_type == "video":
                                     output_player = gr.Video(
-                                        label="Output Video", autoplay=True
+                                        label="Progress", autoplay=True
                                     )
                                 elif output_type == "image":
                                     output_player = gr.Image(label="Output Image")
@@ -423,9 +423,9 @@ with gr.Blocks(title="WorkFlower") as demo:
                             #fn=run_workflow_with_name(workflow_name, components, component_dict[workflow_name]),
                             fn=run_depth_plus,
                             inputs=components,
-                            outputs=None,
+                            #outputs=None,
                             #inputs=components,
-                            #outputs=[output_player],
+                            outputs=[output_player],
                             #trigger_mode="multiple",
                         )
    

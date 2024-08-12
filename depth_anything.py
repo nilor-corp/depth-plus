@@ -68,9 +68,9 @@ class DepthPlusDepth:
     #relative mp4 is default
     def process_depth(self, video_path=None, outdir=None, metric=False, mp4=True, png=False, exr=False, is_png_8bit=True):
 
-        if(video_path is None):
+        if(video_path is None or video_path == ""):
             video_path=r"test-video"
-        if(outdir is None):    
+        if(outdir is None or outdir == ""):    
             outdir=r"test-video-output"
         if metric:
             model_path = r"models\depth_anything_v2_metric_hypersim_vitl_fp32.safetensors"
@@ -96,6 +96,7 @@ class DepthPlusDepth:
             filenames = os.listdir(video_path)
             filenames = [os.path.join(video_path, file) for file in filenames if file.endswith(".mp4")]
 
+        print(f"outdier: {outdir}")
         os.makedirs(outdir, exist_ok=True)
 
         #iterate through all videos and process one by one

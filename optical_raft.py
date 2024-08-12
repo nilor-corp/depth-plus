@@ -12,9 +12,9 @@ class DepthPlusOptical:
     def process_optical(self, video_path=None, outdir=None, mp4=True, png=False, exr=False, is_png_8bit=True):
         print("running optical flow")
 
-        if(video_path is None):
+        if(video_path is None or video_path==""):
             video_path=r"test-video"
-        if(outdir is None):    
+        if(outdir is None or outdir==""):    
             outdir=r"test-video-output"
 
         parser = argparse.ArgumentParser()

@@ -155,16 +155,62 @@ def run_workflow_with_name(workflow_name, raw_components, component_info_dict):
     return wrapper
 
 #TODO pass in all the other necessary params from UI, like what metric, bit, etc
-def run_depth_plus(run_depth=False, run_optical=False, run_segmentation=False):
-    print("Running Depth+")
+def run_depth_plus(in_dir, out_dir, output_type, depth_type, png, mp4, exr, png_bit_depth, seg_prompt):
+
+    run_depth = False
+    run_optical = False
+    run_segmentation = False
+
+    print("\nDepth+ Triggered")
+
+    # forgo case sensitivity
+    output_type = output_type.lower()
+    depth_type = depth_type.lower()
+    png_bit_depth = png_bit_depth.lower()
+
+    print(f"Directory: {in_dir}")
+    print(f"Output Directory: {out_dir}")
+    print(f"Output Type: {output_type}")
+    print(f"Depth Type: {depth_type}")
+    print(f"PNG: {png}")
+    print(f"MP4: {mp4}")
+    print(f"EXR: {exr}")
+    print(f"PNG Bit Depth: {png_bit_depth}")
+    print(f"Segmentation Prompt: {seg_prompt}")
+
+    # Set the output type flags based on the selected output type
+    if "depth" in output_type:
+        run_depth = True
+        if "metric" in depth_type:
+            metric = True
+        else:
+            metric = False
+    if "flow" in output_type:
+        run_optical = True
+    if "seg" in output_type:
+        run_segmentation = True
+    if "all" in output_type:
+        run_depth = True
+        run_optical = True
+        run_segmentation = True
+
+    if "8" in png_bit_depth:
+        is_png_8bit = True
+    else:
+        is_png_8bit = False
+    
+    print(f"Running Depth+ with Depth: {run_depth}, Optical: {run_optical}, Segmentation: {run_segmentation}")
     if run_depth:
         depth = DepthPlusDepth()
-        depth.process_depth()
+        depth.process_depth(video_path=in_dir, outdir=out_dir, metric=metric, mp4=mp4, png=png, exr=exr, is_png_8bit=is_png_8bit)
     if run_optical:
         optical = DepthPlusOptical()
-        optical.process_optical()
+        optical.process_optical(video_path=in_dir, outdir=out_dir, mp4=mp4, png=png, exr=exr, is_png_8bit=is_png_8bit)
     if run_segmentation:
         print("SEGMENTATION NOT IMPLEMENTED YET")
+        pass
+    if not run_depth and not run_optical and not run_segmentation:
+        print("No processing selected, aborting")
         pass
     return None
 
@@ -229,7 +275,7 @@ def create_dynamic_input(input_type, choices, tooltips, text_label, identifier):
             ]
 
 
-        output = gr.Textbox(label="Directory", interactive=False, elem_id=identifier, info="Preview of the directory path, once resolved with one of the above methods")
+        output = gr.Textbox(label="Input Directory", interactive=False, elem_id=identifier, info="Preview of the directory path, once resolved with one of the above methods")
 
     # modify visibility of inputs based on selected_option
     selected_option.change(select_dynamic_input_option, inputs=[selected_option, gr.State(choices)], outputs=possible_inputs)
@@ -376,7 +422,7 @@ with gr.Blocks(title="WorkFlower") as demo:
                         run_button.click(
                             #fn=run_workflow_with_name(workflow_name, components, component_dict[workflow_name]),
                             fn=run_depth_plus,
-                            inputs=None,
+                            inputs=components,
                             outputs=None,
                             #inputs=components,
                             #outputs=[output_player],

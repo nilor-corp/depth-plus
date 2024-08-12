@@ -8,6 +8,11 @@
                 "label": "Path to Video",
                 "node-id": "[\"771\"][\"inputs\"][\"string\"]"
             },
+            "text-01": {
+                "type": "text",
+                "label": "Output Path",
+                "node-id": "[\"773\"][\"inputs\"][\"string\"]"
+            },
             "radio-01": {
                 "type": "radio",
                 "label": "Output Type",
@@ -44,7 +49,7 @@
                 "node-id": "[\"390\"][\"inputs\"][\"string\"]",
                 "choices": ["8 Bit", "16 Bit"]
             },
-            "text-01":{
+            "text-02":{
                 "type": "text",
                 "label": "Segmentation Prompt",
                 "node-id": "[\"761\"][\"inputs\"][\"string\"]"

@@ -180,6 +180,8 @@ class DepthPlusDepth:
 
                     exr_filename = os.path.join(exr_output_path, '{:04d}.exr'.format(frame_count))
                     success = make_exr(exr_filename, [depth_exr])
+                    if not success:
+                        print(f"Error writing {exr_filename}")
 
                 
                 frame_count += 1

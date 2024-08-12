@@ -5,7 +5,7 @@ from torchvision import transforms
 import os
 from contextlib import nullcontext
 from contextlib import nullcontext
-from utils import load_torch_file, get_bitsize_from_torch_type
+from utils import load_torch_file, get_bitsize_from_torch_type, make_exr
 from depth_anything_v2.dpt import DepthAnythingV2
 import cv2
 import numpy as np
@@ -170,9 +170,17 @@ class DepthPlusDepth:
                         print(f"Error writing {png_filename}")
                 if exr:
                     bitsize, nptype = get_bitsize_from_torch_type(model_dtype)
-                    depth_exr = (depth - depth.min()) / (depth.max() - depth.min()) * bitsize
-                    depth_exr = depth_exr.astype(nptype)
-                    #TODO Implement exr writing to exr_output_path
+
+                    # disable remapping for exr
+                    # depth_exr = (depth - depth.min()) / (depth.max() - depth.min()) * bitsize
+                    # depth_exr = depth_exr.astype(nptype)
+
+                    # instead pass values directly
+                    depth_exr = depth.astype(nptype)
+
+                    exr_filename = os.path.join(exr_output_path, '{:04d}.exr'.format(frame_count))
+                    success = make_exr(exr_filename, [depth_exr])
+
                 
                 frame_count += 1
 

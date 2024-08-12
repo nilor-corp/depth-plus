@@ -110,6 +110,10 @@ class DepthPlusOptical:
                         success = cv2.imwrite(png_filename, png_frame)
                         if not success:
                             raise ValueError("Error writing png file")
+                    if exr:
+                        bitsize, nptype = get_bitsize_from_torch_type(torch.float32)
+                        exr_frame = ((flo[:,:,[2,1,0]]/255.0) * bitsize).astype(nptype)
+                        ##TODO Implement exr writing to exr_output_path
                 frame_count += 1
                 prev_frame = curr_frame
             raw_video.release()

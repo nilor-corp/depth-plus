@@ -131,6 +131,17 @@ class DepthPlusDepth:
                 if not os.path.exists(png_output_path):
                     os.makedirs(png_output_path)
                 print("Writing png's to: ", png_output_path)
+            if exr:
+                exr_output_path = os.path.join(output_dir, f'{basename}_depth_exr')
+                if(model_dtype == torch.float8_e4m3fn or model_dtype == torch.float8_e5m2 or model_dtype == torch.float8_e4m3fnuz):
+                    exr_output_path = f"{exr_output_path}_8bit"
+                if(model_dtype == torch.float16):
+                    exr_output_path = f"{exr_output_path}_16bit"
+                if(model_dtype == torch.float32):
+                    exr_output_path = f"{exr_output_path}_32bit"
+                if not os.path.exists(exr_output_path):
+                    os.makedirs(exr_output_path)
+                print("Writing exr's to: ", exr_output_path)
 
             frame_count = 0
             while raw_video.isOpened():
@@ -157,6 +168,9 @@ class DepthPlusDepth:
                     success = cv2.imwrite(png_filename, depth_png)
                     if not success:
                         print(f"Error writing {png_filename}")
+                if exr:
+                    bitsize, nptype = get_bitsize_from_torch_type(model_dtype)
+                    #TODO Implement exr writing to exr_output_path
                 
                 frame_count += 1
 

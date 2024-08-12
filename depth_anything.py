@@ -170,6 +170,8 @@ class DepthPlusDepth:
                         print(f"Error writing {png_filename}")
                 if exr:
                     bitsize, nptype = get_bitsize_from_torch_type(model_dtype)
+                    depth_exr = (depth - depth.min()) / (depth.max() - depth.min()) * bitsize
+                    depth_exr = depth_exr.astype(nptype)
                     #TODO Implement exr writing to exr_output_path
                 
                 frame_count += 1

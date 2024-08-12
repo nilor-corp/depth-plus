@@ -1,4 +1,6 @@
 from raft.core.raft import RAFT
+from raft.core.utils import flow_viz
+from raft.core.utils.utils import InputPadder
 import argparse
 import torch
 import os
@@ -15,6 +17,7 @@ class DepthPlusOptical:
             outdir=r"test-video-output"
 
         parser = argparse.ArgumentParser()
+        parser.add_argument('--mixed_precision', action='store_true', help='use mixed precision')
         args = parser.parse_args()
         device = 'cuda' if torch.cuda.is_available() else 'mps' if torch.backends.mps.is_available() else 'cpu'
         model = torch.nn.DataParallel(RAFT(args))
@@ -77,11 +80,24 @@ class DepthPlusOptical:
                     ret, curr_frame = raw_video.read()  
                     if not ret:
                         break
-                    # if prev_frame is None:
-                    #     prev_fame = curr_frame
-                    #     continue
+                    if prev_frame is None:
+                        prev_frame = curr_frame
+                        continue
+                    img1 = torch.from_numpy(prev_frame).permute(2, 0, 1).float()
+                    frame1 = img1[None].to(device)
+                    img2 = torch.from_numpy(curr_frame).permute(2, 0, 1).float()
+                    frame2 = img2[None].to(device)
+                    padder = InputPadder(frame1.shape)
+                    frame1, frame2 = padder.pad(frame1, frame2)
+                    flow_low, flow_up = model(frame1, frame2, iters=20, test_mode=True)
+                    img = frame1[0].permute(1, 2, 0).cpu().numpy()
+                    flo = flow_up[0].permute(1, 2, 0).cpu().numpy()
+                    flo = flow_viz.flow_to_image(flo) 
+
                 if mp4:
-                    mp4_out.write(curr_frame)
+                    mp4_frame = (flo[:,:,[2,1,0]] * 255).astype('uint8')
+                    mp4_out.write(mp4_frame)
+                prev_fame = curr_frame
             raw_video.release()
             if mp4:
                 mp4_out.release()

@@ -61,8 +61,8 @@ def make_exr(filename_prefix, data=None):
         current_folder = os.path.dirname(os.path.abspath(__file__))
         filename_prefix = os.path.join(current_folder, filename_prefix)
 
-    print(f"len(data): {len(data.shape)}")
-    print(f"data: {data}")
+    # print(f"len(data): {len(data.shape)}")
+    # print(f"data: {data}")
 
     # Determine if the data is single-channel or multi-channel
     num_channels, width, height = determine_image_type(data)
@@ -78,16 +78,16 @@ def make_exr(filename_prefix, data=None):
         # Multi-channel image
         default_names = ["R", "G", "B", "A"] + [f"Channel{i}" for i in range(4, num_channels)]
         for k in range(num_channels):
-            print(f"Channel {k}: {default_names[k]}")
-            print(f"Data shape: {data.shape}")
-            print(f"Data type: {data.dtype}")
+            # print(f"Channel {k}: {default_names[k]}")
+            # print(f"Data shape: {data.shape}")
+            # print(f"Data type: {data.dtype}")
 
             channel_data = data[:, :, k]
             exr_data[default_names[k]] = channel_data.astype(np.float32)
     else:
         raise ValueError("Unsupported tensor shape")
 
-    print(f"EXR data: {exr_data}")
+    # print(f"EXR data: {exr_data}")
 
     # Write the EXR file
     return write_exr(filename_prefix, exr_data, width, height)

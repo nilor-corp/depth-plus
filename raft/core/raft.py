@@ -26,7 +26,7 @@ class RAFT(nn.Module):
         super(RAFT, self).__init__()
         self.args = args
 
-        if args.small:
+        if hasattr(args, 'small') and args.small:
             self.hidden_dim = hdim = 96
             self.context_dim = cdim = 64
             args.corr_levels = 4
@@ -45,7 +45,7 @@ class RAFT(nn.Module):
             self.args.alternate_corr = False
 
         # feature network, context network, and update block
-        if args.small:
+        if hasattr(args, 'small') and args.small:
             self.fnet = SmallEncoder(output_dim=128, norm_fn='instance', dropout=args.dropout)        
             self.cnet = SmallEncoder(output_dim=hdim+cdim, norm_fn='none', dropout=args.dropout)
             self.update_block = SmallUpdateBlock(self.args, hidden_dim=hdim)

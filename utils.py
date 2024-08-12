@@ -104,7 +104,7 @@ def make_exr(filename_prefix, data=None):
 
     # Determine if the data is single-channel or multi-channel
     num_channels, width, height = determine_image_type(data)
-    print(f"width: {width}, height: {height}, num_channels: {num_channels}")
+    #print(f"width: {width}, height: {height}, num_channels: {num_channels}")
 
     # Prepare the data for writing
     exr_data = {}
@@ -147,7 +147,7 @@ def write_exr(writepath, exr_data, width, height):
         exr_file.writePixels(channel_data)
         exr_file.close()
 
-        print(f"EXR file saved successfully to {writepath}")
+        #print(f"EXR file saved successfully to {writepath}")
 
         success = True
         

@@ -155,7 +155,7 @@ def run_workflow_with_name(workflow_name, raw_components, component_info_dict):
     return wrapper
 
 #TODO pass in all the other necessary params from UI, like what metric, bit, etc
-def run_depth_plus(run_depth=False, run_optical=False, run_segmentation=False):
+def run_depth_plus(run_depth=False, run_optical=True, run_segmentation=False):
     print("Running Depth+")
     if run_depth:
         depth = DepthPlusDepth()

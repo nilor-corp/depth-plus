@@ -65,7 +65,7 @@ class DepthPlusDepth:
         }
         return da_model
 
-    def process_depth(self, video_path=None, outdir=None, metric=False, mp4=False, png=False, exr=False):
+    def process_depth(self, video_path=None, outdir=None, metric=False, mp4=True, png=False, exr=False, is_png_8bit=True):
 
         if(video_path is None):
             video_path=r"test-video"
@@ -108,13 +108,19 @@ class DepthPlusDepth:
 
             filename = os.path.basename(filename)
             basename = filename[:filename.rfind('.')]
-            output_dir = os.path.join(outdir, basename)
+            type_dir = os.path.join("depth", basename)
+            output_dir = os.path.join(outdir, type_dir)
             if not os.path.exists(output_dir):
                 os.makedirs(output_dir)
-            output_path = os.path.join(output_dir, f'_depth-1024.mp4')
+            if(metric):
+                basename = f"{basename}_metric"
+            else:
+                basename = f"{basename}_relative"
+            mp4_output_path_and_name = os.path.join(output_dir, f'{basename}_depth.mp4')
 
             if mp4:
-                mp4_out = cv2.VideoWriter(output_path, cv2.VideoWriter_fourcc(*'mp4v'), frame_rate, (output_width, frame_height))
+                print("Writing mp4 to: ", mp4_output_path_and_name)
+                mp4_out = cv2.VideoWriter(mp4_output_path_and_name, cv2.VideoWriter_fourcc(*'mp4v'), frame_rate, (output_width, frame_height))
             
             while raw_video.isOpened():
                 ret, frame = raw_video.read()
@@ -122,16 +128,12 @@ class DepthPlusDepth:
                     break
                 
                 depth = model.infer_image(frame, 1024)
-                if(mp4):
-                    print("Depth shape: ", depth.shape)
-                if(mp4 == False):
-                    print("mp4 is false")
 
                 if mp4:
                     #force 8 bit if mp4
                     depth_mp4 = (depth - depth.min()) / (depth.max() - depth.min()) * 255
-                    depth_mp4 = depth.astype(np.uint8) 
-                    depth_mp4 = np.repeat(depth[..., np.newaxis], 3, axis=-1)
+                    depth_mp4 = depth_mp4.astype(np.uint8) 
+                    depth_mp4 = np.repeat(depth_mp4[..., np.newaxis], 3, axis=-1)
                     mp4_out.write(depth_mp4)
 
             raw_video.release()

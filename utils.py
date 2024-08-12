@@ -54,6 +54,44 @@ def determine_image_type(tensor):
         raise ValueError("Unsupported tensor shape")
     return num_channels, width, height
 
+def construct_output_paths(video_path, outdir, process_type, basename_string_concat="", is_png_8bit=True, is_exr_32bit=True):
+    """
+    Constructs output paths for video processing.
+
+    :param video_path: Path to the video file.
+    :param outdir: Base output directory.
+    :param process_type: Type of processing ('depth', 'optical', etc.).
+    :param basename_suffix: Suffix to append to the basename (e.g., '_metric', '_relative').
+    :param is_png_8bit: Whether the PNG output should be 8-bit.
+    :param is_exr_32bit: Whether the EXR output should be 32-bit.
+    :return: A dictionary containing paths for mp4, png, and exr outputs.
+    """
+    
+    basename = os.path.splitext(os.path.basename(video_path))[0]
+    if basename_string_concat:
+        process_type = f"{process_type}_{basename_string_concat}"
+    video_output_dir = os.path.join(outdir, basename, process_type)
+    os.makedirs(video_output_dir, exist_ok=True)
+
+    paths = {}
+
+    # Construct paths for each output type
+    mp4_output_path = os.path.join(video_output_dir, 'mp4')
+    os.makedirs(mp4_output_path, exist_ok=True)
+    paths['mp4'] = os.path.join(mp4_output_path, f'{basename}_{process_type}.mp4')
+    
+    png_output_path = os.path.join(video_output_dir, 'png')
+    png_output_path = f"{png_output_path}_8bit" if is_png_8bit else f"{png_output_path}_16bit"
+    os.makedirs(png_output_path, exist_ok=True)
+    paths['png'] = png_output_path
+    
+    exr_output_path = os.path.join(video_output_dir, 'exr')
+    exr_output_path = f"{exr_output_path}_32bit" if is_exr_32bit else f"{exr_output_path}_16bit"
+    os.makedirs(exr_output_path, exist_ok=True)
+    paths['exr'] = exr_output_path
+
+    return paths
+
 def make_exr(filename_prefix, data=None):
     # File path handling
     useabs = os.path.isabs(filename_prefix)

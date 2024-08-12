@@ -51,13 +51,6 @@ class DepthPlusOptical:
             frame_rate = raw_video.get(cv2.CAP_PROP_FPS)
             output_width = frame_width
 
-            filename = os.path.basename(filename)
-            basename = filename[:filename.rfind('.')]
-            type_dir = os.path.join("optical", basename)
-            output_dir = os.path.join(outdir, type_dir)
-            if not os.path.exists(output_dir):
-                os.makedirs(output_dir)
-
             if mp4:
                 mp4_output_path = paths['mp4']
                 mp4_out = cv2.VideoWriter(mp4_output_path, cv2.VideoWriter_fourcc(*'mp4v'), frame_rate, (output_width, frame_height))

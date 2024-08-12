@@ -5,7 +5,7 @@ from torchvision import transforms
 import os
 from contextlib import nullcontext
 from contextlib import nullcontext
-from utils import load_torch_file, get_bitsize_from_torch_type, make_exr
+from utils import load_torch_file, get_bitsize_from_torch_type, make_exr, construct_output_paths
 from depth_anything_v2.dpt import DepthAnythingV2
 import cv2
 import numpy as np
@@ -102,6 +102,10 @@ class DepthPlusDepth:
         for k, filename in enumerate(filenames):
             print(f'Progress: {k+1}/{len(filenames)}: {filename}')
 
+            # Determine the suffix based on the processing type
+            model_type = "metric" if metric else "relative"
+            paths = construct_output_paths(filename, outdir, "depth", basename_string_concat=model_type, is_png_8bit=is_png_8bit, is_exr_32bit=(model_dtype == torch.float32))
+
             raw_video = cv2.VideoCapture(filename)
             frame_width, frame_height = int(raw_video.get(cv2.CAP_PROP_FRAME_WIDTH)), int(raw_video.get(cv2.CAP_PROP_FRAME_HEIGHT))
             frame_rate = raw_video.get(cv2.CAP_PROP_FPS)
@@ -119,28 +123,14 @@ class DepthPlusDepth:
                 basename = f"{basename}_relative"
 
             if mp4:
-                mp4_output_path_and_name = os.path.join(output_dir, f'{basename}_depth.mp4')
-                mp4_out = cv2.VideoWriter(mp4_output_path_and_name, cv2.VideoWriter_fourcc(*'mp4v'), frame_rate, (output_width, frame_height))
-                print("Writing mp4 to: ", mp4_output_path_and_name)
+                mp4_output_path = paths['mp4']
+                mp4_out = cv2.VideoWriter(mp4_output_path, cv2.VideoWriter_fourcc(*'mp4v'), frame_rate, (output_width, frame_height))
+                print("Writing mp4 to: ", mp4_output_path)
             if png:
-                png_output_path = os.path.join(output_dir, f'{basename}_depth_png')
-                if(is_png_8bit):
-                    png_output_path = f"{png_output_path}_8bit"
-                else:
-                    png_output_path = f"{png_output_path}_16bit"
-                if not os.path.exists(png_output_path):
-                    os.makedirs(png_output_path)
+                png_output_path = paths['png']
                 print("Writing png's to: ", png_output_path)
             if exr:
-                exr_output_path = os.path.join(output_dir, f'{basename}_depth_exr')
-                if(model_dtype == torch.float8_e4m3fn or model_dtype == torch.float8_e5m2 or model_dtype == torch.float8_e4m3fnuz):
-                    exr_output_path = f"{exr_output_path}_8bit"
-                if(model_dtype == torch.float16):
-                    exr_output_path = f"{exr_output_path}_16bit"
-                if(model_dtype == torch.float32):
-                    exr_output_path = f"{exr_output_path}_32bit"
-                if not os.path.exists(exr_output_path):
-                    os.makedirs(exr_output_path)
+                exr_output_path = paths['exr']
                 print("Writing exr's to: ", exr_output_path)
 
             frame_count = 0
@@ -170,14 +160,7 @@ class DepthPlusDepth:
                         print(f"Error writing {png_filename}")
                 if exr:
                     bitsize, nptype = get_bitsize_from_torch_type(model_dtype)
-
-                    # disable remapping for exr
-                    # depth_exr = (depth - depth.min()) / (depth.max() - depth.min()) * bitsize
-                    # depth_exr = depth_exr.astype(nptype)
-
-                    # instead pass values directly
                     depth_exr = depth.astype(nptype)
-
                     exr_filename = os.path.join(exr_output_path, '{:04d}.exr'.format(frame_count))
                     success = make_exr(exr_filename, depth_exr)
                     if not success:

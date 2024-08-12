@@ -5,7 +5,7 @@ import argparse
 import torch
 import os
 import cv2
-from utils import get_bitsize_from_torch_type, make_exr
+from utils import get_bitsize_from_torch_type, make_exr, construct_output_paths
 
 
 class DepthPlusOptical:
@@ -43,6 +43,9 @@ class DepthPlusOptical:
         for k, filename in enumerate(filenames):
             print(f'Progress: {k+1}/{len(filenames)}: {filename}')
 
+            paths = construct_output_paths(filename, outdir, "optical", is_png_8bit=is_png_8bit, is_exr_32bit=True)
+
+
             raw_video = cv2.VideoCapture(filename)
             frame_width, frame_height = int(raw_video.get(cv2.CAP_PROP_FRAME_WIDTH)), int(raw_video.get(cv2.CAP_PROP_FRAME_HEIGHT))
             frame_rate = raw_video.get(cv2.CAP_PROP_FPS)
@@ -56,22 +59,14 @@ class DepthPlusOptical:
                 os.makedirs(output_dir)
 
             if mp4:
-                mp4_output_path_and_name = os.path.join(output_dir, f'{basename}_optical.mp4')
-                mp4_out = cv2.VideoWriter(mp4_output_path_and_name, cv2.VideoWriter_fourcc(*'mp4v'), frame_rate, (output_width, frame_height))
-                print("Writing mp4 to: ", mp4_output_path_and_name)
+                mp4_output_path = paths['mp4']
+                mp4_out = cv2.VideoWriter(mp4_output_path, cv2.VideoWriter_fourcc(*'mp4v'), frame_rate, (output_width, frame_height))
+                print("Writing mp4 to: ", mp4_output_path)
             if png:
-                png_output_path = os.path.join(output_dir, f'{basename}_optical_png')
-                if(is_png_8bit):
-                    png_output_path = f"{png_output_path}_8bit"
-                else:
-                    png_output_path = f"{png_output_path}_16bit"
-                if not os.path.exists(png_output_path):
-                    os.makedirs(png_output_path)
+                png_output_path = paths['png']
                 print("Writing png's to: ", png_output_path)
             if exr:
-                exr_output_path = os.path.join(output_dir, f'{basename}_optical_exr_32bit')
-                if not os.path.exists(exr_output_path):
-                    os.makedirs(exr_output_path)
+                exr_output_path = paths['exr']
                 print("Writing exr's to: ", exr_output_path)
 
             frame_count = 0

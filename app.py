@@ -214,8 +214,8 @@ def process_dynamic_input(selected_option, possible_options, input_type, *option
 def create_dynamic_input(input_type, choices, tooltips, text_label, identifier):
     gr.Markdown(f"##### {input_type.capitalize()} Input")    
     with gr.Group():            
-        selected_option = gr.Radio(choices, label=text_label, value=choices[0])
-        print(f"Choices: {choices}")
+        selected_option = gr.Radio(choices, label=text_label)
+        # print(f"Choices: {choices}")
         if input_type == "images":
             possible_inputs = [
                 gr.Textbox(label=choices[0], show_label=False, visible=False, info=tooltips[0]),
@@ -235,7 +235,7 @@ def create_dynamic_input(input_type, choices, tooltips, text_label, identifier):
     selected_option.change(select_dynamic_input_option, inputs=[selected_option, gr.State(choices)], outputs=possible_inputs)
 
 
-    print(f"Possible Inputs: {possible_inputs}")
+    # print(f"Possible Inputs: {possible_inputs}")
     for input_box in possible_inputs:
         if isinstance(input_box, gr.Textbox):
             input_box.submit(process_dynamic_input, inputs=[selected_option, gr.State(choices), gr.State(input_type)] + possible_inputs, outputs=output)
@@ -269,7 +269,7 @@ def create_tab_interface(workflow_name):
 
         try:
             group = input_details["group"]
-            print(f"Group: {group}")
+            # print(f"Group: {group}")
         except KeyError:
             group = None
 
@@ -286,7 +286,7 @@ def create_tab_interface(workflow_name):
 
 
         if group != last_group:
-            print(f"Group: {group} != Last Group: {last_group}\nMaking New Row")
+            # print(f"Group: {group} != Last Group: {last_group}\nMaking New Row")
             gr.Column() # Start a new row for each group
 
         if input_type in component_map:

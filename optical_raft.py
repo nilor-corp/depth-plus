@@ -1,3 +1,5 @@
+from raft.core import RAFT
+
 
 class DepthPlusOptical:
     def process_optical(self):

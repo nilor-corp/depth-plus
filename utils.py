@@ -40,55 +40,61 @@ def get_bitsize_from_torch_type(torch_type):
         return bit32, np.uint32
     else:
         raise ValueError("Invalid torch type get_bitsize_from_torch_type")
-    
 
-def determine_image_type(channels):
-    num_channels = len(channels)
-    print(f"Number of channels: {num_channels}")
-
-    if num_channels == 1:
-        print("This is a single-channel image.")
-    elif num_channels == 3:
-        print("This is an RGB image.")
+def determine_image_type(tensor):
+    if len(tensor.shape) == 2:
+        # Single-channel image
+        num_channels = 1
+        height, width = tensor.shape
+    elif len(tensor.shape) == 3:
+        # Multi-channel image
+        num_channels = tensor.shape[2]
+        height, width = tensor.shape[:2]
     else:
-        print("This is an image with an unexpected number of channels.")
-
-    # Check the shape of each channel
-    for i, tensor in enumerate(channels):
-        print(f"Shape of channel {i}: {tensor.shape}")
-        width, height = tensor.shape[-2:]
-
+        raise ValueError("Unsupported tensor shape")
     return num_channels, width, height
 
-    
-
-def make_exr(filename_prefix, channels=None):
+def make_exr(filename_prefix, data=None):
     # File path handling
     useabs = os.path.isabs(filename_prefix)
     if not useabs:
         current_folder = os.path.dirname(os.path.abspath(__file__))
         filename_prefix = os.path.join(current_folder, filename_prefix)
 
-    # print(f"filename_prefix: {filename_prefix}")
+    print(f"len(data): {len(data.shape)}")
+    print(f"data: {data}")
 
-    # Determine channel names and prepare the data
-    default_names = ["R", "G", "B", "A"] + [f"Channel{i}" for i in range(4, len(channels))]
+    # Determine if the data is single-channel or multi-channel
+    num_channels, width, height = determine_image_type(data)
+    print(f"width: {width}, height: {height}, num_channels: {num_channels}")
+
+    # Prepare the data for writing
     exr_data = {}
 
-    for j, tensor in enumerate(channels):
-        # Ensure the data is converted to float32 if necessary
-        exr_data[default_names[j]] = tensor.astype(np.float32)
+    if num_channels == 1:
+        # Single-channel image
+        exr_data["R"] = data.astype(np.float32)
+    elif num_channels > 1:
+        # Multi-channel image
+        default_names = ["R", "G", "B", "A"] + [f"Channel{i}" for i in range(4, num_channels)]
+        for k in range(num_channels):
+            print(f"Channel {k}: {default_names[k]}")
+            print(f"Data shape: {data.shape}")
+            print(f"Data type: {data.dtype}")
 
-    writepath = filename_prefix
+            channel_data = data[:, :, k]
+            exr_data[default_names[k]] = channel_data.astype(np.float32)
+    else:
+        raise ValueError("Unsupported tensor shape")
 
-    # Write EXR file
-    return write_exr(writepath, exr_data)
+    print(f"EXR data: {exr_data}")
 
-def write_exr(writepath, exr_data):
+    # Write the EXR file
+    return write_exr(filename_prefix, exr_data, width, height)
+
+def write_exr(writepath, exr_data, width, height):
+    success = False
     try:
-        # Determine the height and width from one of the provided channels
-        height, width = list(exr_data.values())[0].shape[:2]
-
         # Create the EXR file header with dynamic channel names, using FLOAT for float32 data
         header = OpenEXR.Header(width, height)
         header['channels'] = {name: Imath.Channel(Imath.PixelType(Imath.PixelType.FLOAT)) for name in exr_data.keys()}
@@ -96,13 +102,18 @@ def write_exr(writepath, exr_data):
         # Create the EXR file
         exr_file = OpenEXR.OutputFile(writepath, header)
 
-        # Convert each channel to float32 without altering the actual numerical values
+        # Convert the channel data to bytes
         channel_data = {name: data.tobytes() for name, data in exr_data.items()}
 
         # Write the channel data to the EXR file
         exr_file.writePixels(channel_data)
         exr_file.close()
-        
+
         print(f"EXR file saved successfully to {writepath}")
+
+        success = True
+        
     except Exception as e:
         print(f"Failed to write EXR file: {e}")
+
+    return success

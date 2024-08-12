@@ -5,6 +5,7 @@ import argparse
 import torch
 import os
 import cv2
+from utils import get_bitsize_from_torch_type
 
 
 class DepthPlusOptical:
@@ -94,10 +95,12 @@ class DepthPlusOptical:
                     flo = flow_up[0].permute(1, 2, 0).cpu().numpy()
                     flo = flow_viz.flow_to_image(flo) 
 
-                if mp4:
-                    mp4_frame = (flo[:,:,[2,1,0]] * 255).astype('uint8')
-                    mp4_out.write(mp4_frame)
-                prev_fame = curr_frame
+                    if mp4:
+                        #force 8 bit if mp4
+                        bitsize, nptype = get_bitsize_from_torch_type(torch.float8_e4m3fn)
+                        mp4_frame = (flo[:,:,[2,1,0]] * bitsize).astype(nptype)
+                        mp4_out.write(mp4_frame)
+                prev_frame = curr_frame
             raw_video.release()
             if mp4:
                 mp4_out.release()

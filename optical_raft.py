@@ -100,6 +100,17 @@ class DepthPlusOptical:
                         bitsize, nptype = get_bitsize_from_torch_type(torch.float8_e4m3fn)
                         mp4_frame = (flo[:,:,[2,1,0]] * bitsize).astype(nptype)
                         mp4_out.write(mp4_frame)
+                    if png:
+                        if is_png_8bit:
+                            bitsize, nptype = get_bitsize_from_torch_type(torch.float8_e4m3fn)
+                        else:
+                            bitsize, nptype = get_bitsize_from_torch_type(torch.float16)
+                        png_frame = ((flo[:,:,[2,1,0]]/255.0) * bitsize).astype(nptype)
+                        png_filename = os.path.join(png_output_path, '{:04d}.png'.format(frame_count))
+                        success = cv2.imwrite(png_filename, png_frame)
+                        if not success:
+                            raise ValueError("Error writing png file")
+                frame_count += 1
                 prev_frame = curr_frame
             raw_video.release()
             if mp4:

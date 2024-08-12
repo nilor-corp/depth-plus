@@ -11,6 +11,7 @@ from image_downloader import organise_local_files
 from image_downloader import copy_uploaded_files_to_local_dir
 import asyncio
 from depth_anything import DepthPlusDepth 
+from optical_raft import DepthPlusOptical
 
 with open("config.json") as f:
     config = json.load(f)
@@ -153,10 +154,18 @@ def run_workflow_with_name(workflow_name, raw_components, component_info_dict):
 
     return wrapper
 
-def run_depth_plus():
-    print("Running depth plus")
-    depth = DepthPlusDepth()
-    depth.process_depth()
+#TODO pass in all the other necessary params from UI, like what metric, bit, etc
+def run_depth_plus(run_depth=False, run_optical=False, run_segmentation=False):
+    print("Running Depth+")
+    if run_depth:
+        depth = DepthPlusDepth()
+        depth.process_depth()
+    if run_optical:
+        optical = DepthPlusOptical()
+        optical.process_optical()
+    if run_segmentation:
+        print("SEGMENTATION NOT IMPLEMENTED YET")
+        pass
     return None
 
 def update_gif(workflow_name):

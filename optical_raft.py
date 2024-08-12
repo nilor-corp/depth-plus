@@ -113,7 +113,6 @@ class DepthPlusOptical:
                     if exr:
                         bitsize, nptype = get_bitsize_from_torch_type(torch.float32)
                         exr_frame = ((flo[:,:,[2,1,0]]/255.0) * bitsize).astype(nptype)
-                        ##TODO Implement exr writing to exr_output_path
                         exr_filename = os.path.join(exr_output_path, '{:04d}.exr'.format(frame_count))
                         success = make_exr(exr_filename, exr_frame)
                         if not success:

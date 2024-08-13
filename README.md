@@ -17,7 +17,7 @@ Check out the configuration reference at https://huggingface.co/docs/hub/spaces-
 ## Dependencies:
 
 - python
-- cuda version 12.11
+- cuda version 12.1
 - ssh connection to nilor corp HF organization: https://huggingface.co/nilor-corp
 - git lfs
 
@@ -31,107 +31,45 @@ these commands have only been tested using adminsistrative powershell so far
 mkdir nilor-corp
 cd nilor-corp
 python -m venv venv
-.\venv\Scripts\activate
-```
-
-### Install comfy-cli
-
-```
-pip install comfy-cli
-```
-
-### Install ComfyUI
-
-```
-comfy --workspace=ComfyUI install
-comfy set-default ComfyUI
-mkdir .\ComfyUI\output\WorkFlower
-```
-
-### Install Models
-
-```py
-cd ComfyUI
-rm -rf models #if unix
-rmdir models #if win. Answer yes if prompted
-git clone git@hf.co:nilor-corp/depth-plus-models models
+.\venv\Scripts\activate.ps1
 ```
 
 ### Install Depth+
 
 ```
-git clone git@hf.co:spaces/nilor-corp/zenerator
-cd ..
-------------------
-cp .\zenerator\ComfyUI-Manager-Snapshots\2024-08-04_20-20-33_snapshot.json .\ComfyUI\custom_nodes\ComfyUI-Manager\snapshots\
--------------------
-cd zenerator
+git clone git@hf.co:spaces/nilor-corp/depth-plus
+cd depth-plus
 python -m pip install -r requirements.txt
 ```
 
 ### Install torch
-pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121
 
-### Env Variables
+`pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121`
 
-- (in zenerator root, where you should be if you've been following the above commands) create a .env file and add:
+- this step is liable to cause some pain to the user. before pulling out your own hair in a later step, return to this step and check:
+  - the compatibility of your torch/torchvision/torchaudio packages with each other and with your CUDA Toolkit installation version (we are targeting 12.1)
+  - if you're coming back here from an `fbgemm.dll` error, check this link and perform the manual copy and rename of `libiomp5md.dll` as stated: https://github.com/comfyanonymous/ComfyUI/issues/3703#issuecomment-2253349160
 
-```
-NILOR_API_KEY=<API KEY>
-NILOR_API_URI=https://api.nilor.cool/api
-```
-
-### Provision comfy UI
-
-```py
-cd .. # should be in nilor-corp dir root
-comfy launch
-```
-
-- once launched, navigate to comfyUI in browser http://127.0.0.1:8188
-- in the bottom right corner of the screen on the floating modal click the "manager" button
-- a new window will appear, in the bottom left corner, under the "expiremental" section click "snapshot manager"
-- Click "restore" on the snapshot and then press the "restart" button that will appear to restart comfyUI. This will download a lot packages which you should see in terminal
 
 ### Directory Structure
 
 After finishing installation, your directory structure should look like this:
 
 - nilor-corp
-  - comfy-cli
-  - ComfyUI
   - depth-plus
   - venv
 
-## Run
-
-You will need to run ComfyUI and Depth+ in seperate shells
-
-### Run ComfyUI
-
-From nilor-corp root:
-
-```
-.\venv\scripts\activate
-comfy launch
-```
-
-- If you run into "import torch" error when trying to launch comfy for the first time, [see potential fix here](https://github.com/Comfy-Org/comfy-cli/issues/150)
 
 ### Run Depth+
 
 From nilor-corp root:
 
 ```
-.\venv\scripts\activate
+.\venv\scripts\activate.ps1
 cd depth-plus
 gradio ./app.py
 ```
+gradio will likely throw some warnings at you that can be ignored
 
-### Output
+Follow the gradio UI instructions carefully, especially about the input dir if specifying input dir manually
 
-Generated output can be found in:
-
-```
-nilor-corp\ComfyUI\output\WorkFlower
-```

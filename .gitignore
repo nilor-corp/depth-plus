@@ -9,3 +9,4 @@ kohya-trainer/
 *.egg-info
 test-video/
 test-video-output/
+temp-jpg-cache/

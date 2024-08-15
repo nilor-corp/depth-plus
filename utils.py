@@ -157,16 +157,12 @@ def write_exr(writepath, exr_data, width, height):
 
     return success
 
-
 def write_out_video_as_jpeg_sequence(video_path, filename, outdir=None):
     raw_video = cv2.VideoCapture(video_path)
-    print(f"outdir: {outdir}")
     if(outdir is None or outdir == ""):    
-        print("outdir is None")
         outdir = r"temp-jpg-cache"
         #strip extension from filename
         filename_clean = os.path.splitext(filename)[0]
-        print(f"filename_clean: {filename_clean}")
         outdir = os.path.join(outdir, filename_clean)
     #make sure the directory exists
     if not os.path.exists(outdir):

@@ -24,14 +24,13 @@ class DepthPlusSegmentation:
             filenames = os.listdir(video_path)
             filenames = [os.path.join(video_path, file) for file in filenames if file.endswith(".mp4")]
 
-        print(f"outdier: {outdir}")
+        print(f"outdir: {outdir}")
         os.makedirs(outdir, exist_ok=True)
 
         #iterate through all videos and process one by one
         for k, filename in enumerate(filenames):
             print(f'Progress: {k+1}/{len(filenames)}: {filename}')
             jpg_dir = write_out_video_as_jpeg_sequence(video_path,filename)
-            print(f"jpg_dir: {jpg_dir}")
 
             #clean up temp jpgs
             delete_directory(jpg_dir)

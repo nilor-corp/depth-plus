@@ -11,13 +11,13 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
-from ....sam2.modeling.backbones.utils import (
+from sam2.modeling.backbones.utils import (
     PatchEmbed,
     window_partition,
     window_unpartition,
 )
 
-from ....sam2.modeling.sam2_utils import DropPath, MLP
+from sam2.modeling.sam2_utils import DropPath, MLP
 
 
 def do_pool(x: torch.Tensor, pool: nn.Module, norm: nn.Module = None) -> torch.Tensor:
@@ -46,11 +46,7 @@ class MultiScaleAttention(nn.Module):
 
         self.dim = dim
         self.dim_out = dim_out
-
         self.num_heads = num_heads
-        head_dim = dim_out // num_heads
-        self.scale = head_dim**-0.5
-
         self.q_pool = q_pool
         self.qkv = nn.Linear(dim, dim_out * 3)
         self.proj = nn.Linear(dim_out, dim_out)

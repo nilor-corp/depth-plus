@@ -12,9 +12,9 @@ import numpy as np
 import torch
 from PIL.Image import Image
 
-from ..sam2.modeling.sam2_base import SAM2Base
+from sam2.modeling.sam2_base import SAM2Base
 
-from ..sam2.utils.transforms import SAM2Transforms
+from sam2.utils.transforms import SAM2Transforms
 
 
 class SAM2ImagePredictor:
@@ -24,6 +24,7 @@ class SAM2ImagePredictor:
         mask_threshold=0.0,
         max_hole_area=0.0,
         max_sprinkle_area=0.0,
+        **kwargs,
     ) -> None:
         """
         Uses SAM-2 to calculate the image embedding for an image, and then
@@ -33,8 +34,10 @@ class SAM2ImagePredictor:
           sam_model (Sam-2): The model to use for mask prediction.
           mask_threshold (float): The threshold to use when converting mask logits
             to binary masks. Masks are thresholded at 0 by default.
-          fill_hole_area (int): If fill_hole_area > 0, we fill small holes in up to
-            the maximum area of fill_hole_area in low_res_masks.
+          max_hole_area (int): If max_hole_area > 0, we fill small holes in up to
+            the maximum area of max_hole_area in low_res_masks.
+          max_sprinkle_area (int): If max_sprinkle_area > 0, we remove small sprinkles up to
+            the maximum area of max_sprinkle_area in low_res_masks.
         """
         super().__init__()
         self.model = sam_model
@@ -62,6 +65,23 @@ class SAM2ImagePredictor:
             (64, 64),
         ]
 
+    @classmethod
+    def from_pretrained(cls, model_id: str, **kwargs) -> "SAM2ImagePredictor":
+        """
+        Load a pretrained model from the Hugging Face hub.
+
+        Arguments:
+          model_id (str): The Hugging Face repository ID.
+          **kwargs: Additional arguments to pass to the model constructor.
+
+        Returns:
+          (SAM2ImagePredictor): The loaded model.
+        """
+        from sam2.build_sam import build_sam2_hf
+
+        sam_model = build_sam2_hf(model_id, **kwargs)
+        return cls(sam_model, **kwargs)
+
     @torch.no_grad()
     def set_image(
         self,
@@ -79,7 +99,7 @@ class SAM2ImagePredictor:
         self.reset_predictor()
         # Transform the image to the form expected by the model
         if isinstance(image, np.ndarray):
-            #logging.info("For numpy array image, we assume (HxWxC) format")
+            logging.info("For numpy array image, we assume (HxWxC) format")
             self._orig_hw = [image.shape[:2]]
         elif isinstance(image, Image):
             w, h = image.size
@@ -93,7 +113,7 @@ class SAM2ImagePredictor:
         assert (
             len(input_image.shape) == 4 and input_image.shape[1] == 3
         ), f"input_image must be of size 1x3xHxW, got {input_image.shape}"
-        #logging.info("Computing image embeddings for the provided image...")
+        logging.info("Computing image embeddings for the provided image...")
         backbone_out = self.model.forward_image(input_image)
         _, vision_feats, _, _ = self.model._prepare_backbone_features(backbone_out)
         # Add no_mem_embed, which is added to the lowest rest feat. map during training on videos
@@ -106,7 +126,7 @@ class SAM2ImagePredictor:
         ][::-1]
         self._features = {"image_embed": feats[-1], "high_res_feats": feats[:-1]}
         self._is_image_set = True
-        #logging.info("Image embeddings computed.")
+        logging.info("Image embeddings computed.")
 
     @torch.no_grad()
     def set_image_batch(
@@ -163,7 +183,7 @@ class SAM2ImagePredictor:
         normalize_coords=True,
     ) -> Tuple[List[np.ndarray], List[np.ndarray], List[np.ndarray]]:
         """This function is very similar to predict(...), however it is used for batched mode, when the model is expected to generate predictions on multiple images.
-        It returns a tupele of lists of masks, ious, and low_res_masks_logits.
+        It returns a tuple of lists of masks, ious, and low_res_masks_logits.
         """
         assert self._is_batch, "This function should only be used when in batched mode"
         if not self._is_image_set:

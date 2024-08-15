@@ -10,10 +10,10 @@ import torch.nn.functional as F
 
 from torch.nn.init import trunc_normal_
 
-from ...sam2.modeling.sam.mask_decoder import MaskDecoder
-from ...sam2.modeling.sam.prompt_encoder import PromptEncoder
-from ...sam2.modeling.sam.transformer import TwoWayTransformer
-from ...sam2.modeling.sam2_utils import get_1d_sine_pe, MLP, select_closest_cond_frames
+from sam2.modeling.sam.mask_decoder import MaskDecoder
+from sam2.modeling.sam.prompt_encoder import PromptEncoder
+from sam2.modeling.sam.transformer import TwoWayTransformer
+from sam2.modeling.sam2_utils import get_1d_sine_pe, MLP, select_closest_cond_frames
 
 # a large negative value as a placeholder score for missing objects
 NO_OBJ_SCORE = -1024.0
@@ -642,7 +642,7 @@ class SAM2Base(torch.nn.Module):
                 pix_feat_with_mem = pix_feat_with_mem.permute(1, 2, 0).view(B, C, H, W)
                 return pix_feat_with_mem
 
-            # Use a dummy token on the first frame (to avoid emtpy memory input to tranformer encoder)
+            # Use a dummy token on the first frame (to avoid empty memory input to tranformer encoder)
             to_cat_memory = [self.no_mem_embed.expand(1, B, self.mem_dim)]
             to_cat_memory_pos_embed = [self.no_mem_pos_enc.expand(1, B, self.mem_dim)]
 

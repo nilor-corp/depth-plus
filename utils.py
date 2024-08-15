@@ -4,6 +4,7 @@ import numpy as np
 import OpenEXR
 import Imath
 import os
+import cv2
 
 def load_torch_file(ckpt, safe_load=False, device=None):
     if device is None:
@@ -155,3 +156,37 @@ def write_exr(writepath, exr_data, width, height):
         print(f"Failed to write EXR file: {e}")
 
     return success
+
+
+def write_out_video_as_jpeg_sequence(video_path, filename, outdir=None):
+    raw_video = cv2.VideoCapture(video_path)
+    print(f"outdir: {outdir}")
+    if(outdir is None or outdir == ""):    
+        print("outdir is None")
+        outdir = r"temp-jpg-cache"
+        #strip extension from filename
+        filename_clean = os.path.splitext(filename)[0]
+        print(f"filename_clean: {filename_clean}")
+        outdir = os.path.join(outdir, filename_clean)
+    #make sure the directory exists
+    if not os.path.exists(outdir):
+        os.makedirs(outdir)
+    frame_count = 0 
+    while raw_video.isOpened():
+        ret, frame = raw_video.read()
+        if not ret:
+            break
+        jpeg_filename = os.path.join(outdir, '{:04d}.jpg'.format(frame_count))
+        success = cv2.imwrite(jpeg_filename, frame)
+        if not success:
+            print(f"Error writing {jpeg_filename}")
+        frame_count += 1
+    return outdir
+
+def delete_directory(directory):
+    if os.path.exists(directory):
+        for file in os.listdir(directory):
+            os.remove(os.path.join(directory, file))
+        os.rmdir(directory)
+
+

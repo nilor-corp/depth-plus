@@ -1,5 +1,6 @@
 import torch
 import os
+from utils import write_out_video_as_jpeg_sequence, delete_directory
 
 class DepthPlusSegmentation:
     def process_segmentation(self, video_path=None, outdir=None):
@@ -29,4 +30,10 @@ class DepthPlusSegmentation:
         #iterate through all videos and process one by one
         for k, filename in enumerate(filenames):
             print(f'Progress: {k+1}/{len(filenames)}: {filename}')
+            jpg_dir = write_out_video_as_jpeg_sequence(video_path,filename)
+            print(f"jpg_dir: {jpg_dir}")
+
+            #clean up temp jpgs
+            delete_directory(jpg_dir)
+
             

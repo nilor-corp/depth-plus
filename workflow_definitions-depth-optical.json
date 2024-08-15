@@ -17,7 +17,7 @@
                 "type": "radio",
                 "label": "Output Type",
                 "node-id": "[\"422\"][\"inputs\"][\"string\"]",
-                "choices": ["Depth", "Optical Flow", "Segmentation", "Depth + Flow", "Depth + Seg", "Flow + Seg", "All"]
+                "choices": ["Depth", "Optical Flow", "Depth + Flow"]
             },
             "radio-02": {
                 "type": "radio",
@@ -48,11 +48,6 @@
                 "label": "PNG Bit Depth",
                 "node-id": "[\"390\"][\"inputs\"][\"string\"]",
                 "choices": ["8 Bit", "16 Bit"]
-            },
-            "text-02":{
-                "type": "text",
-                "label": "Segmentation Prompt",
-                "node-id": "[\"761\"][\"inputs\"][\"string\"]"
             }
         },
         "outputs": {

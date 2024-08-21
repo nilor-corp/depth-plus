@@ -1,8 +1,12 @@
 import torch
 import os
+import json
 from utils import write_out_video_as_jpeg_sequence, delete_directory
 from sam2.build_sam import build_sam2_video_predictor
 from unittest.mock import patch
+
+#workaround for unnecessary flash_attn requirement
+#---------
 from transformers.dynamic_module_utils import get_imports
 def fixed_get_imports(filename: str | os.PathLike) -> list[str]:
     if not str(filename).endswith("modeling_florence2.py"):
@@ -10,6 +14,7 @@ def fixed_get_imports(filename: str | os.PathLike) -> list[str]:
     imports = get_imports(filename)
     imports.remove("flash_attn")
     return imports
+#---------
 
 from transformers import AutoProcessor, AutoModelForCausalLM
 import cv2
@@ -80,7 +85,9 @@ class DepthPlusSegmentation:
             return int(''.join(filter(str.isdigit, file_name)))
 
         #interate through each image in jpg_dir
-        file_list = sorted(os.listdir(jpg_dir), key=extract_number)
+        file_list = sorted(
+            [f for f in os.listdir(jpg_dir) if f.lower().endswith(".jpg")],
+            key=extract_number)
         print(file_list)
         for filename in file_list:
             image = cv2.imread(os.path.join(jpg_dir, filename))
@@ -95,7 +102,18 @@ class DepthPlusSegmentation:
             )
             generated_text = processor.batch_decode(generate_ids, skip_special_tokens=False)[0]
             parsed_answer = processor.post_process_generation(generated_text, task=task_prompt, image_size=(width, height))
-            print(f"Parsed Answer: {parsed_answer}")
+            
+            #write parsed answer to file
+            with open(f"{jpg_dir}/{filename}.txt", "w") as f:
+                f.write(json.dumps(parsed_answer))
+            #open and read the file after the appending:
+            with open(f"{jpg_dir}/{filename}.txt", "r") as f:
+                content = f.read()
+                parsed_object = json.loads(content)
+            
+            print(f"Parsed object: {parsed_object}")
+            print(f"bboxes: {parsed_object[task_prompt]['bboxes']}")
+            print(f"labels: {parsed_object[task_prompt]['labels']}")
 
         pass    
 

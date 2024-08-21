@@ -159,6 +159,11 @@ def write_exr(writepath, exr_data, width, height):
 
 def write_out_video_as_jpeg_sequence(video_path, filename, outdir=None):
     raw_video = cv2.VideoCapture(video_path)
+    frame_rate = raw_video.get(cv2.CAP_PROP_FPS)
+    frame_width = int(raw_video.get(cv2.CAP_PROP_FRAME_WIDTH))
+    frame_height = int(raw_video.get(cv2.CAP_PROP_FRAME_HEIGHT))
+    
+
     if(outdir is None or outdir == ""):    
         outdir = r"temp-jpg-cache"
         #strip extension from filename
@@ -177,12 +182,21 @@ def write_out_video_as_jpeg_sequence(video_path, filename, outdir=None):
         if not success:
             print(f"Error writing {jpeg_filename}")
         frame_count += 1
-    return outdir
+    return outdir, frame_width, frame_height, frame_rate
 
 def delete_directory(directory):
     if os.path.exists(directory):
         for file in os.listdir(directory):
             os.remove(os.path.join(directory, file))
         os.rmdir(directory)
+
+def get_int_sorted_dir_list(dir_path, extension=None):
+    def extract_number(file_name):
+            return int(''.join(filter(str.isdigit, file_name)))
+    #interate through each image in jpg_dir
+    file_list = sorted(
+        [f for f in os.listdir(dir_path) if (extension is None or f.lower().endswith(extension))],
+        key=extract_number)
+    return file_list
 
 

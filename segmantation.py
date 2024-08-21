@@ -1,7 +1,7 @@
 import torch
 import os
 import json
-from utils import write_out_video_as_jpeg_sequence, delete_directory
+from utils import write_out_video_as_jpeg_sequence, delete_directory, get_int_sorted_dir_list
 from sam2.build_sam import build_sam2_video_predictor
 from unittest.mock import patch
 
@@ -24,9 +24,10 @@ class DepthPlusSegmentation:
     def process_segmentation(self, video_path=None, outdir=None):
         print("Processing segmentation")
         if(video_path is None or video_path == ""):
-            video_path=r"test-video\S1_DOLPHINS_A_v1-trim.mp4"
+            #video_path=r"test-video\S1_DOLPHINS_A_v1-trim.mp4"
+            video_path=r"test-video\S5_Abstract_B_v1_15sec.mp4"
         if(outdir is None or outdir == ""):    
-            outdir=r"test-video-output"
+            outdir=r"test-video-output\segmentation"
         model_path = r"models\sam2_hiera_large.pt"
         model_config_path = r"sam2_hiera_l.yaml"
         #all_model_config_paths = r"C:\ocean\depth-plus-plus\sam_2\sam2_configs"
@@ -52,24 +53,50 @@ class DepthPlusSegmentation:
         #iterate through all videos and process one by one
         for k, filename in enumerate(filenames):
             print(f'Progress: {k+1}/{len(filenames)}: {filename}')
-            jpg_dir = write_out_video_as_jpeg_sequence(video_path,filename)
+            jpg_dir, width, height, frame_rate = write_out_video_as_jpeg_sequence(video_path,filename)
 
             self.florence_object_detection(jpg_dir)
 
-            # predictor = build_sam2_video_predictor(model_config_path, model_path, device)
+            predictor = build_sam2_video_predictor(model_config_path, model_path, device)
+            video_out = os.path.join(outdir, "segmentation.mp4")
 
-            # with torch.inference_mode(), torch.autocast(device, dtype=torch.bfloat16):
-            #     state = predictor.init_state(jpg_dir)
-            #     frame_idx, object_ids, masks = predictor.add_new_points_or_box(state, 0,1)
-            #     for frame_idx, object_ids, masks in predictor.propagate_in_video(state):
-            #         #write out masks
-            #         for i, mask in enumerate(masks):
-            #             mask = mask.cpu().numpy()
-            #             mask = (mask * 255).astype(np.uint8)
-            #             mask = cv2.resize(mask, (1920, 1080), interpolation=cv2.INTER_NEAREST)
-            #             cv2.imwrite(f"{outdir}/mask_{frame_idx}_{object_ids[i]}.png", mask)
-            #             print(f"mask_{frame_idx}_{object_ids[i]}.png saved to {outdir}")
+            mp4_out = cv2.VideoWriter(video_out, cv2.VideoWriter_fourcc(*'mp4v'), frame_rate, (width, height))
 
+
+            with torch.inference_mode(), torch.autocast(device, dtype=torch.bfloat16):
+                state = predictor.init_state(jpg_dir)
+                #iterate through jpg_dir and add new points or boxes
+                jpg_list = get_int_sorted_dir_list(jpg_dir, ".jpg")
+                obj_list = get_int_sorted_dir_list(jpg_dir, ".txt")
+                if(len(jpg_list) != len(obj_list)):
+                    print(f"Error: number of jpgs and txts do not match: {len(jpg_list)} != {len(obj_list)}")
+                for i, filename in enumerate(jpg_list):
+                    with open(f"{jpg_dir}/{obj_list[i]}", "r") as f:
+                        content = f.read()
+                        parsed_object = json.loads(content)
+                        labels = parsed_object["<OD>"]["labels"]
+                        bboxes = parsed_object["<OD>"]["bboxes"]
+                        points = [( (bbox[0] + bbox[2]) / 2, (bbox[1] + bbox[3]) / 2 ) for bbox in bboxes]
+                    bboxes = parsed_object["<OD>"]["bboxes"]
+                    labels = parsed_object["<OD>"]["labels"]
+                    points = points 
+                    frame_idx = i
+                    obj_idx = 0
+                    labels = np.array([1],np.int32)
+                    _, object_ids, masks = predictor.add_new_points_or_box(state, frame_idx, obj_idx, box=bboxes[0])
+
+                #frame_idx, object_ids, masks = predictor.add_new_points_or_box(state, 0,1)
+                for frame_idx, object_ids, masks in predictor.propagate_in_video(state):
+                    #write out masks
+                    for i, mask in enumerate(masks):
+                        mask_out = (mask[0] > 0.0).cpu().numpy()
+                        mask_out = (mask_out * 255).astype(np.uint8)
+                        mask_out_bgr = cv2.cvtColor(mask_out, cv2.COLOR_GRAY2BGR)
+                        mp4_out.write(mask_out_bgr)
+                        cv2.imwrite(f"{outdir}/mask_{frame_idx}_{object_ids[i]}.png", mask_out)
+                        print(f"mask_{frame_idx}_{object_ids[i]}.png saved to {outdir}")
+
+            mp4_out.release()
             #clean up temp jpgs
             delete_directory(jpg_dir)
     def florence_object_detection(self, jpg_dir):

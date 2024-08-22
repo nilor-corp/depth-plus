@@ -2,7 +2,9 @@ import torch
 import os
 import json
 from utils import write_out_video_as_jpeg_sequence, delete_directory, get_int_sorted_dir_list
-from sam2.build_sam import build_sam2_video_predictor
+from sam2.build_sam import build_sam2_video_predictor, build_sam2
+from sam2.sam2_image_predictor import SAM2ImagePredictor
+
 from unittest.mock import patch
 
 #workaround for unnecessary flash_attn requirement
@@ -24,8 +26,8 @@ class DepthPlusSegmentation:
     def process_segmentation(self, video_path=None, outdir=None):
         print("Processing segmentation")
         if(video_path is None or video_path == ""):
-            video_path=r"test-video\S1_DOLPHINS_A_v1-trim.mp4"
-            #video_path=r"test-video\S5_Abstract_B_v1_15sec.mp4"
+            #video_path=r"test-video\S1_DOLPHINS_A_v1-trim.mp4"
+            video_path=r"test-video\S5_Abstract_B_v1_15sec-trim.mp4"
         if(outdir is None or outdir == ""):    
             outdir=r"test-video-output\segmentation"
         model_path = r"models\sam2_hiera_large.pt"
@@ -34,7 +36,7 @@ class DepthPlusSegmentation:
         relative_sam_path = r"\sam_2\sam2_configs"
         all_model_config_paths = os.path.abspath(relative_sam_path)
         task_prompt = "<CAPTION_TO_PHRASE_GROUNDING>"
-        search_term = "dolphin"
+        search_term = "small tropical reef fish"
 
         device = 'cuda' if torch.cuda.is_available() else 'mps' if torch.backends.mps.is_available else 'cpu'
 
@@ -63,17 +65,56 @@ class DepthPlusSegmentation:
 
             mp4_out = cv2.VideoWriter(video_out, cv2.VideoWriter_fourcc(*'mp4v'), frame_rate, (width, height))
 
-            self.video_prediction(
-                model_config_path,
-                model_path,
-                device,
-                jpg_dir,
-                task_prompt,
-                height,
-                width,
-                outdir,
-                mp4_out
-            )
+            sam2_model = build_sam2(model_config_path, model_path, device=device)
+            predictor = SAM2ImagePredictor(sam2_model)
+            with torch.inference_mode(), torch.autocast(device, dtype=torch.bfloat16):
+                jpg_list = get_int_sorted_dir_list(jpg_dir, ".jpg")
+                obj_list = get_int_sorted_dir_list(jpg_dir, ".txt")
+                frame_count = 0
+                if(len(jpg_list) != len(obj_list)):
+                    print(f"Error: number of jpgs and txts do not match: {len(jpg_list)} != {len(obj_list)}")
+                for i, filename in enumerate(jpg_list):
+                    with open(f"{jpg_dir}/{obj_list[i]}", "r") as f:
+                        content = f.read()
+                        parsed_object = json.loads(content)
+                    bboxes = parsed_object[task_prompt]["bboxes"]
+                    labels = parsed_object[task_prompt]["labels"]
+                    points = [( (bbox[0] + bbox[2]) / 2, (bbox[1] + bbox[3]) / 2 ) for bbox in bboxes]
+                    frame_idx = i
+                    image = cv2.imread(os.path.join(jpg_dir, filename))
+                    image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+                    predictor.set_image(image)
+                    combined_mask = np.zeros((height,width), dtype=np.uint8)
+                    for i, label in enumerate(labels):
+                        point = np.array([[points[i][0], points[i][1]]])
+                        point_label = np.array([1])
+                        masks, scores, _ = predictor.predict(
+                            point_coords=point,
+                            point_labels=point_label,
+                            box=None,
+                            multimask_output=False
+                        )
+                        for j, mask in enumerate(masks):
+                            combined_mask = np.logical_or(combined_mask, mask)
+                    mask_frame_video =  (combined_mask * 255).astype(np.uint8)
+                    cv2.imwrite(f"{outdir}/mask_{frame_count}.png", mask_frame_video)
+                    mask_out_bgr = cv2.cvtColor(mask_frame_video, cv2.COLOR_GRAY2BGR)
+                    mp4_out.write(mask_out_bgr)
+                    frame_count += 1
+            mp4_out.release()    
+
+
+            # self.video_prediction(
+            #     model_config_path,
+            #     model_path,
+            #     device,
+            #     jpg_dir,
+            #     task_prompt,
+            #     height,
+            #     width,
+            #     outdir,
+            #     mp4_out
+            # )
 
 
             #clean up temp jpgs

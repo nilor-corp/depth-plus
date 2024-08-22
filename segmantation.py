@@ -26,8 +26,8 @@ class DepthPlusSegmentation:
     def process_segmentation(self, video_path=None, outdir=None):
         print("Processing segmentation")
         if(video_path is None or video_path == ""):
-            #video_path=r"test-video\S1_DOLPHINS_A_v1-trim.mp4"
-            video_path=r"test-video\S5_Abstract_B_v1_15sec-trim.mp4"
+            #video_path=r"test-video\S1_DOLPHINS_A_v1.mp4"
+            video_path=r"test-video\S5_Abstract_B_v1_15sec.mp4"
         if(outdir is None or outdir == ""):    
             outdir=r"test-video-output\segmentation"
         model_path = r"models\sam2_hiera_large.pt"
@@ -36,7 +36,8 @@ class DepthPlusSegmentation:
         relative_sam_path = r"\sam_2\sam2_configs"
         all_model_config_paths = os.path.abspath(relative_sam_path)
         task_prompt = "<CAPTION_TO_PHRASE_GROUNDING>"
-        search_term = "small tropical reef fish"
+        task_prompt = "<OPEN_VOCABULARY_DETECTION>"
+        search_term = "small tropical reef fish swimming"
 
         device = 'cuda' if torch.cuda.is_available() else 'mps' if torch.backends.mps.is_available else 'cpu'
 
@@ -94,6 +95,12 @@ class DepthPlusSegmentation:
                             box=None,
                             multimask_output=False
                         )
+                        # masks, scores, _ = predictor.predict(
+                        #     point_coords=None,
+                        #     point_labels=None,
+                        #     box=bboxes[i],
+                        #     multimask_output=False
+                        # )
                         for j, mask in enumerate(masks):
                             combined_mask = np.logical_or(combined_mask, mask)
                     mask_frame_video =  (combined_mask * 255).astype(np.uint8)
@@ -181,7 +188,7 @@ class DepthPlusSegmentation:
         #task_prompt = "<OD>"
         #task_prompt = "<CAPTION_TO_PHRASE_GROUNDING>"
         if search_term is not None:
-            if task_prompt != "<CAPTION_TO_PHRASE_GROUNDING>":
+            if task_prompt != "<CAPTION_TO_PHRASE_GROUNDING>" and task_prompt != "<OPEN_VOCABULARY_DETECTION>":
                 raise ValueError("search_term is only valid for <CAPTION_TO_PHRASE_GROUNDING>")
             prompt = task_prompt + " " + search_term
         else:
@@ -207,6 +214,10 @@ class DepthPlusSegmentation:
             )
             generated_text = processor.batch_decode(generate_ids, skip_special_tokens=False)[0]
             parsed_answer = processor.post_process_generation(generated_text, task=task_prompt, image_size=(width, height))
+            if task_prompt == "<OPEN_VOCABULARY_DETECTION>":
+                label_key = "bboxes_labels"
+                parsed_answer[task_prompt]["labels"] = parsed_answer[task_prompt].pop(label_key)
+
             
             #write parsed answer to file
             with open(f"{jpg_dir}/{filename}.txt", "w") as f:

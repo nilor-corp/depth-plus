@@ -24,8 +24,8 @@ class DepthPlusSegmentation:
     def process_segmentation(self, video_path=None, outdir=None):
         print("Processing segmentation")
         if(video_path is None or video_path == ""):
-            video_path=r"test-video\S1_DOLPHINS_A_v1-trim.mp4"
-            video_path=r"test-video\S5_Abstract_B_v1_15sec-trim.mp4"
+            video_path=r"test-video\S1_DOLPHINS_A_v1.mp4"
+            #video_path=r"test-video\S5_Abstract_B_v1_15sec.mp4"
         if(outdir is None or outdir == ""):    
             outdir=r"test-video-output\segmentation"
         model_path = r"models\sam2_hiera_large.pt"
@@ -33,6 +33,8 @@ class DepthPlusSegmentation:
         #all_model_config_paths = r"C:\ocean\depth-plus-plus\sam_2\sam2_configs"
         relative_sam_path = r"\sam_2\sam2_configs"
         all_model_config_paths = os.path.abspath(relative_sam_path)
+        task_prompt = "<CAPTION_TO_PHRASE_GROUNDING>"
+        search_term = "dolphin"
 
         device = 'cuda' if torch.cuda.is_available() else 'mps' if torch.backends.mps.is_available else 'cpu'
 
@@ -55,7 +57,7 @@ class DepthPlusSegmentation:
             print(f'Progress: {k+1}/{len(filenames)}: {filename}')
             jpg_dir, width, height, frame_rate = write_out_video_as_jpeg_sequence(video_path,filename)
 
-            self.florence_object_detection(jpg_dir)
+            self.florence_object_detection(jpg_dir, task_prompt, search_term)
 
             predictor = build_sam2_video_predictor(model_config_path, model_path, device)
             video_out = os.path.join(outdir, "segmentation.mp4")
@@ -74,8 +76,8 @@ class DepthPlusSegmentation:
                     with open(f"{jpg_dir}/{obj_list[i]}", "r") as f:
                         content = f.read()
                         parsed_object = json.loads(content)
-                    bboxes = parsed_object["<OD>"]["bboxes"]
-                    labels = parsed_object["<OD>"]["labels"]
+                    bboxes = parsed_object[task_prompt]["bboxes"]
+                    labels = parsed_object[task_prompt]["labels"]
                     points = [( (bbox[0] + bbox[2]) / 2, (bbox[1] + bbox[3]) / 2 ) for bbox in bboxes]
 
                     frame_idx = i
@@ -117,15 +119,21 @@ class DepthPlusSegmentation:
             mp4_out.release()
             #clean up temp jpgs
             delete_directory(jpg_dir)
-    def florence_object_detection(self, jpg_dir):
+    def florence_object_detection(self, jpg_dir, task_prompt="<OD>", search_term=None):
         device = 'cuda' if torch.cuda.is_available() else 'cpu'
         torch_dtype = torch.float16 if torch.cuda.is_available() else torch.float32
         model_id = r"models\Florence-2-large"
         with patch("transformers.dynamic_module_utils.get_imports", fixed_get_imports): #workaround for unnecessary flash_attn requirement
             model = AutoModelForCausalLM.from_pretrained(model_id, attn_implementation='sdpa', trust_remote_code=True, torch_dtype=torch_dtype).to(device)
         processor = AutoProcessor.from_pretrained(model_id, trust_remote_code=True)
-        task_prompt = "<OD>"
-
+        #task_prompt = "<OD>"
+        #task_prompt = "<CAPTION_TO_PHRASE_GROUNDING>"
+        if search_term is not None:
+            if task_prompt != "<CAPTION_TO_PHRASE_GROUNDING>":
+                raise ValueError("search_term is only valid for <CAPTION_TO_PHRASE_GROUNDING>")
+            prompt = task_prompt + " " + search_term
+        else:
+            prompt = task_prompt
         def extract_number(file_name):
             return int(''.join(filter(str.isdigit, file_name)))
 
@@ -138,7 +146,7 @@ class DepthPlusSegmentation:
             image = cv2.imread(os.path.join(jpg_dir, filename))
             image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
             height, width, _ = image.shape
-            inputs = processor(text=task_prompt, images=image, return_tensors="pt").to(device, torch_dtype)
+            inputs = processor(text=prompt, images=image, return_tensors="pt").to(device, torch_dtype)
             generate_ids = model.generate(
                 input_ids=inputs["input_ids"],
                 pixel_values=inputs["pixel_values"],

@@ -24,7 +24,7 @@ class DepthPlusSegmentation:
     def process_segmentation(self, video_path=None, outdir=None):
         print("Processing segmentation")
         if(video_path is None or video_path == ""):
-            video_path=r"test-video\S1_DOLPHINS_A_v1.mp4"
+            video_path=r"test-video\S1_DOLPHINS_A_v1-trim.mp4"
             #video_path=r"test-video\S5_Abstract_B_v1_15sec.mp4"
         if(outdir is None or outdir == ""):    
             outdir=r"test-video-output\segmentation"
@@ -59,66 +59,77 @@ class DepthPlusSegmentation:
 
             self.florence_object_detection(jpg_dir, task_prompt, search_term)
 
-            predictor = build_sam2_video_predictor(model_config_path, model_path, device)
             video_out = os.path.join(outdir, "segmentation.mp4")
 
             mp4_out = cv2.VideoWriter(video_out, cv2.VideoWriter_fourcc(*'mp4v'), frame_rate, (width, height))
 
+            self.video_prediction(
+                model_config_path,
+                model_path,
+                device,
+                jpg_dir,
+                task_prompt,
+                height,
+                width,
+                outdir,
+                mp4_out
+            )
 
-            with torch.inference_mode(), torch.autocast(device, dtype=torch.bfloat16):
-                state = predictor.init_state(jpg_dir)
-                #iterate through jpg_dir and add new points or boxes
-                jpg_list = get_int_sorted_dir_list(jpg_dir, ".jpg")
-                obj_list = get_int_sorted_dir_list(jpg_dir, ".txt")
-                if(len(jpg_list) != len(obj_list)):
-                    print(f"Error: number of jpgs and txts do not match: {len(jpg_list)} != {len(obj_list)}")
-                for i, filename in enumerate(jpg_list):
-                    with open(f"{jpg_dir}/{obj_list[i]}", "r") as f:
-                        content = f.read()
-                        parsed_object = json.loads(content)
-                    bboxes = parsed_object[task_prompt]["bboxes"]
-                    labels = parsed_object[task_prompt]["labels"]
-                    points = [( (bbox[0] + bbox[2]) / 2, (bbox[1] + bbox[3]) / 2 ) for bbox in bboxes]
 
-                    frame_idx = i
-                    print(f"labels: {labels}")
-                    #print(f"obj_list: {obj_list}")
-                    for i, box in enumerate(bboxes):
-                        #print area of bounding bx
-                        area = (box[2] - box[0]) * (box[3] - box[1])
-                        print(f"area: {i} = {area}")
-                    for i, label in enumerate(labels):
-                        print(f"enumrate labels: {i}, {label}")
-                        labels = np.array([i],np.int32)
-                        obj_idx = i
-                        _, object_ids, masks = predictor.add_new_points_or_box(state, frame_idx, obj_idx, box=bboxes[i])
-
-                #frame_idx, object_ids, masks = predictor.add_new_points_or_box(state, 0,1)
-                for frame_idx, object_ids, masks in predictor.propagate_in_video(state):
-                    #write out masks
-                    # print(f"frame_idx: {frame_idx}")
-                    # print(f"object_ids: {object_ids}")
-                    #print(f"masks: {masks}")
-                    combined_mask = np.zeros((height,width), dtype=np.uint8)
-                    for i, mask in enumerate(masks):
-                        # print(f"mask len: {len(mask)}")
-                        # print(f"mask[{i}].shape: {mask.shape}")
-                        #print(f"masksI {masks[i]}")
-                        # if(i == 0):
-                        #     print("skipping")
-                        #     continue
-                        mask_temp = (mask[0] > 0.0).cpu().numpy()
-                        combined_mask = np.logical_or(combined_mask, mask_temp)
-                        mask_frame_out = (mask_temp * 255).astype(np.uint8)
-                        cv2.imwrite(f"{outdir}/mask_{frame_idx}_{object_ids[i]}.png", mask_frame_out)
-                        #print(f"mask_{frame_idx}_{object_ids[i]}.png saved to {outdir}")
-                    mask_out = (combined_mask * 255).astype(np.uint8)
-                    mask_out_bgr = cv2.cvtColor(mask_out, cv2.COLOR_GRAY2BGR)
-                    mp4_out.write(mask_out_bgr)
-
-            mp4_out.release()
             #clean up temp jpgs
             delete_directory(jpg_dir)
+    
+    #Warning -- RAM hungry
+    def video_prediction(self,
+                         model_config_path,
+                         model_path,
+                         device,
+                         jpg_dir,
+                         task_prompt,
+                         height,
+                         width,
+                         outdir,
+                         mp4_out):
+        predictor = build_sam2_video_predictor(model_config_path, model_path, device)
+        with torch.inference_mode(), torch.autocast(device, dtype=torch.bfloat16):
+            state = predictor.init_state(jpg_dir)
+            #iterate through jpg_dir and add new points or boxes
+            jpg_list = get_int_sorted_dir_list(jpg_dir, ".jpg")
+            obj_list = get_int_sorted_dir_list(jpg_dir, ".txt")
+            if(len(jpg_list) != len(obj_list)):
+                print(f"Error: number of jpgs and txts do not match: {len(jpg_list)} != {len(obj_list)}")
+            for i, filename in enumerate(jpg_list):
+                with open(f"{jpg_dir}/{obj_list[i]}", "r") as f:
+                    content = f.read()
+                    parsed_object = json.loads(content)
+                bboxes = parsed_object[task_prompt]["bboxes"]
+                labels = parsed_object[task_prompt]["labels"]
+                points = [( (bbox[0] + bbox[2]) / 2, (bbox[1] + bbox[3]) / 2 ) for bbox in bboxes]
+                frame_idx = i
+
+                # for i, box in enumerate(bboxes):
+                #     area = (box[2] - box[0]) * (box[3] - box[1])
+                #     print(f"area: {i} = {area}")
+                for i, label in enumerate(labels):
+                    print(f"enumrate labels: {i}, {label}")
+                    labels = np.array([i],np.int32)
+                    obj_idx = i
+                    _, object_ids, masks = predictor.add_new_points_or_box(state, frame_idx, obj_idx, box=bboxes[i])
+
+            #frame_idx, object_ids, masks = predictor.add_new_points_or_box(state, 0,1)
+            for frame_idx, object_ids, masks in predictor.propagate_in_video(state):
+                combined_mask = np.zeros((height,width), dtype=np.uint8)
+                for i, mask in enumerate(masks):
+                    mask_temp = (mask[0] > 0.0).cpu().numpy()
+                    combined_mask = np.logical_or(combined_mask, mask_temp)
+                    mask_frame_out = (mask_temp * 255).astype(np.uint8)
+                    cv2.imwrite(f"{outdir}/mask_{frame_idx}_{object_ids[i]}.png", mask_frame_out)
+                mask_out = (combined_mask * 255).astype(np.uint8)
+                mask_out_bgr = cv2.cvtColor(mask_out, cv2.COLOR_GRAY2BGR)
+                mp4_out.write(mask_out_bgr)
+
+        mp4_out.release()
+
     def florence_object_detection(self, jpg_dir, task_prompt="<OD>", search_term=None):
         device = 'cuda' if torch.cuda.is_available() else 'cpu'
         torch_dtype = torch.float16 if torch.cuda.is_available() else torch.float32

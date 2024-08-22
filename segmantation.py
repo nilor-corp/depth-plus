@@ -24,8 +24,8 @@ class DepthPlusSegmentation:
     def process_segmentation(self, video_path=None, outdir=None):
         print("Processing segmentation")
         if(video_path is None or video_path == ""):
-            #video_path=r"test-video\S1_DOLPHINS_A_v1-trim.mp4"
-            video_path=r"test-video\S5_Abstract_B_v1_15sec.mp4"
+            video_path=r"test-video\S1_DOLPHINS_A_v1-trim.mp4"
+            video_path=r"test-video\S5_Abstract_B_v1_15sec-trim.mp4"
         if(outdir is None or outdir == ""):    
             outdir=r"test-video-output\segmentation"
         model_path = r"models\sam2_hiera_large.pt"
@@ -74,27 +74,45 @@ class DepthPlusSegmentation:
                     with open(f"{jpg_dir}/{obj_list[i]}", "r") as f:
                         content = f.read()
                         parsed_object = json.loads(content)
-                        labels = parsed_object["<OD>"]["labels"]
-                        bboxes = parsed_object["<OD>"]["bboxes"]
-                        points = [( (bbox[0] + bbox[2]) / 2, (bbox[1] + bbox[3]) / 2 ) for bbox in bboxes]
                     bboxes = parsed_object["<OD>"]["bboxes"]
                     labels = parsed_object["<OD>"]["labels"]
-                    points = points 
+                    points = [( (bbox[0] + bbox[2]) / 2, (bbox[1] + bbox[3]) / 2 ) for bbox in bboxes]
+
                     frame_idx = i
-                    obj_idx = 0
-                    labels = np.array([1],np.int32)
-                    _, object_ids, masks = predictor.add_new_points_or_box(state, frame_idx, obj_idx, box=bboxes[0])
+                    print(f"labels: {labels}")
+                    #print(f"obj_list: {obj_list}")
+                    for i, box in enumerate(bboxes):
+                        #print area of bounding bx
+                        area = (box[2] - box[0]) * (box[3] - box[1])
+                        print(f"area: {i} = {area}")
+                    for i, label in enumerate(labels):
+                        print(f"enumrate labels: {i}, {label}")
+                        labels = np.array([i],np.int32)
+                        obj_idx = i
+                        _, object_ids, masks = predictor.add_new_points_or_box(state, frame_idx, obj_idx, box=bboxes[i])
 
                 #frame_idx, object_ids, masks = predictor.add_new_points_or_box(state, 0,1)
                 for frame_idx, object_ids, masks in predictor.propagate_in_video(state):
                     #write out masks
+                    # print(f"frame_idx: {frame_idx}")
+                    # print(f"object_ids: {object_ids}")
+                    #print(f"masks: {masks}")
+                    combined_mask = np.zeros((height,width), dtype=np.uint8)
                     for i, mask in enumerate(masks):
-                        mask_out = (mask[0] > 0.0).cpu().numpy()
-                        mask_out = (mask_out * 255).astype(np.uint8)
-                        mask_out_bgr = cv2.cvtColor(mask_out, cv2.COLOR_GRAY2BGR)
-                        mp4_out.write(mask_out_bgr)
-                        cv2.imwrite(f"{outdir}/mask_{frame_idx}_{object_ids[i]}.png", mask_out)
-                        print(f"mask_{frame_idx}_{object_ids[i]}.png saved to {outdir}")
+                        # print(f"mask len: {len(mask)}")
+                        # print(f"mask[{i}].shape: {mask.shape}")
+                        #print(f"masksI {masks[i]}")
+                        # if(i == 0):
+                        #     print("skipping")
+                        #     continue
+                        mask_temp = (mask[0] > 0.0).cpu().numpy()
+                        combined_mask = np.logical_or(combined_mask, mask_temp)
+                        mask_frame_out = (mask_temp * 255).astype(np.uint8)
+                        cv2.imwrite(f"{outdir}/mask_{frame_idx}_{object_ids[i]}.png", mask_frame_out)
+                        #print(f"mask_{frame_idx}_{object_ids[i]}.png saved to {outdir}")
+                    mask_out = (combined_mask * 255).astype(np.uint8)
+                    mask_out_bgr = cv2.cvtColor(mask_out, cv2.COLOR_GRAY2BGR)
+                    mp4_out.write(mask_out_bgr)
 
             mp4_out.release()
             #clean up temp jpgs

@@ -17,37 +17,48 @@
                 "type": "radio",
                 "label": "Output Type",
                 "node-id": "[\"422\"][\"inputs\"][\"string\"]",
-                "choices": ["Depth", "Optical Flow", "Depth + Flow"]
+                "choices": ["Depth", "Optical Flow", "Segmentation", "Depth + Flow", "Depth + Seg", "Flow + Seg", "All"],
+                "value": "Depth" 
             },
             "radio-02": {
                 "type": "radio",
                 "label": "Depth Type",
                 "node-id": "[\"416\"][\"inputs\"][\"string\"]",
-                "choices": ["Relative", "Metric"]
+                "choices": ["Relative", "Metric"],
+                "value": "Relative"
             },
             "bool-01":{
                 "type": "bool",
                 "label": "PNG",
                 "node-id": "[\"393\"][\"inputs\"][\"boolean\"]",
-                "group": "Output Type"
+                "group": "Output Type",
+                "value": false
             },
             "bool-02":{
                 "type": "bool",
                 "label": "MP4",
                 "node-id": "[\"399\"][\"inputs\"][\"boolean\"]",
-                "group": "Output Type"
+                "group": "Output Type",
+                "value": true
             },
             "bool-03":{
                 "type": "bool",
                 "label": "EXR",
                 "node-id": "[\"401\"][\"inputs\"][\"boolean\"]",
-                "group": "Output Type"
+                "group": "Output Type",
+                "value": false
             },
             "radio-03":{
                 "type": "radio",
                 "label": "PNG Bit Depth",
                 "node-id": "[\"390\"][\"inputs\"][\"string\"]",
-                "choices": ["8 Bit", "16 Bit"]
+                "choices": ["8 Bit", "16 Bit"],
+                "value": "8 Bit"
+            },
+            "text-02":{
+                "type": "text",
+                "label": "Segmentation Prompt",
+                "node-id": "[\"761\"][\"inputs\"][\"string\"]"
             }
         },
         "outputs": {

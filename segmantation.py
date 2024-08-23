@@ -1,7 +1,13 @@
 import torch
 import os
 import json
-from utils import write_out_video_as_jpeg_sequence, delete_directory, get_int_sorted_dir_list
+from utils import(
+    write_out_video_as_jpeg_sequence, 
+    delete_directory, 
+    get_int_sorted_dir_list,
+    construct_output_paths,
+    get_bitsize_from_torch_type,
+    make_exr)
 from sam2.build_sam import build_sam2_video_predictor, build_sam2
 from sam2.sam2_image_predictor import SAM2ImagePredictor
 
@@ -23,11 +29,11 @@ import cv2
 import numpy as np
 
 class DepthPlusSegmentation:
-    def process_segmentation(self, video_path=None, outdir=None):
+    def process_segmentation(self, video_path=None, outdir=None, mp4=True, png=False, exr=False, is_png_8bit=False, segmentation_prompt=None):
         print("Processing segmentation")
         if(video_path is None or video_path == ""):
-            #video_path=r"test-video\S1_DOLPHINS_A_v1.mp4"
-            video_path=r"test-video\S5_Abstract_B_v1_15sec.mp4"
+            video_path=r"test-video\S1_DOLPHINS_A_v1.mp4"
+            #video_path=r"test-video\S5_Abstract_B_v1_15sec.mp4"
         if(outdir is None or outdir == ""):    
             outdir=r"test-video-output\segmentation"
         model_path = r"models\sam2_hiera_large.pt"
@@ -35,10 +41,14 @@ class DepthPlusSegmentation:
         #all_model_config_paths = r"C:\ocean\depth-plus-plus\sam_2\sam2_configs"
         relative_sam_path = r"\sam_2\sam2_configs"
         all_model_config_paths = os.path.abspath(relative_sam_path)
-        task_prompt = "<CAPTION_TO_PHRASE_GROUNDING>"
+        #task_prompt = "<CAPTION_TO_PHRASE_GROUNDING>"
         task_prompt = "<OPEN_VOCABULARY_DETECTION>"
-        search_term = "small tropical reef fish swimming"
-
+        #search_term = "small tropical reef fish swimming"
+        if segmentation_prompt is not None or segmentation_prompt != "":
+            search_term = segmentation_prompt
+        else:
+            search_term = "dolphin swimming"
+            
         device = 'cuda' if torch.cuda.is_available() else 'mps' if torch.backends.mps.is_available else 'cpu'
 
           # You can provide a file path or a directory full of videos
@@ -54,6 +64,7 @@ class DepthPlusSegmentation:
 
         print(f"outdir: {outdir}")
         os.makedirs(outdir, exist_ok=True)
+        out_paths = construct_output_paths(video_path, outdir, "segmentation", is_png_8bit=is_png_8bit, is_exr_32bit=True)
 
         #iterate through all videos and process one by one
         for k, filename in enumerate(filenames):
@@ -62,9 +73,17 @@ class DepthPlusSegmentation:
 
             self.florence_object_detection(jpg_dir, task_prompt, search_term)
 
-            video_out = os.path.join(outdir, "segmentation.mp4")
+            if mp4:
+                mp4_output_path = out_paths['mp4']
+                mp4_out = cv2.VideoWriter(mp4_output_path, cv2.VideoWriter_fourcc(*'mp4v'), frame_rate, (width, height))
+                print("Writing segmentation mp4 to: ", mp4_output_path)
+            if png:
+                png_output_path = out_paths['png']
+                print("Writing segmentation png's to: ", png_output_path)
+            if exr:
+                exr_output_path = out_paths['exr']
+                print("Writing segmentation exr's to: ", exr_output_path)
 
-            mp4_out = cv2.VideoWriter(video_out, cv2.VideoWriter_fourcc(*'mp4v'), frame_rate, (width, height))
 
             sam2_model = build_sam2(model_config_path, model_path, device=device)
             predictor = SAM2ImagePredictor(sam2_model)
@@ -81,15 +100,14 @@ class DepthPlusSegmentation:
                     bboxes = parsed_object[task_prompt]["bboxes"]
                     labels = parsed_object[task_prompt]["labels"]
                     points = [( (bbox[0] + bbox[2]) / 2, (bbox[1] + bbox[3]) / 2 ) for bbox in bboxes]
-                    frame_idx = i
                     image = cv2.imread(os.path.join(jpg_dir, filename))
                     image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
                     predictor.set_image(image)
                     combined_mask = np.zeros((height,width), dtype=np.uint8)
-                    for i, label in enumerate(labels):
+                    for i, _ in enumerate(labels):
                         point = np.array([[points[i][0], points[i][1]]])
                         point_label = np.array([1])
-                        masks, scores, _ = predictor.predict(
+                        masks, _, _ = predictor.predict(
                             point_coords=point,
                             point_labels=point_label,
                             box=None,
@@ -103,14 +121,36 @@ class DepthPlusSegmentation:
                         # )
                         for j, mask in enumerate(masks):
                             combined_mask = np.logical_or(combined_mask, mask)
-                    mask_frame_video =  (combined_mask * 255).astype(np.uint8)
-                    cv2.imwrite(f"{outdir}/mask_{frame_count}.png", mask_frame_video)
-                    mask_out_bgr = cv2.cvtColor(mask_frame_video, cv2.COLOR_GRAY2BGR)
-                    mp4_out.write(mask_out_bgr)
+                    if mp4:
+                        bitsize, npytype = get_bitsize_from_torch_type(torch.float8_e4m3fn)
+                        mp4_mask_bytes = (combined_mask * bitsize).astype(npytype)
+                        mp4_frame = cv2.cvtColor(mp4_mask_bytes, cv2.COLOR_GRAY2BGR)
+                        mp4_out.write(mp4_frame)
+                    if png:
+                        if is_png_8bit:
+                            bitsize, npytype = get_bitsize_from_torch_type(torch.float8_e4m3fn)
+                        else:
+                            bitsize, npytype = get_bitsize_from_torch_type(torch.float16)
+                        png_frame = (combined_mask * bitsize).astype(npytype)
+                        png_filename = os.path.join(png_output_path, '{:04d}.png'.format(frame_count))
+                        success = cv2.imwrite(png_filename, png_frame)
+                        if not success:
+                            raise ValueError("Segmentation: Error writing png file")
+                    if exr:
+                        bitsize, nptype = get_bitsize_from_torch_type(torch.float32)
+                        exr_frame = (combined_mask * bitsize).astype(nptype)
+                        exr_filename = os.path.join(exr_output_path, '{:04d}.exr'.format(frame_count))
+                        success = make_exr(exr_filename, exr_frame)
+                        if not success:
+                            raise ValueError("Segmentation: Error writing exr file")
+
                     frame_count += 1
-            mp4_out.release()    
+            if mp4:
+                mp4_out.release()    
+            
 
 
+            #NOTE! This was too RAM heavy, but maybe we want to enable this option later..
             # self.video_prediction(
             #     model_config_path,
             #     model_path,
@@ -159,7 +199,7 @@ class DepthPlusSegmentation:
                 #     area = (box[2] - box[0]) * (box[3] - box[1])
                 #     print(f"area: {i} = {area}")
                 for i, label in enumerate(labels):
-                    print(f"enumrate labels: {i}, {label}")
+                    #print(f"enumrate labels: {i}, {label}")
                     labels = np.array([i],np.int32)
                     obj_idx = i
                     _, object_ids, masks = predictor.add_new_points_or_box(state, frame_idx, obj_idx, box=bboxes[i])
@@ -200,7 +240,7 @@ class DepthPlusSegmentation:
         file_list = sorted(
             [f for f in os.listdir(jpg_dir) if f.lower().endswith(".jpg")],
             key=extract_number)
-        print(file_list)
+        #print(file_list)
         for filename in file_list:
             image = cv2.imread(os.path.join(jpg_dir, filename))
             image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
@@ -227,9 +267,9 @@ class DepthPlusSegmentation:
                 content = f.read()
                 parsed_object = json.loads(content)
             
-            print(f"Parsed object: {parsed_object}")
-            print(f"bboxes: {parsed_object[task_prompt]['bboxes']}")
-            print(f"labels: {parsed_object[task_prompt]['labels']}")
+            # print(f"Parsed object: {parsed_object}")
+            # print(f"bboxes: {parsed_object[task_prompt]['bboxes']}")
+            # print(f"labels: {parsed_object[task_prompt]['labels']}")
 
         pass    
 

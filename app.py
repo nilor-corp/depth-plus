@@ -209,12 +209,13 @@ def run_depth_plus(in_dir, out_dir, output_type, depth_type, png, mp4, exr, png_
         optical.process_optical(video_path=in_dir, outdir=out_dir, mp4=mp4, png=png, exr=exr, is_png_8bit=is_png_8bit)
     if run_segmentation:
         segmentation = DepthPlusSegmentation()
-        segmentation.process_segmentation()
-        print("SEGMENTATION NOT IMPLEMENTED YET")
+        segmentation.process_segmentation(video_path=in_dir, outdir=out_dir, segmentation_prompt=seg_prompt, mp4=mp4, png=png, exr=exr, is_png_8bit=is_png_8bit)
+        #print("SEGMENTATION NOT IMPLEMENTED YET")
         pass
     if not run_depth and not run_optical and not run_segmentation:
         print("No processing selected, aborting")
         pass
+    print("Depth+ processing complete")
     return None
 
 def update_gif(workflow_name):

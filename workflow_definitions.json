@@ -58,7 +58,25 @@
             "text-02":{
                 "type": "text",
                 "label": "Segmentation Prompt",
-                "node-id": "[\"761\"][\"inputs\"][\"string\"]"
+                "node-id": "[\"761\"][\"inputs\"][\"string\"]",
+                "group": "Segmantation Parameters"
+            },
+            "bool-04":{
+                "type": "bool",
+                "label": "Segmentation Threshold Filtering",
+                "node-id": "",
+                "value": false,
+                "group": "Segmantation Parameters"
+            },
+            "slider-01":{
+                "type": "slider",
+                "label": "Segmentation Threshold",
+                "node-id": "",
+                "value": 0.0,
+                "group": "Segmantation Parameters",
+                "minimum": -2.5,
+                "maximum": 2.5
+             
             }
         },
         "outputs": {

@@ -156,7 +156,7 @@ def run_workflow_with_name(workflow_name, raw_components, component_info_dict):
     return wrapper
 
 #TODO pass in all the other necessary params from UI, like what metric, bit, etc
-def run_depth_plus(in_dir, out_dir, output_type, depth_type, png, mp4, exr, png_bit_depth, seg_prompt):
+def run_depth_plus(in_dir, out_dir, output_type, depth_type, png, mp4, exr, png_bit_depth, seg_prompt, seg_filter, filter_threshold):
 
     run_depth = False
     run_optical = False
@@ -178,6 +178,9 @@ def run_depth_plus(in_dir, out_dir, output_type, depth_type, png, mp4, exr, png_
     print(f"EXR: {exr}")
     print(f"PNG Bit Depth: {png_bit_depth}")
     print(f"Segmentation Prompt: {seg_prompt}")
+    print(f"Segmentation Filter: {seg_filter}")
+    print(f"Filter Threshold: {filter_threshold}")
+
 
     # Set the output type flags based on the selected output type
     if "depth" in output_type:
@@ -209,7 +212,16 @@ def run_depth_plus(in_dir, out_dir, output_type, depth_type, png, mp4, exr, png_
         optical.process_optical(video_path=in_dir, outdir=out_dir, mp4=mp4, png=png, exr=exr, is_png_8bit=is_png_8bit)
     if run_segmentation:
         segmentation = DepthPlusSegmentation()
-        segmentation.process_segmentation(video_path=in_dir, outdir=out_dir, segmentation_prompt=seg_prompt, mp4=mp4, png=png, exr=exr, is_png_8bit=is_png_8bit)
+        segmentation.process_segmentation(
+            video_path=in_dir,
+            outdir=out_dir,
+            segmentation_prompt=seg_prompt,
+            mp4=mp4,
+            png=png,
+            exr=exr,
+            is_png_8bit=is_png_8bit,
+            seg_filter=seg_filter,
+            filter_threshold=filter_threshold)
         #print("SEGMENTATION NOT IMPLEMENTED YET")
         pass
     if not run_depth and not run_optical and not run_segmentation:
@@ -333,6 +345,7 @@ def create_tab_interface(workflow_name):
             "float": gr.Number,
             "int": gr.Number,  # Special case for int to round?
             "radio": gr.Radio, # True radios collect their options from the workflow_definitions.json
+            "slider": gr.Slider,
         }
 
 
@@ -372,6 +385,8 @@ def create_tab_interface(workflow_name):
                     components.append(component_constructor(label=input_label, choices=input_details["choices"], value=input_value, elem_id=input_key))
                 elif input_type == "bool":
                     components.append(component_constructor(label=input_label, elem_id=input_key, value=input_details["value"]))
+                elif input_type == "slider":
+                    components.append(component_constructor(label=input_label, elem_id=input_key, value=input_details["value"], minimum=input_details["minimum"], maximum=input_details["maximum"]))
                 else:
                     components.append(component_constructor(label=input_label, elem_id=input_key))
         else:

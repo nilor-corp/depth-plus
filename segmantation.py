@@ -29,11 +29,11 @@ import cv2
 import numpy as np
 
 class DepthPlusSegmentation:
-    def process_segmentation(self, video_path=None, outdir=None, mp4=True, png=False, exr=False, is_png_8bit=False, segmentation_prompt=None):
+    def process_segmentation(self, video_path=None, outdir=None, mp4=True, png=False, exr=False, is_png_8bit=False, segmentation_prompt=None, seg_filter=False, filter_threshold=0.0):
         print("Processing segmentation")
         if(video_path is None or video_path == ""):
-            video_path=r"test-video\S1_DOLPHINS_A_v1.mp4"
-            #video_path=r"test-video\S5_Abstract_B_v1_15sec.mp4"
+            #video_path=r"test-video\S1_DOLPHINS_A_v1.mp4"
+            video_path=r"test-video\S5_Abstract_B_v1_15sec-trim-2.mp4"
         if(outdir is None or outdir == ""):    
             outdir=r"test-video-output\segmentation"
         model_path = r"models\sam2_hiera_large.pt"
@@ -71,7 +71,7 @@ class DepthPlusSegmentation:
             print(f'Progress: {k+1}/{len(filenames)}: {filename}')
             jpg_dir, width, height, frame_rate = write_out_video_as_jpeg_sequence(video_path,filename)
 
-            self.florence_object_detection(jpg_dir, task_prompt, search_term)
+            self.florence_object_detection(jpg_dir, task_prompt, search_term, seg_filter, filter_threshold)
 
             if mp4:
                 mp4_output_path = out_paths['mp4']
@@ -218,7 +218,7 @@ class DepthPlusSegmentation:
 
         mp4_out.release()
 
-    def florence_object_detection(self, jpg_dir, task_prompt="<OD>", search_term=None):
+    def florence_object_detection(self, jpg_dir, task_prompt="<OD>", search_term=None, seg_filter=False, filter_threshold=0.0):
         device = 'cuda' if torch.cuda.is_available() else 'cpu'
         torch_dtype = torch.float16 if torch.cuda.is_available() else torch.float32
         model_id = r"models\Florence-2-large"
@@ -254,11 +254,24 @@ class DepthPlusSegmentation:
             )
             generated_text = processor.batch_decode(generate_ids, skip_special_tokens=False)[0]
             parsed_answer = processor.post_process_generation(generated_text, task=task_prompt, image_size=(width, height))
+
             if task_prompt == "<OPEN_VOCABULARY_DETECTION>":
                 label_key = "bboxes_labels"
                 parsed_answer[task_prompt]["labels"] = parsed_answer[task_prompt].pop(label_key)
-
             
+            if seg_filter:
+                bboxes = parsed_answer[task_prompt]["bboxes"]    
+                labels = parsed_answer[task_prompt]["labels"]
+                areas = [(bbox[2] - bbox[0]) * (bbox[3] - bbox[1]) for bbox in bboxes]
+                mean_area = np.mean(areas)
+                std_area = np.std(areas)
+                threshold = mean_area + filter_threshold * std_area
+                filtered_bboxes_labels = [(bbox, label) for bbox, label, area in zip(bboxes, labels, areas) if area <= threshold]
+                filtered_bboxes, filtered_labels = zip(*filtered_bboxes_labels) if filtered_bboxes_labels else ([], [])
+
+                parsed_answer[task_prompt]["labels"] = filtered_labels
+                parsed_answer[task_prompt]["bboxes"] = filtered_bboxes
+
             #write parsed answer to file
             with open(f"{jpg_dir}/{filename}.txt", "w") as f:
                 f.write(json.dumps(parsed_answer))

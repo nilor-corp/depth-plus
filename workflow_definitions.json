@@ -1,17 +1,19 @@
 {
     "depth-plus":{
-        "name": "Depth Plus",
+        "name": "Depth+",
+        "filename": "depth-plus.json",
         "description": "Take video input and create data necessary to recreate the footage in a 3D engine",
         "inputs": {
             "images-01": {
-                "type": "video",
+                "type": "text",
                 "label": "Path to Video",
                 "node-id": "[\"771\"][\"inputs\"][\"string\"]"
             },
             "text-01": {
                 "type": "text",
-                "label": "Output Path",
-                "node-id": "[\"773\"][\"inputs\"][\"string\"]"
+                "label": "Output Directory",
+                "node-id": "[\"773\"][\"inputs\"][\"string\"]",
+                "value": "./output/"
             },
             "radio-01": {
                 "type": "radio",
@@ -59,7 +61,7 @@
                 "type": "text",
                 "label": "Segmentation Prompt",
                 "node-id": "[\"761\"][\"inputs\"][\"string\"]",
-                "group": "Segmantation Parameters"
+                "group": "Segmentation Parameters"
             },
             "bool-04":{
                 "type": "bool",
@@ -73,7 +75,7 @@
                 "label": "Segmentation Threshold",
                 "node-id": "",
                 "value": 0.0,
-                "group": "Segmantation Parameters",
+                "group": "Segmentation Parameters",
                 "minimum": -2.5,
                 "maximum": 2.5
              

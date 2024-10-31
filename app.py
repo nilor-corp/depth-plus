@@ -324,21 +324,48 @@ def run_workflow_with_name(workflow_name, raw_components, component_info_dict, p
 
     return wrapper
 
-#TODO pass in all the other necessary params from UI, like what metric, bit, etc
-def run_depth_plus(in_dir, out_dir, output_type, depth_type, png, mp4, exr, png_bit_depth, seg_prompt, seg_filter, filter_threshold):
 
-    run_depth = False
-    run_optical = False
-    run_segmentation = False
+def run_depth_plus_wrapper(raw_components, component_info_dict, progress=gr.Progress(track_tqdm=True)):
+    for component in raw_components:
+        print(f"Component: {component.label}")
+
+    def wrapper(*args):
+        # match the component to the arg
+        for component, arg in zip(raw_components, args):
+            # access the component_info_dict using component.elem_id and add a value field = arg
+            component_info_dict[component.elem_id]["value"] = arg
+
+        return run_depth_plus(progress, **component_info_dict, )
+
+    return wrapper
+
+#TODO pass in all the other necessary params from UI, like what metric, bit, etc
+def run_depth_plus(progress, **kwargs):
 
     print("\nDepth+ Triggered")
+    #print(f"kwargs: {kwargs}")
+
+    # Find Inputs
+    in_dir = kwargs["input-dir"]["value"]
+    out_dir = kwargs["output-dir"]["value"]
+    output_type = kwargs["output-type"]["value"]
+    depth_type = kwargs["depth-type"]["value"]
+    png = kwargs["png"]["value"]
+    png_bit_depth = kwargs["png-bit-depth"]["value"]
+    mp4 = kwargs["mp4"]["value"]
+    exr = kwargs["exr"]["value"]
+    seg_prompt = kwargs["segmentation-prompt"]["value"]
+    seg_filter = kwargs["segmentation-filter"]["value"]
+    filter_threshold = kwargs["filter-threshold"]["value"]
 
     # Prepare inputs
     in_dir = os.path.abspath(in_dir)
+    out_dir = os.path.abspath(out_dir)
     output_type = output_type.lower()
     depth_type = depth_type.lower()
     png_bit_depth = png_bit_depth.lower()
 
+    # Print inputs
     print(f"Directory: {in_dir}")
     print(f"Output Directory: {out_dir}")
     print(f"Output Type: {output_type}")
@@ -351,8 +378,11 @@ def run_depth_plus(in_dir, out_dir, output_type, depth_type, png, mp4, exr, png_
     print(f"Segmentation Filter: {seg_filter}")
     print(f"Filter Threshold: {filter_threshold}")
 
-
     # Set the output type flags based on the selected output type
+    run_depth = False
+    run_optical = False
+    run_segmentation = False
+    
     if "depth" in output_type:
         run_depth = True
         if "metric" in depth_type:
@@ -374,6 +404,7 @@ def run_depth_plus(in_dir, out_dir, output_type, depth_type, png, mp4, exr, png_
         is_png_8bit = False
     
     print(f"Running Depth+ with Depth: {run_depth}, Optical: {run_optical}, Segmentation: {run_segmentation}")
+
     if run_depth:
         depth = DepthPlusDepth()
         depth.process_depth(video_path=in_dir, outdir=out_dir, metric=metric, mp4=mp4, png=png, exr=exr, is_png_8bit=is_png_8bit)
@@ -628,9 +659,19 @@ def process_input(input_context, input_key):
 
                 # print(f"Component Constructor: {component_constructor}")
             elif input_type == "radio":
-                # Use the mapping to create components based on input_type
-                component_constructor = component_map.get(input_type)
-                component = component_constructor(label=input_label, elem_id=input_key, choices=input_details["choices"], value=input_value)
+                with gr.Row():
+                    # Use the mapping to create components based on input_type
+                    component_constructor = component_map.get(input_type)
+                    component = component_constructor(label=input_label, elem_id=input_key, choices=input_details["choices"], value=input_value, scale=100)
+
+                    # Compact Reset button with reduced width, initially hidden
+                    reset_button = gr.Button("↺", visible=False, elem_id="reset-button", scale=1, variant="secondary", min_width=5)
+                    # Trigger the reset function when the button is clicked
+                    reset_button.click(fn=reset_input, inputs=[gr.State(input_value)], outputs=component, queue=False, show_progress="hidden")
+                
+                # Trigger the reset check when the value of the input changes
+                html_output = gr.HTML(visible=False)
+                component.change(fn=watch_input, inputs=[component, gr.State(input_value), gr.State(input_key)], outputs=[html_output, reset_button], queue=False, show_progress="hidden")
                 
                 components.append(component)
                 components_dict[input_key] = input_details
@@ -765,7 +806,7 @@ with gr.Blocks(title="WorkFlower") as demo:
 
                             if (selected_port_url is not None) and (components is not None) and (component_dict is not None):
                                 run_button.click(
-                                    fn=run_depth_plus,
+                                    fn=run_depth_plus_wrapper(components, component_dict),
                                     inputs=components,
                                     #outputs=[output_player],
                                     trigger_mode="multiple",

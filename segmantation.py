@@ -67,6 +67,7 @@ class DepthPlusSegmentation:
         out_paths = construct_output_paths(video_path, outdir, "segmentation", is_png_8bit=is_png_8bit, is_exr_32bit=True)
 
         #iterate through all videos and process one by one
+        mp4s_out = []
         for k, filename in enumerate(filenames):
             print(f'Progress: {k+1}/{len(filenames)}: {filename}')
             jpg_dir, width, height, frame_rate = write_out_video_as_jpeg_sequence(video_path,filename)
@@ -145,11 +146,11 @@ class DepthPlusSegmentation:
                             raise ValueError("Segmentation: Error writing exr file")
 
                     frame_count += 1
+
             if mp4:
-                mp4_out.release()    
+                mp4s_out.append(mp4_output_path)
+                mp4_out.release()
             
-
-
             #NOTE! This was too RAM heavy, but maybe we want to enable this option later..
             # self.video_prediction(
             #     model_config_path,
@@ -163,9 +164,12 @@ class DepthPlusSegmentation:
             #     mp4_out
             # )
 
-
             #clean up temp jpgs
             delete_directory(jpg_dir)
+
+            print("Segmentation processing complete")
+
+        return mp4s_out
     
     #Warning -- RAM hungry
     def video_prediction(self,

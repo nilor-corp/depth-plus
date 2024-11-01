@@ -67,7 +67,6 @@ class DepthPlusDepth:
 
     #relative mp4 is default
     def process_depth(self, video_path=None, outdir=None, metric=False, mp4=True, png=False, exr=False, is_png_8bit=True):
-
         if(video_path is None or video_path == ""):
             video_path=r"test-video"
         if(outdir is None or outdir == ""):    
@@ -96,10 +95,11 @@ class DepthPlusDepth:
             filenames = os.listdir(video_path)
             filenames = [os.path.join(video_path, file) for file in filenames if file.endswith(".mp4")]
 
-        print(f"outdier: {outdir}")
+        print(f"outdir: {outdir}")
         os.makedirs(outdir, exist_ok=True)
 
         #iterate through all videos and process one by one
+        mp4s_out = []
         for k, filename in enumerate(filenames):
             print(f'Progress: {k+1}/{len(filenames)}: {filename}')
 
@@ -156,14 +156,18 @@ class DepthPlusDepth:
                     if not success:
                         print(f"Error writing {exr_filename}")
 
-                
                 frame_count += 1
 
-
             raw_video.release()
+
             if mp4:
+                mp4s_out.append(mp4_output_path)
                 mp4_out.release()
-        print("Depth processing complete")
+
+            print("Depth processing complete")
+
+        return mp4s_out
+            
 
             
 

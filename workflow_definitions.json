@@ -16,19 +16,39 @@
                 "node-id": "[\"773\"][\"inputs\"][\"string\"]",
                 "value": "./output/"
             },
-            "output-type": {
-                "type": "radio",
-                "label": "Output Type",
-                "node-id": "[\"422\"][\"inputs\"][\"string\"]",
-                "choices": ["Depth", "Optical Flow", "Segmentation", "Depth + Flow", "Depth + Seg", "Flow + Seg", "All"],
-                "value": "Depth" 
-            },
-            "depth-type": {
-                "type": "radio",
-                "label": "Depth Type",
-                "node-id": "[\"416\"][\"inputs\"][\"string\"]",
-                "choices": ["Relative", "Metric"],
-                "value": "Relative"
+            
+            "output-types": {
+                "type": "group",
+                "label": "Output Types",
+                "inputs": {
+                    "depth":{
+                        "type": "toggle-group",
+                        "label": "Depth",
+                        "node-id": "[\"422\"][\"inputs\"][\"string\"]",
+                        "value": true,
+                        "inputs": {
+                            "depth-type": {
+                                "type": "radio",
+                                "label": "Depth Type",
+                                "node-id": "[\"416\"][\"inputs\"][\"string\"]",
+                                "choices": ["Relative", "Metric"],
+                                "value": "Relative"
+                            }
+                        }
+                    },
+                    "flow":{
+                        "type": "bool",
+                        "label": "Optical Flow",
+                        "node-id": "[\"422\"][\"inputs\"][\"string\"]",
+                        "value": false
+                    },
+                    "segmentation":{
+                        "type": "bool",
+                        "label": "Segmentation",
+                        "node-id": "[\"422\"][\"inputs\"][\"string\"]",
+                        "value": false
+                    }
+                }
             },
 
             "output-filetype": {

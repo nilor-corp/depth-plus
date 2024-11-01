@@ -205,11 +205,18 @@ def get_all_videos(folder):
         return []
     
     video_files = []
+    now = time.time()
+    time_threshold = 1.0  # Time in seconds
+
     for root, dirs, files in os.walk(folder):
         for f in files:
             if f.lower().endswith(("mp4", "mov")):
                 full_path = os.path.join(root, f)
-                video_files.append(full_path)
+                mtime = os.path.getmtime(full_path)
+
+                # Exclude files modified within the last second, to prevent returning files that are actively being written to (and as such are unplayable)
+                if now - mtime > time_threshold:
+                    video_files.append(full_path)
     
     video_files.sort(key=lambda x: os.path.getmtime(x))
     return video_files
@@ -259,7 +266,6 @@ async def wait_for_new_content(previous_content, output_directory):
             print(f"New content created: {latest_content}")
             return latest_content
         await asyncio.sleep(1)
-
 #endregion
 
 def run_workflow(workflow_name, progress, **kwargs):
@@ -341,14 +347,20 @@ def run_depth_plus_wrapper(raw_components, component_info_dict, progress=gr.Prog
 
 #TODO pass in all the other necessary params from UI, like what metric, bit, etc
 def run_depth_plus(progress, **kwargs):
-
     print("\nDepth+ Triggered")
     #print(f"kwargs: {kwargs}")
+    
+    run_depth = kwargs["depth"]["value"]
+    run_optical = kwargs["flow"]["value"]
+    run_segmentation = kwargs["segmentation"]["value"]
+    
+    if not run_depth and not run_optical and not run_segmentation:
+        print("No processing selected, aborting")
+        pass
 
     # Find Inputs
     in_dir = kwargs["input-dir"]["value"]
     out_dir = kwargs["output-dir"]["value"]
-    output_type = kwargs["output-type"]["value"]
     depth_type = kwargs["depth-type"]["value"]
     png = kwargs["png"]["value"]
     png_bit_depth = kwargs["png-bit-depth"]["value"]
@@ -361,15 +373,16 @@ def run_depth_plus(progress, **kwargs):
     # Prepare inputs
     in_dir = os.path.abspath(in_dir)
     out_dir = os.path.abspath(out_dir)
-    output_type = output_type.lower()
     depth_type = depth_type.lower()
     png_bit_depth = png_bit_depth.lower()
 
     # Print inputs
     print(f"Directory: {in_dir}")
     print(f"Output Directory: {out_dir}")
-    print(f"Output Type: {output_type}")
+    print(f"Depth Enabled: {run_depth}")
     print(f"Depth Type: {depth_type}")
+    print(f"Optical Enabled: {run_optical}")
+    print(f"Segmentation Enabled: {run_segmentation}")
     print(f"PNG: {png}")
     print(f"MP4: {mp4}")
     print(f"EXR: {exr}")
@@ -379,24 +392,9 @@ def run_depth_plus(progress, **kwargs):
     print(f"Filter Threshold: {filter_threshold}")
 
     # Set the output type flags based on the selected output type
-    run_depth = False
-    run_optical = False
-    run_segmentation = False
-    
-    if "depth" in output_type:
-        run_depth = True
-        if "metric" in depth_type:
-            metric = True
-        else:
-            metric = False
-    if "flow" in output_type:
-        run_optical = True
-    if "seg" in output_type:
-        run_segmentation = True
-    if "all" in output_type:
-        run_depth = True
-        run_optical = True
-        run_segmentation = True
+    metric = False
+    if run_depth and "metric" in depth_type:
+        metric = True
 
     if "8" in png_bit_depth:
         is_png_8bit = True
@@ -405,15 +403,23 @@ def run_depth_plus(progress, **kwargs):
     
     print(f"Running Depth+ with Depth: {run_depth}, Optical: {run_optical}, Segmentation: {run_segmentation}")
 
+    depth = None
+    optical = None
+    segmentation = None
+
+    depth_mp4_paths = []
+    optical_mp4_paths = []
+    segmentation_mp4_paths = []
+
     if run_depth:
         depth = DepthPlusDepth()
-        depth.process_depth(video_path=in_dir, outdir=out_dir, metric=metric, mp4=mp4, png=png, exr=exr, is_png_8bit=is_png_8bit)
+        depth_mp4_paths = depth.process_depth(video_path=in_dir, outdir=out_dir, metric=metric, mp4=mp4, png=png, exr=exr, is_png_8bit=is_png_8bit)
     if run_optical:
         optical = DepthPlusOptical()
-        optical.process_optical(video_path=in_dir, outdir=out_dir, mp4=mp4, png=png, exr=exr, is_png_8bit=is_png_8bit)
+        optical_mp4_paths = optical.process_optical(video_path=in_dir, outdir=out_dir, mp4=mp4, png=png, exr=exr, is_png_8bit=is_png_8bit)
     if run_segmentation:
         segmentation = DepthPlusSegmentation()
-        segmentation.process_segmentation(
+        segmentation_mp4_paths = segmentation.process_segmentation(
             video_path=in_dir,
             outdir=out_dir,
             segmentation_prompt=seg_prompt,
@@ -425,11 +431,17 @@ def run_depth_plus(progress, **kwargs):
             filter_threshold=filter_threshold)
         #print("SEGMENTATION NOT IMPLEMENTED YET")
         pass
-    if not run_depth and not run_optical and not run_segmentation:
-        print("No processing selected, aborting")
-        pass
+
     print("Depth+ processing complete")
-    return None
+
+    if run_depth and len(depth_mp4_paths) > 0:
+        return depth_mp4_paths[0]
+    elif run_optical and len(optical_mp4_paths) > 0:
+        return optical_mp4_paths[0]
+    elif run_segmentation and len(segmentation_mp4_paths) > 0:
+        return segmentation_mp4_paths[0]
+    
+    return []
 
 def update_gif(workflow_name):
     workflow_json = workflow_definitions[workflow_name]["name"]
@@ -438,7 +450,6 @@ def update_gif(workflow_name):
         return str(gif_path)
     else:
         return None
-
 
 def select_dynamic_input_option(selected_option, choices):
     print(f"Selected option: {selected_option}")
@@ -568,11 +579,16 @@ def process_input(input_context, input_key):
         "toggle-group": gr.Checkbox
     }
     
+    component = None
     components = []
     components_dict = {}
+    reset_button = None
 
     with gr.Group():
         if input_type in component_map:
+            # Use the mapping to create components based on input_type
+            component_constructor = component_map.get(input_type)
+
             if input_type == "group":
                 gr.Markdown(f"##### {input_label}")    
                 
@@ -589,118 +605,70 @@ def process_input(input_context, input_key):
                 with gr.Group():
                     with gr.Row():
                         # Checkbox component which enables Group
-                        component_constructor = component_map.get(input_type)
-                        group_toggle = component_constructor(label=input_label, elem_id=input_key, value=input_value, interactive=input_interactive, scale=100)
+                        component = component_constructor(label=input_label, elem_id=input_key, value=input_value, interactive=input_interactive, scale=100)
                         
                         # Compact Reset button with reduced width, initially hidden
                         reset_button = gr.Button("↺", visible=False, elem_id="reset-button", scale=1, variant="secondary", min_width=5)
-                        # Trigger the reset function when the button is clicked
-                        reset_button.click(fn=reset_input, inputs=[gr.State(input_value)], outputs=group_toggle, queue=False, show_progress="hidden")
-
-                        # Trigger the reset check when the value of the input changes
-                        html_output = gr.HTML(visible=False)
-                        group_toggle.change(fn=watch_input, inputs=[group_toggle, gr.State(input_value), gr.State(input_key)], outputs=[html_output, reset_button], queue=False, show_progress="hidden")
+                    
                     # Group of inputs (initially hidden)
-                    with gr.Group(visible=group_toggle.value) as input_group:
-                        # Use the mapping to create components based on input_type
-                        components.append(group_toggle)
-                        components_dict[input_key] = input_details
-
+                    with gr.Group(visible=component.value) as input_group:
                         sub_context = input_context[input_key]["inputs"]
                         for group_input_key in sub_context:
                             [sub_components, sub_dict_values] = process_input(sub_context, group_input_key)
+
                             components.extend(sub_components)
                             components_dict.update(sub_dict_values)
-
+            
                 # Update the group visibility based on the checkbox
-                group_toggle.change(fn=toggle_group, inputs=group_toggle, outputs=input_group, queue=False, show_progress="hidden")
+                component.change(fn=toggle_group, inputs=component, outputs=input_group, queue=False, show_progress="hidden")
             elif input_type == "images":
-                # print("!!!!!!!!!!!!!!!!!!!!!!!\nMaking Radio")
-                selected_option, inputs, output = create_dynamic_input(
+                # Only append the output (Markdown element) to the components list
+                selected_option, inputs, component = create_dynamic_input(
                     input_type,
                     choices=["filepath", "nilor collection", "upload"], 
                     tooltips=["Enter the path of the directory of images and press Enter to submit", "Enter the name of the Nilor Collection and press Enter to resolve"],
                     text_label="Select Input Type", 
                     identifier=input_key
                 )
-
-                # Only append the output (Markdown element) to the components list
-                components.append(output)
-                components_dict[input_key] = input_details
             elif input_type == "video":
-                selected_option, inputs, output = create_dynamic_input(
+                # Only append the output (Markdown element) to the components list
+                selected_option, inputs, component = create_dynamic_input(
                     input_type,
                     choices=["filepath", "upload"], 
                     tooltips=["Enter the path of the directory of video and press Enter to submit"],
                     text_label="Select Input Type", 
                     identifier=input_key
                 )
-
-                # Only append the output (Markdown element) to the components list
-                component = components.append(output)
-                components_dict[input_key] = input_details
-            elif input_type == "float" or input_type == "int" or input_type == "slider":
-                with gr.Row():
-                    # Use the mapping to create components based on input_type
-                    component_constructor = component_map.get(input_type)
-                    component = component_constructor(label=input_label, elem_id=input_key, value=input_value, minimum=input_minimum, maximum=input_maximum, step=input_step, interactive=input_interactive, scale=100)
-
-                    # Compact Reset button with reduced width, initially hidden
-                    reset_button = gr.Button("↺", visible=False, elem_id="reset-button", scale=1, variant="secondary", min_width=5)
-                    # Trigger the reset function when the button is clicked
-                    reset_button.click(fn=reset_input, inputs=[gr.State(input_value)], outputs=component, queue=False, show_progress="hidden")
-
-                # Trigger the reset check when the value of the input changes
-                html_output = gr.HTML(visible=False)
-                component.change(fn=watch_input, inputs=[component, gr.State(input_value), gr.State(input_key)], outputs=[html_output, reset_button], queue=False, show_progress="hidden")
-
-                components.append(component)
-                components_dict[input_key] = input_details
-
-                # print(f"Component Constructor: {component_constructor}")
-            elif input_type == "radio":
-                with gr.Row():
-                    # Use the mapping to create components based on input_type
-                    component_constructor = component_map.get(input_type)
-                    component = component_constructor(label=input_label, elem_id=input_key, choices=input_details["choices"], value=input_value, scale=100)
-
-                    # Compact Reset button with reduced width, initially hidden
-                    reset_button = gr.Button("↺", visible=False, elem_id="reset-button", scale=1, variant="secondary", min_width=5)
-                    # Trigger the reset function when the button is clicked
-                    reset_button.click(fn=reset_input, inputs=[gr.State(input_value)], outputs=component, queue=False, show_progress="hidden")
-                
-                # Trigger the reset check when the value of the input changes
-                html_output = gr.HTML(visible=False)
-                component.change(fn=watch_input, inputs=[component, gr.State(input_value), gr.State(input_key)], outputs=[html_output, reset_button], queue=False, show_progress="hidden")
-                
-                components.append(component)
-                components_dict[input_key] = input_details
             else:
-                if input_type == "path" and input_value is not None:
-                    input_value = os.path.abspath(input_value)
-                    
                 with gr.Row():
-                    # Use the mapping to create components based on input_type
-                    component_constructor = component_map.get(input_type)
-                    component = component_constructor(label=input_label, elem_id=input_key, value=input_value, interactive=input_interactive, scale=100)
+                    if input_type == "float" or input_type == "int" or input_type == "slider":
+                        component = component_constructor(label=input_label, elem_id=input_key, value=input_value, minimum=input_minimum, maximum=input_maximum, step=input_step, interactive=input_interactive, scale=100)
+                    elif input_type == "radio":
+                        component = component_constructor(label=input_label, elem_id=input_key, choices=input_details["choices"], value=input_value, scale=100)
+                    else:
+                        if input_type == "path" and input_value is not None:
+                            input_value = os.path.abspath(input_value)
+
+                        component = component_constructor(label=input_label, elem_id=input_key, value=input_value, interactive=input_interactive, scale=100)
 
                     # Compact Reset button with reduced width, initially hidden
-                    reset_button = gr.Button("↺", visible=False, elem_id="reset-button", scale=1, variant="secondary", min_width=5)
-                    # Trigger the reset function when the button is clicked
-                    reset_button.click(fn=reset_input, inputs=[gr.State(input_value)], outputs=component, queue=False, show_progress="hidden")
+                    reset_button = gr.Button("↺", visible=False, elem_id="reset-button", scale=1, variant="secondary", min_width=5)     
 
-                # Trigger the reset check when the value of the input changes
-                html_output = gr.HTML(visible=False)
-                component.change(fn=watch_input, inputs=[component, gr.State(input_value), gr.State(input_key)], outputs=[html_output, reset_button], queue=False, show_progress="hidden")
-
+            if component is not None:
                 components.append(component)
                 components_dict[input_key] = input_details
-                # print(f"Component Constructor: {component_constructor}")
+                
+                if reset_button is not None:
+                    # Trigger the reset check when the value of the input changes
+                    html_output = gr.HTML(visible=False)
+                    component.change(fn=watch_input, inputs=[component, gr.State(input_value), gr.State(input_key)], outputs=[html_output, reset_button], queue=False, show_progress="hidden")
+
+                    # Trigger the reset function when the button is clicked
+                    reset_button.click(fn=reset_input, inputs=[gr.State(input_value)], outputs=component, queue=False, show_progress="hidden")
         else:
             print(f"Whoa! Unsupported input type: {input_type}")
 
     return [components, components_dict]
-    #return components
 
 def create_tab_interface(workflow_name):
     gr.Markdown("### Workflow Parameters")
@@ -709,9 +677,6 @@ def create_tab_interface(workflow_name):
 
     components = []
     component_data_dict = {}
-    
-    #constants = []
-    #constants_data_dict = {workflow_name: workflow_definitions[workflow_name]["constants"]}
 
     print(f"\nWORKFLOW: {workflow_name}")
 
@@ -772,9 +737,11 @@ with gr.Blocks(title="WorkFlower") as demo:
 
     demo.unload(fn=unload_demo)
 
+    components = None
+    component_dict = None
+
     with gr.Row():
         with gr.Column():
-
             tabs = gr.Tabs()
             with tabs:
                 with gr.TabItem(label="About"):
@@ -804,18 +771,8 @@ with gr.Blocks(title="WorkFlower") as demo:
 
                             run_button = gr.Button("Run Depth+", variant="primary")
 
-                            if (selected_port_url is not None) and (components is not None) and (component_dict is not None):
-                                run_button.click(
-                                    fn=run_depth_plus_wrapper(components, component_dict),
-                                    inputs=components,
-                                    #outputs=[output_player],
-                                    trigger_mode="multiple",
-                                    #show_progress="full"
-                                )
-
                             output_type = workflow_definitions[workflow_name]["outputs"].get("type", "")
                             #output_prefix = workflow_definitions[workflow_name]["inputs"]["output-specifications"]["inputs"]["filename-prefix"].get("value", "")
-                        
         with gr.Column():
             # TODO: is it possible to preview only an output that was produced by this workflow tab? otherwise this should probably exist outside of the workflow tab
             gr.Markdown("### Output Preview")
@@ -823,14 +780,27 @@ with gr.Blocks(title="WorkFlower") as demo:
                 if output_type == "image":
                     output_player = gr.Image(show_label=False, interactive=False)
                 else:
-                    output_player = gr.Video(show_label=False, autoplay=True, loop=True, interactive=False)
+                    latest_content = get_latest_video(OUT_DIR)
+                    if (latest_content is not None):
+                        output_player = gr.Video(value=latest_content, show_label=False, autoplay=True, loop=True, interactive=False)
+                    else:
+                        output_player = gr.Video(show_label=False, autoplay=True, loop=True, interactive=False)
                 #output_filepath_component = gr.Markdown("N/A")
                 
-                tick_timer.tick(
-                    fn=check_for_new_content,
-                    outputs=[output_player],
-                    show_progress="hidden"
-                )
+                # tick_timer.tick(
+                #     fn=check_for_new_content,
+                #     outputs=[output_player],
+                #     show_progress="hidden"
+                # )
+        
+        if (selected_port_url is not None) and (components is not None) and (component_dict is not None):
+            run_button.click(
+                fn=run_depth_plus_wrapper(components, component_dict),
+                inputs=components,
+                outputs=[output_player],
+                trigger_mode="multiple",
+                #show_progress="full"
+            )
 
 
     demo.launch(allowed_paths=[".."], favicon_path="favicon.png")

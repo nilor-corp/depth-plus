@@ -38,8 +38,11 @@ class DepthPlusOptical:
             filenames = os.listdir(video_path)
             filenames = [os.path.join(video_path, file) for file in filenames if file.endswith(".mp4")]
 
+        print(f"outdir: {outdir}")
         os.makedirs(outdir, exist_ok=True)
+
         #iterate through all videos and process one by one
+        mp4s_out = []
         for k, filename in enumerate(filenames):
             print(f'Progress: {k+1}/{len(filenames)}: {filename}')
 
@@ -107,8 +110,14 @@ class DepthPlusOptical:
                             raise ValueError("Error writing exr file")
                 frame_count += 1
                 prev_frame = curr_frame
+
             raw_video.release()
+
             if mp4:
+                mp4s_out.append(mp4_output_path)
                 mp4_out.release()
-        print("Optical flow processing complete")
+                
+            print("Optical flow processing complete")
+
+        return mp4s_out
 

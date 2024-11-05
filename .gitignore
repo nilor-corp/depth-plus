@@ -10,3 +10,5 @@ kohya-trainer/
 test-video/
 test-video-output/
 temp-jpg-cache/
+ComfyUI/
+test-cvat/

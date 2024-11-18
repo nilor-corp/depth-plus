@@ -21,9 +21,9 @@
                 "type": "group",
                 "label": "Output Types",
                 "inputs": {
-                    "depth":{
+                    "depthanything":{
                         "type": "toggle-group",
-                        "label": "Depth",
+                        "label": "Depth (DepthAnythingV2)",
                         "node-id": "[\"422\"][\"inputs\"][\"string\"]",
                         "value": true,
                         "inputs": {
@@ -35,6 +35,12 @@
                                 "value": "Relative"
                             }
                         }
+                    },
+                    "depthanyvideo":{
+                        "type": "bool",
+                        "label": "Depth (Depth Any Video)",
+                        "node-id": "[\"422\"][\"inputs\"][\"string\"]",
+                        "value": true
                     },
                     "flow":{
                         "type": "bool",

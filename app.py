@@ -14,6 +14,7 @@ import asyncio
 import threading
 
 from depth_anything import DepthPlusDepth 
+from depthanyvideo import DepthPlusDepthAnyVideo 
 from optical_raft import DepthPlusOptical
 from segmantation import DepthPlusSegmentation
 
@@ -350,11 +351,12 @@ def run_depth_plus(progress, **kwargs):
     print("\nDepth+ Triggered")
     #print(f"kwargs: {kwargs}")
     
-    run_depth = kwargs["depth"]["value"]
+    run_depth_anything = kwargs["depthanything"]["value"]
+    run_depth_anyvideo = kwargs["depthanyvideo"]["value"]
     run_optical = kwargs["flow"]["value"]
     run_segmentation = kwargs["segmentation"]["value"]
     
-    if not run_depth and not run_optical and not run_segmentation:
+    if not run_depth_anything and not run_depth_anyvideo and not run_optical and not run_segmentation:
         print("No processing selected, aborting")
         pass
 
@@ -379,7 +381,8 @@ def run_depth_plus(progress, **kwargs):
     # Print inputs
     print(f"Directory: {in_dir}")
     print(f"Output Directory: {out_dir}")
-    print(f"Depth Enabled: {run_depth}")
+    print(f"DepthAnythingV2 Enabled: {run_depth_anything}")
+    print(f"DepthAnyVideo Enabled: {run_depth_anyvideo}")
     print(f"Depth Type: {depth_type}")
     print(f"Optical Enabled: {run_optical}")
     print(f"Segmentation Enabled: {run_segmentation}")
@@ -393,7 +396,7 @@ def run_depth_plus(progress, **kwargs):
 
     # Set the output type flags based on the selected output type
     metric = False
-    if run_depth and "metric" in depth_type:
+    if run_depth_anything and "metric" in depth_type:
         metric = True
 
     if "8" in png_bit_depth:
@@ -401,7 +404,7 @@ def run_depth_plus(progress, **kwargs):
     else:
         is_png_8bit = False
     
-    print(f"Running Depth+ with Depth: {run_depth}, Optical: {run_optical}, Segmentation: {run_segmentation}")
+    print(f"Running Depth+ with DepthAnythingV2: {run_depth_anything}, DepthAnyVideo: {run_depth_anyvideo}, Optical: {run_optical}, Segmentation: {run_segmentation}")
 
     depth = None
     optical = None
@@ -411,9 +414,12 @@ def run_depth_plus(progress, **kwargs):
     optical_mp4_paths = []
     segmentation_mp4_paths = []
 
-    if run_depth:
+    if run_depth_anything:
         depth = DepthPlusDepth()
         depth_mp4_paths = depth.process_depth(video_path=in_dir, outdir=out_dir, metric=metric, mp4=mp4, png=png, exr=exr, is_png_8bit=is_png_8bit)
+    if run_depth_anyvideo:
+        depth = DepthPlusDepthAnyVideo()
+        depth_mp4_paths = depth.process_depth(video_path=in_dir, outdir=out_dir)
     if run_optical:
         optical = DepthPlusOptical()
         optical_mp4_paths = optical.process_optical(video_path=in_dir, outdir=out_dir, mp4=mp4, png=png, exr=exr, is_png_8bit=is_png_8bit)
@@ -434,7 +440,7 @@ def run_depth_plus(progress, **kwargs):
 
     print("Depth+ processing complete")
 
-    if run_depth and len(depth_mp4_paths) > 0:
+    if run_depth_anything and len(depth_mp4_paths) > 0:
         return depth_mp4_paths[0]
     elif run_optical and len(optical_mp4_paths) > 0:
         return optical_mp4_paths[0]
@@ -442,6 +448,9 @@ def run_depth_plus(progress, **kwargs):
         return segmentation_mp4_paths[0]
     
     return []
+
+def run_depth_any_video():
+    print("Processing depth using Depth Any Video")
 
 def update_gif(workflow_name):
     workflow_json = workflow_definitions[workflow_name]["name"]

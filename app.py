@@ -48,7 +48,7 @@ previous_content = ""
 tick_timer = None
 
 def signal_handler(signum, frame):
-    global running
+    global running, tick_timer, threads
     print("\nShutdown signal received. Cleaning up...")
     running = False
     

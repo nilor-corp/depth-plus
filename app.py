@@ -570,7 +570,7 @@ def watch_input(component, default_value, elem_id):
         resetter_visibility = False
     else:
         # Return HTML to change the background color when does NOT match default
-        html = f"<style>#{elem_id}  {{ background: var(--background-fill-secondary); }}</style>"
+        html = f"<style>#{elem_id}  {{ background: var(--background-fill-primary); }}</style>"
         resetter_visibility = True
 
     return gr.update(value=html, visible=resetter_visibility), gr.update(visible=resetter_visibility)
@@ -784,12 +784,16 @@ custom_css = """
     background-image: linear-gradient(120deg, var(--neutral-800) 0%, var(--neutral-900) 70%, var(--primary-800) 100%);
 }
 
+#run-button {
+    background-color: var(--primary-600);
+}
+
 html {
     overflow-y: scroll;
 }
-"""    
+"""
 
-with gr.Blocks(title="Depth+", theme=gr.themes.Ocean(font=gr.themes.GoogleFont("DM Sans")), css=custom_css) as demo:
+with gr.Blocks(title="Depth+", theme=gr.themes.Monochrome(font=gr.themes.GoogleFont("DM Sans"), primary_hue="yellow", secondary_hue="amber"), css=custom_css) as demo:
     #tick_timer = gr.Timer(value=1.0)
     demo.load(fn=load_demo)
     demo.unload(fn=unload_demo)
@@ -819,7 +823,7 @@ with gr.Blocks(title="Depth+", theme=gr.themes.Ocean(font=gr.themes.GoogleFont("
                                         comfy_url_and_port_selector = gr.Dropdown(label="ComfyUI Port", choices=COMFY_PORTS, value=COMFY_PORTS[0], interactive=True, scale=1)
                                         print(f"Default ComfyUI Port: {comfy_url_and_port_selector.value}")
                                         comfy_url_and_port_selector.change(select_correct_port, inputs=[comfy_url_and_port_selector])    
-                                        run_button = gr.Button("Run Depth+", variant="primary", scale=3)
+                                        run_button = gr.Button("Run Depth+", variant="primary", scale=3, elem_id="run-button")
                                     with gr.Accordion("Workflow Info", open=False, elem_id="workflow-info"):
                                         info = gr.Markdown(workflow_definitions[workflow_name].get("description", ""))
 

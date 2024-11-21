@@ -18,6 +18,9 @@ from depthanyvideo import DepthPlusDepthAnyVideo
 from optical_raft import DepthPlusOptical
 from segmantation import DepthPlusSegmentation
 
+import signal
+import sys
+
 with open("config.json") as f:
     config = json.load(f)
 
@@ -35,12 +38,31 @@ selected_port_url = QUEUE_URLS[0]
 
 print(QUEUE_URLS)
 
-OUT_DIR = os.path.abspath("./output/") #TODO: change to /DepthPlus/
-LORA_DIR = os.path.abspath(config["COMFY_ROOT"] + "models/loras/")
+OUT_DIR = os.path.abspath("./output/")
 INPUTS_DIR = os.path.abspath("./inputs/")
 
+running = True
 output_type = ""
+threads = []
 previous_content = ""
+tick_timer = None
+
+def signal_handler(signum, frame):
+    global running
+    print("\nShutdown signal received. Cleaning up...")
+    running = False
+    
+    # Deactivate timer
+    if tick_timer:
+        tick_timer.active = False
+    tick_timer = None
+    
+    # Wait for threads to finish
+    for thread in threads:
+        if thread.is_alive():
+            thread.join(timeout=2.0)
+    
+    sys.exit(0)
 
 def select_correct_port(selector):
     print(f"Selected Port URL: {selector}")
@@ -68,9 +90,8 @@ def post_prompt(prompt_workflow):
     return comfy_POST("prompt", message)
 
 def post_interrupt():
-    global current_progress_data, check_current_progress_running
+    global current_progress_data
     current_progress_data = {}
-
     message = ""
     return comfy_POST("interrupt", message)
 
@@ -172,6 +193,10 @@ def get_system_stats():
 
 #region Content Getters
 def get_all_images(folder):
+    if not os.path.exists(folder):
+        os.makedirs(folder)
+        return []
+    
     files = os.listdir(folder)
     image_files = [
         f for f in files if f.lower().endswith(("png", "jpg", "jpeg", "gif"))
@@ -203,6 +228,7 @@ def get_latest_image_with_prefix(folder, prefix):
 
 def get_all_videos(folder):
     if not os.path.exists(folder):
+        os.makedirs(folder)
         return []
     
     video_files = []
@@ -435,7 +461,6 @@ def run_depth_plus(progress, **kwargs):
             is_png_8bit=is_png_8bit,
             seg_filter=seg_filter,
             filter_threshold=filter_threshold)
-        #print("SEGMENTATION NOT IMPLEMENTED YET")
         pass
 
     print("Depth+ processing complete")
@@ -448,9 +473,6 @@ def run_depth_plus(progress, **kwargs):
         return segmentation_mp4_paths[0]
     
     return []
-
-def run_depth_any_video():
-    print("Processing depth using Depth Any Video")
 
 def update_gif(workflow_name):
     workflow_json = workflow_definitions[workflow_name]["name"]
@@ -494,12 +516,10 @@ def process_dynamic_input(selected_option, possible_options, input_type, *option
     else:
         return None
 
-
 def create_dynamic_input(input_type, choices, tooltips, text_label, identifier):
-    gr.Markdown(f"##### {input_type.capitalize()} Input")    
+    gr.Markdown(f"##### {input_type.capitalize()} Input", elem_classes="group-label")    
     with gr.Group():            
         selected_option = gr.Radio(choices, label=text_label, value=choices[0])
-        #print(f"Choices: {choices}")
         if input_type == "images":
             possible_inputs = [
                 gr.Textbox(label=choices[0], show_label=False, visible=True, info=tooltips[0]),
@@ -512,16 +532,11 @@ def create_dynamic_input(input_type, choices, tooltips, text_label, identifier):
                 gr.File(label=choices[1], show_label=False, visible=False, file_count="single", type="filepath", file_types=["video"])
             ]
 
-
-        output = gr.Markdown(elem_id=identifier)
-        # output = os.path.abspath(output)
+        output = gr.Markdown(elem_id=identifier, elem_classes="group-label")
 
     # modify visibility of inputs based on selected_option
     selected_option.change(select_dynamic_input_option, inputs=[selected_option, gr.State(choices)], outputs=possible_inputs)
 
-    #possible_inputs = select_dynamic_input_option(selected_option.value, choices)
-
-    # print(f"Possible Inputs: {possible_inputs}")
     for input_box in possible_inputs:
         if isinstance(input_box, gr.Textbox):
             input_box.submit(process_dynamic_input, inputs=[selected_option, gr.State(choices), gr.State(input_type)] + possible_inputs, outputs=output)
@@ -571,6 +586,7 @@ def process_input(input_context, input_key):
     input_minimum = input_details.get("minimum", None)
     input_maximum = input_details.get("maximum", None)
     input_step = input_details.get("step", 1)
+    input_info = input_details.get("info", None)
 
     # Define a mapping of input types to Gradio components
     component_map = {
@@ -589,17 +605,17 @@ def process_input(input_context, input_key):
     }
     
     component = None
+    reset_button = None
     components = []
     components_dict = {}
-    reset_button = None
 
     with gr.Group():
         if input_type in component_map:
             # Use the mapping to create components based on input_type
             component_constructor = component_map.get(input_type)
-
+            
             if input_type == "group":
-                gr.Markdown(f"##### {input_label}")    
+                gr.Markdown(f"##### {input_label}", elem_classes="group-label")    
                 
                 with gr.Group():
                     # Group of inputs
@@ -612,13 +628,13 @@ def process_input(input_context, input_key):
                             components_dict.update(sub_dict_values)
             elif input_type == "toggle-group":
                 with gr.Group():
-                    with gr.Row():
+                    with gr.Row(equal_height=True):
                         # Checkbox component which enables Group
-                        component = component_constructor(label=input_label, elem_id=input_key, value=input_value, interactive=input_interactive, scale=100)
+                        component = component_constructor(label=input_label, elem_id=input_key, value=input_value, interactive=input_interactive, scale=100, info=input_info)
                         
                         # Compact Reset button with reduced width, initially hidden
                         reset_button = gr.Button("↺", visible=False, elem_id="reset-button", scale=1, variant="secondary", min_width=5)
-                    
+
                     # Group of inputs (initially hidden)
                     with gr.Group(visible=component.value) as input_group:
                         sub_context = input_context[input_key]["inputs"]
@@ -627,11 +643,10 @@ def process_input(input_context, input_key):
 
                             components.extend(sub_components)
                             components_dict.update(sub_dict_values)
-            
+
                 # Update the group visibility based on the checkbox
                 component.change(fn=toggle_group, inputs=component, outputs=input_group, queue=False, show_progress="hidden")
             elif input_type == "images":
-                # Only append the output (Markdown element) to the components list
                 selected_option, inputs, component = create_dynamic_input(
                     input_type,
                     choices=["filepath", "nilor collection", "upload"], 
@@ -640,7 +655,6 @@ def process_input(input_context, input_key):
                     identifier=input_key
                 )
             elif input_type == "video":
-                # Only append the output (Markdown element) to the components list
                 selected_option, inputs, component = create_dynamic_input(
                     input_type,
                     choices=["filepath", "upload"], 
@@ -648,20 +662,30 @@ def process_input(input_context, input_key):
                     text_label="Select Input Type", 
                     identifier=input_key
                 )
-            else:
+            elif input_type == "float" or input_type == "int" or input_type == "slider":
                 with gr.Row():
-                    if input_type == "float" or input_type == "int" or input_type == "slider":
-                        component = component_constructor(label=input_label, elem_id=input_key, value=input_value, minimum=input_minimum, maximum=input_maximum, step=input_step, interactive=input_interactive, scale=100)
-                    elif input_type == "radio":
-                        component = component_constructor(label=input_label, elem_id=input_key, choices=input_details["choices"], value=input_value, scale=100)
-                    else:
-                        if input_type == "path" and input_value is not None:
-                            input_value = os.path.abspath(input_value)
-
-                        component = component_constructor(label=input_label, elem_id=input_key, value=input_value, interactive=input_interactive, scale=100)
+                    # Use the mapping to create components based on input_type
+                    component = component_constructor(label=input_label, elem_id=input_key, value=input_value, minimum=input_minimum, maximum=input_maximum, step=input_step, interactive=input_interactive, scale=100, info=input_info)
 
                     # Compact Reset button with reduced width, initially hidden
-                    reset_button = gr.Button("↺", visible=False, elem_id="reset-button", scale=1, variant="secondary", min_width=5)     
+                    reset_button = gr.Button("↺", visible=False, elem_id="reset-button", scale=1, variant="secondary", min_width=5)
+            elif input_type == "radio":
+                with gr.Row():
+                    # Use the mapping to create components based on input_type
+                    component = component_constructor(label=input_label, elem_id=input_key, choices=input_details["choices"], value=input_value, scale=100, info=input_info)
+                    
+                    # Compact Reset button with reduced width, initially hidden
+                    reset_button = gr.Button("↺", visible=False, elem_id="reset-button", scale=1, variant="secondary", min_width=5)
+            else:
+                if input_type == "path" and input_value is not None:
+                    input_value = os.path.abspath(input_value)
+
+                with gr.Row(equal_height=True):
+                    # Use the mapping to create components based on input_type
+                    component = component_constructor(label=input_label, elem_id=input_key, value=input_value, interactive=input_interactive, scale=100, info=input_info)
+
+                    # Compact Reset button with reduced width, initially hidden
+                    reset_button = gr.Button("↺", visible=False, elem_id="reset-button", scale=1, variant="secondary", min_width=5)
 
             if component is not None:
                 components.append(component)
@@ -709,10 +733,10 @@ def create_tab_interface(workflow_name):
         interactive_components.extend(sub_components)
         component_data_dict.update(sub_dict_values)
 
-    if len(noninteractive_inputs) > 0:
+    if noninteractive_inputs:
         with gr.Accordion("Constants", open=False):
-            gr.Markdown("You can edit these constants in workflow_definitions.json if you know what you're doing.")
-            
+            gr.Markdown("You can edit these constants in `workflow_definitions.json` if you know what you're doing.")
+        
             for input_key in noninteractive_inputs:
                 [sub_components, sub_dict_values] = process_input(key_context, input_key)
                 noninteractive_components.extend(sub_components)
@@ -723,72 +747,92 @@ def create_tab_interface(workflow_name):
     
     return components, component_data_dict
 
-
 def load_demo():
     global tick_timer
     print("Loading the demo!!!")
 
-    tick_timer = None
     tick_timer = gr.Timer(value=1.0)
 
 def unload_demo():
     global tick_timer
     print("Unloading the demo...")
 
-    tick_timer.active = False
-    tick_timer = None
+    # Deactivate timer
+    if tick_timer:
+        tick_timer.active = False
 
     time.sleep(2.0)
 
-with gr.Blocks(title="WorkFlower") as demo:
-    demo.load(fn=load_demo)
-    tick_timer = gr.Timer(value=1.0)
+def setup_signal_handlers():
+    if threading.current_thread() is threading.main_thread():
+        try:
+            signal.signal(signal.SIGINT, signal_handler)    # Ctrl+C
+            signal.signal(signal.SIGTERM, signal_handler)   # Termination request
+            print("Signal handlers set up successfully")
+        except ValueError as e:
+            print(f"Could not set up signal handlers: {e}")
 
+custom_css = """
+.group-label {
+    padding: .25rem;
+}
+
+#workflow-info {
+    background-image: linear-gradient(120deg, var(--neutral-800) 0%, var(--neutral-900) 70%, var(--primary-800) 100%);
+}
+
+html {
+    overflow-y: scroll;
+}
+"""    
+
+with gr.Blocks(title="Depth+", theme=gr.themes.Ocean(font=gr.themes.GoogleFont("DM Sans")), css=custom_css) as demo:
+    #tick_timer = gr.Timer(value=1.0)
+    demo.load(fn=load_demo)
     demo.unload(fn=unload_demo)
 
-    components = None
-    component_dict = None
-
     with gr.Row():
-        with gr.Column():
+        with gr.Column(scale=5):
             tabs = gr.Tabs()
             with tabs:
                 with gr.TabItem(label="About"):
                     with gr.Row():
                         gr.Markdown(
-                            "Depth+ is a tool for extracting depth, optical flow, and segmentation masks from a video. "
-                            "Select a workflow from the tabs above and fill in the parameters. "
-                            "Click 'Run Depth+' to extract the relevant data. "
-                            #"The output video will be displayed below."
+                            "Depth+ is a tool for extracting depth, optical flow, and segmentation masks from a video.\n\n"
+                            "Select a workflow from the tabs above and fill in the parameters.\n\n"
+                            "Click 'Run Depth+' to start the workflow.",
+                            line_breaks=True
                         )
                 for workflow_name in workflow_definitions.keys():
                     workflow_filename = workflow_definitions[workflow_name]["filename"]
 
                     # make a tab for each workflow
                     with gr.TabItem(label=workflow_definitions[workflow_name]["name"]):
-                        info = gr.Markdown(workflow_definitions[workflow_name].get("description", ""))
-
                         with gr.Row():
                             # main input construction
                             with gr.Column():
+                                with gr.Group():
+                                    with gr.Row(equal_height=True):
+                                        comfy_url_and_port_selector = gr.Dropdown(label="ComfyUI Port", choices=COMFY_PORTS, value=COMFY_PORTS[0], interactive=True, scale=1)
+                                        print(f"Default ComfyUI Port: {comfy_url_and_port_selector.value}")
+                                        comfy_url_and_port_selector.change(select_correct_port, inputs=[comfy_url_and_port_selector])    
+                                        run_button = gr.Button("Run Depth+", variant="primary", scale=3)
+                                    with gr.Accordion("Workflow Info", open=False, elem_id="workflow-info"):
+                                        info = gr.Markdown(workflow_definitions[workflow_name].get("description", ""))
+
                                 # also make a dictionary with the components' data
                                 components, component_dict = create_tab_interface(workflow_name)
 
-                            # comfy_url_and_port_selector = gr.Dropdown(label="ComfyUI Port", choices=COMFY_PORTS, value=COMFY_PORTS[0], interactive=True)
-                            # print(f"Default ComfyUI Port: {comfy_url_and_port_selector.value}")
-                            # comfy_url_and_port_selector.change(select_correct_port, inputs=[comfy_url_and_port_selector])
-
-                            run_button = gr.Button("Run Depth+", variant="primary")
-
                             output_type = workflow_definitions[workflow_name]["outputs"].get("type", "")
-                            #output_prefix = workflow_definitions[workflow_name]["inputs"]["output-specifications"]["inputs"]["filename-prefix"].get("value", "")
-        with gr.Column():
+                        
+        with gr.Column(scale=4):
             # TODO: is it possible to preview only an output that was produced by this workflow tab? otherwise this should probably exist outside of the workflow tab
             gr.Markdown("### Output Preview")
             with gr.Group():
                 if output_type == "image":
                     output_player = gr.Image(show_label=False, interactive=False)
                 else:
+                    # populate the Output Preview with the latest video in the output directory 
                     latest_content = get_latest_video(OUT_DIR)
                     if (latest_content is not None):
                         output_player = gr.Video(value=latest_content, show_label=False, autoplay=True, loop=True, interactive=False)
@@ -796,20 +840,20 @@ with gr.Blocks(title="WorkFlower") as demo:
                         output_player = gr.Video(show_label=False, autoplay=True, loop=True, interactive=False)
                 #output_filepath_component = gr.Markdown("N/A")
                 
-                # tick_timer.tick(
-                #     fn=check_for_new_content,
-                #     outputs=[output_player],
-                #     show_progress="hidden"
-                # )
-        
         if (selected_port_url is not None) and (components is not None) and (component_dict is not None):
             run_button.click(
                 fn=run_depth_plus_wrapper(components, component_dict),
                 inputs=components,
                 outputs=[output_player],
-                trigger_mode="multiple",
+                trigger_mode="multiple"
                 #show_progress="full"
             )
 
-
-    demo.launch(allowed_paths=[".."], favicon_path="favicon.png")
+    if __name__ == "__main__":
+        setup_signal_handlers()
+        demo.launch(
+            allowed_paths=[
+                OUT_DIR,
+                INPUTS_DIR
+            ], favicon_path="favicon.png"
+        )

@@ -563,14 +563,17 @@ def make_visible():
     return gr.update(visible=True)
 
 def watch_input(component, default_value, elem_id):
+    resetter_visibility = False
     if component == default_value:
         # Return HTML to reset background color when value matches default
         html = ""
-        return gr.update(value=html, visible=False), gr.update(visible=False)
+        resetter_visibility = False
     else:
         # Return HTML to change the background color when does NOT match default
         html = f"<style>#{elem_id}  {{ background: var(--background-fill-secondary); }}</style>"
-        return gr.update(value=html, visible=True), gr.update(visible=True)
+        resetter_visibility = True
+
+    return gr.update(value=html, visible=resetter_visibility), gr.update(visible=resetter_visibility)
 
 def reset_input(default_value):
     return default_value

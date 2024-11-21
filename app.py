@@ -588,6 +588,7 @@ def process_input(input_context, input_key):
     input_minimum = input_details.get("minimum", None)
     input_maximum = input_details.get("maximum", None)
     input_step = input_details.get("step", 1)
+    input_choices = input_details.get("choices", None)
     input_info = input_details.get("info", None)
 
     # Define a mapping of input types to Gradio components
@@ -613,7 +614,7 @@ def process_input(input_context, input_key):
 
     with gr.Group():
         if input_type in component_map:
-            # Use the mapping to create components based on input_type
+            # Use the mapping to find Gradio component based on input_type
             component_constructor = component_map.get(input_type)
             
             if input_type == "group":
@@ -665,16 +666,16 @@ def process_input(input_context, input_key):
                     identifier=input_key
                 )
             elif input_type == "float" or input_type == "int" or input_type == "slider":
-                with gr.Row():
+                with gr.Row(equal_height=True):
                     # Use the mapping to create components based on input_type
                     component = component_constructor(label=input_label, elem_id=input_key, value=input_value, minimum=input_minimum, maximum=input_maximum, step=input_step, interactive=input_interactive, scale=100, info=input_info)
 
                     # Compact Reset button with reduced width, initially hidden
                     reset_button = gr.Button("↺", visible=False, elem_id="reset-button", scale=1, variant="secondary", min_width=5)
             elif input_type == "radio":
-                with gr.Row():
+                with gr.Row(equal_height=True):
                     # Use the mapping to create components based on input_type
-                    component = component_constructor(label=input_label, elem_id=input_key, choices=input_details["choices"], value=input_value, scale=100, info=input_info)
+                    component = component_constructor(label=input_label, elem_id=input_key, choices=input_choices, value=input_value, scale=100, info=input_info)
                     
                     # Compact Reset button with reduced width, initially hidden
                     reset_button = gr.Button("↺", visible=False, elem_id="reset-button", scale=1, variant="secondary", min_width=5)

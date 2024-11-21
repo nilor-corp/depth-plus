@@ -797,7 +797,7 @@ with gr.Blocks(title="Depth+", theme=gr.themes.Ocean(font=gr.themes.GoogleFont("
                 with gr.TabItem(label="About"):
                     with gr.Row():
                         gr.Markdown(
-                            "Depth+ is a tool for extracting depth, optical flow, and segmentation masks from a video.\n\n"
+                            "Depth+ is a tool by Nilor Corp for extracting depth, optical flow, and segmentation masks from a video.\n\n"
                             "Select a workflow from the tabs above and fill in the parameters.\n\n"
                             "Click 'Run Depth+' to start the workflow.",
                             line_breaks=True

@@ -14,3 +14,6 @@ ComfyUI/
 test-cvat/
 *.pyc
 **pycache**
+output/*
+!output/*
+output/*/

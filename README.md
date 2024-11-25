@@ -12,67 +12,65 @@ license: apache-2.0
 
 Check out the configuration reference at https://huggingface.co/docs/hub/spaces-config-reference
 
-# Installing Depth+
+# Depth+
 
 ## Dependencies:
-
-- python
-- cuda version 12.1
-- ssh connection to nilor corp HF organization: https://huggingface.co/nilor-corp
-- git lfs
+- Python
+- Cuda version 12.1
+- SSH connection to Nilor Corp HuggingFace organization: https://huggingface.co/nilor-corp
+- Git and LFS
 
 ## Installation
+**Disclaimer:** These commands have only been tested using Powershell with Administrative privileges.
 
-these commands have only been tested using Powershell with Administrator privileges so far
-
-### Install Depth+
-
+### Setup python environment
 ```
 mkdir nilor-corp
 cd nilor-corp
-git clone git@hf.co:spaces/nilor-corp/depth-plus
-cd depth-plus
-```
-
-### Setup python environment
-
-```
 python -m venv venv
 .\venv\Scripts\activate.ps1
 ```
 
-### Install torch
+### Install Depth+
+- in the `.\nilor-corp\` dir:
+```
+git clone git@hf.co:spaces/nilor-corp/depth-plus
+```
 
-`pip install torch torchvision torchaudio xformers --index-url https://download.pytorch.org/whl/cu121`
+### Install torch dependencies
+- in the `.\nilor-corp\` dir:
+```
+pip install torch torchvision torchaudio xformers --index-url https://download.pytorch.org/whl/cu121
+```
 
 - this step is liable to cause some pain to the user. before pulling out your own hair in a later step, return to this step and check:
   - the compatibility of your torch/torchvision/torchaudio packages with each other and with your CUDA Toolkit installation version (we are targeting 12.1)
   - if you're coming back here from an `fbgemm.dll` error, check this link and perform the manual copy and rename of `libiomp5md.dll` as stated: https://github.com/comfyanonymous/ComfyUI/issues/3703#issuecomment-2253349160
 
 ### Install other dependencies
-
-`python -m pip install -r requirements.txt`
-
-### Directory Structure
-
-After finishing installation, your directory structure should look like this:
-
-- nilor-corp
-  - depth-plus
-    - venv
-
-
-### Run Depth+
-
-From nilor-corp root:
-
+- in the `.\nilor-corp\` dir:
 ```
 cd depth-plus
+python -m pip install -r requirements.txt
+```
+
+### Directory Structure
+After finishing installation, your directory structure should look like this:
+- nilor-corp
+  - depth-plus
+  - venv
+
+## Run Depth+
+- in the `.\nilor-corp\` dir:
+```
 .\venv\scripts\activate.ps1
+cd depth-plus
 gradio ./app.py
 ```
 
-gradio will likely throw some warnings at you that can be ignored
+Gradio will likely throw some warnings at you that can be safely ignored.
 
-Follow the gradio UI instructions carefully, especially about the input dir if specifying input dir manually
+Follow the Gradio UI instructions carefully, especially about the input dir if specifying input dir manually.
 
+### Output
+Generated output can be found in: `.\nilor-corp\depth-plus\output` dir.

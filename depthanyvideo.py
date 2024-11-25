@@ -92,6 +92,14 @@ class DepthPlusDepthAnyVideo:
         is_video = cfg.data_path.lower().endswith((".mp4", ".avi", ".mov", ".mkv"))
 
         if is_video:
+            # Get video info first for progress tracking
+            raw_video = cv2.VideoCapture(cfg.data_path)
+            total_frames = int(raw_video.get(cv2.CAP_PROP_FRAME_COUNT))
+            raw_video.release()  # Release it since we'll read it again with img_utils
+            
+            print(f"Processing {total_frames} frames...")
+            progress(0, desc="Reading video frames")
+            
             num_interp_frames = cfg.num_interp_frames
             num_overlap_frames = cfg.num_overlap_frames
             num_frames = cfg.num_frames
@@ -103,7 +111,8 @@ class DepthPlusDepthAnyVideo:
                 num_frames // 2
             )
             image, fps = img_utils.read_video(cfg.data_path, max_frames=max_frames)
-
+            progress(0.2, desc="Preprocessing frames")
+            
             if image is None or len(image) == 0:
                 raise ValueError("No frames extracted from the video. Please check the input file.")
         else:
@@ -119,17 +128,14 @@ class DepthPlusDepthAnyVideo:
         )
         image_tensor = torch.from_numpy(image_tensor).to(DEVICE)
 
+        progress(0.3, desc="Loading models")
         pipe = self.load_models(MODEL_BASE, DEVICE)
         print(f"DepthAnyVideo models loaded on {DEVICE}")
 
         print("Starting DepthAnyVideo processing...")
-        # Get total frame count for progress reporting
-        total_frames = int(raw_video.get(cv2.CAP_PROP_FRAME_COUNT))
-        print(f"Processing {total_frames} frames...")
-
-        with torch.no_grad(), torch.autocast(
-            device_type=DEVICE_TYPE, dtype=torch.float16
-        ):
+        progress(0.4, desc="Processing depth estimation")
+        
+        with torch.no_grad(), torch.autocast(device_type=DEVICE_TYPE, dtype=torch.float16):
             pipe_out = pipe(
                 image_tensor,
                 num_frames=cfg.num_frames,
@@ -137,10 +143,9 @@ class DepthPlusDepthAnyVideo:
                 num_interp_frames=cfg.num_interp_frames,
                 decode_chunk_size=cfg.decode_chunk_size,
                 num_inference_steps=cfg.denoise_steps,
-                callback=lambda step, total: progress(step/total, desc="Depth estimation")
             )
-            print(f"Depth estimation complete, writing output...")
-
+        
+        progress(0.8, desc="Post-processing")
         disparity = pipe_out.disparity
         disparity_colored = pipe_out.disparity_colored
         image = pipe_out.image
@@ -153,25 +158,10 @@ class DepthPlusDepthAnyVideo:
             axis=2,
         )
 
+        progress(0.9, desc="Writing output")
         if is_video:
-            output_path = os.path.join(cfg.output_dir, f"{file_name}_depth.mp4")  # Ensure .mp4 extension
-            img_utils.write_video(
-                output_path,
-                merged,
-                fps
-            )
-            # Verify the file exists and return absolute path
-            if os.path.isfile(output_path):
-                abs_path = os.path.abspath(output_path)
-                print(f"Video created successfully at: {abs_path}")
-                return [abs_path]  # Return as list to match expected format
-            else:
-                print(f"Error: Video file not found at expected path: {output_path}")
-                return None
-        else:
-            output_path = os.path.join(cfg.output_dir, f"{file_name}_depth.png")
-            img_utils.write_image(
-                output_path,
-                merged[0],
-            )
-            return [output_path] if os.path.isfile(output_path) else None
+            output_path = os.path.join(cfg.output_dir, f"{file_name}_depth.mp4")
+            img_utils.write_video(output_path, merged, fps)
+            
+        progress(1.0, desc="Complete")
+        return [output_path] if os.path.isfile(output_path) else None

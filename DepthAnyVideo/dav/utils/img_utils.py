@@ -3,6 +3,7 @@ import cv2
 import numpy as np
 import os
 import tempfile
+import shutil
 
 
 def resize(img, size):
@@ -87,24 +88,41 @@ def read_image(image_path):
 def write_video(video_path, frames, fps):
     tmp_dir = os.path.join(os.path.dirname(video_path), "tmp")
     os.makedirs(tmp_dir, exist_ok=True)
-    for i, frame in enumerate(frames):
-        write_image(os.path.join(tmp_dir, f"{i:06d}.png"), frame)
-    # it will cause visual compression artifacts
-    ffmpeg_command = [
-        "ffmpeg",
-        "-f",
-        "image2",
-        "-framerate",
-        f"{fps}",
-        "-i",
-        os.path.join(tmp_dir, "%06d.png"),
-        "-b:v",
-        "5626k",
-        "-y",
-        video_path,
-    ]
-    os.system(" ".join(ffmpeg_command))
-    os.system(f"rm -rf {tmp_dir}")
+    try:
+        # Write frames to temporary files
+        for i, frame in enumerate(frames):
+            write_image(os.path.join(tmp_dir, f"{i:06d}.png"), frame)
+        
+        # Run ffmpeg
+        ffmpeg_command = [
+            "ffmpeg",
+            "-f",
+            "image2",
+            "-framerate",
+            f"{fps}",
+            "-i",
+            os.path.join(tmp_dir, "%06d.png"),
+            "-b:v",
+            "5626k",
+            "-y",
+            video_path,
+        ]
+        os.system(" ".join(ffmpeg_command))
+        
+        # Verify the file was created
+        if not os.path.isfile(video_path):
+            print(f"Error: FFmpeg failed to create video at {video_path}")
+            return False
+        print(f"Successfully created video at {video_path}")
+        return True
+            
+    finally:
+        # Clean up temp directory using platform-independent code
+        try:
+            if os.path.exists(tmp_dir):
+                shutil.rmtree(tmp_dir)
+        except Exception as e:
+            print(f"Warning: Could not clean up temporary directory {tmp_dir}: {e}")
 
 
 def write_image(image_path, frame):

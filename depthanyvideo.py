@@ -4,6 +4,8 @@ import shutil
 import torch
 from easydict import EasyDict
 import numpy as np
+import cv2
+import gradio as gr
 
 from DepthAnyVideo.dav.pipelines import DAVPipeline
 from DepthAnyVideo.dav.models import UNetSpatioTemporalRopeConditionModel
@@ -46,6 +48,7 @@ class DepthPlusDepthAnyVideo:
     
     def process_depth(
         self,
+        progress=gr.Progress(),
         video_path=None,
         outdir=None,
         denoise_steps=3,
@@ -119,6 +122,11 @@ class DepthPlusDepthAnyVideo:
         pipe = self.load_models(MODEL_BASE, DEVICE)
         print(f"DepthAnyVideo models loaded on {DEVICE}")
 
+        print("Starting DepthAnyVideo processing...")
+        # Get total frame count for progress reporting
+        total_frames = int(raw_video.get(cv2.CAP_PROP_FRAME_COUNT))
+        print(f"Processing {total_frames} frames...")
+
         with torch.no_grad(), torch.autocast(
             device_type=DEVICE_TYPE, dtype=torch.float16
         ):
@@ -129,7 +137,9 @@ class DepthPlusDepthAnyVideo:
                 num_interp_frames=cfg.num_interp_frames,
                 decode_chunk_size=cfg.decode_chunk_size,
                 num_inference_steps=cfg.denoise_steps,
+                callback=lambda step, total: progress(step/total, desc="Depth estimation")
             )
+            print(f"Depth estimation complete, writing output...")
 
         disparity = pipe_out.disparity
         disparity_colored = pipe_out.disparity_colored

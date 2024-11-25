@@ -8,6 +8,7 @@ from utils import load_torch_file, get_bitsize_from_torch_type, make_exr, constr
 from depth_anything_v2.dpt import DepthAnythingV2
 import cv2
 import numpy as np
+import gradio as gr
 
 try:
     from accelerate import init_empty_weights
@@ -65,7 +66,7 @@ class DepthPlusDepth:
         return da_model
 
     #relative mp4 is default
-    def process_depth(self, video_path=None, outdir=None, metric=False, mp4=True, png=False, exr=False, is_png_8bit=True):
+    def process_depth(self, progress=gr.Progress(), video_path=None, outdir=None, metric=False, mp4=True, png=False, exr=False, is_png_8bit=True):
         if(video_path is None or video_path == ""):
             video_path=r"test-video"
         if(outdir is None or outdir == ""):    
@@ -100,7 +101,7 @@ class DepthPlusDepth:
         #iterate through all videos and process one by one
         mp4s_out = []
         for k, filename in enumerate(filenames):
-            print(f'Progress: {k+1}/{len(filenames)}: {filename}')
+            print(f'Processing video {k+1}/{len(filenames)}: {filename}')
 
             # Determine the suffix based on the processing type
             model_type = "metric" if metric else "relative"
@@ -123,10 +124,18 @@ class DepthPlusDepth:
                 print("Writing exr's to: ", exr_output_path)
 
             frame_count = 0
+            total_frames = int(raw_video.get(cv2.CAP_PROP_FRAME_COUNT))
+            print(f"Processing {total_frames} frames...")
+
+            progress(0, desc=f"Processing video {k+1}/{len(filenames)}")
+
             while raw_video.isOpened():
                 ret, frame = raw_video.read()
                 if not ret:
                     break
+                
+                progress((frame_count + 1) / total_frames, 
+                        desc=f"Processing frame {frame_count + 1}/{total_frames}")
                 
                 depth = model.infer_image(frame, 1024)
 

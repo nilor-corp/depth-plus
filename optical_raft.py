@@ -6,10 +6,11 @@ import torch
 import os
 import cv2
 from utils import get_bitsize_from_torch_type, make_exr, construct_output_paths
+import gradio as gr
 
 
 class DepthPlusOptical:
-    def process_optical(self, video_path=None, outdir=None, mp4=True, png=False, exr=False, is_png_8bit=True):
+    def process_optical(self, progress=gr.Progress(), video_path=None, outdir=None, mp4=True, png=False, exr=False, is_png_8bit=True):
         print("running optical flow")
 
         if(video_path is None or video_path==""):
@@ -44,8 +45,8 @@ class DepthPlusOptical:
         #iterate through all videos and process one by one
         mp4s_out = []
         for k, filename in enumerate(filenames):
-            print(f'Progress: {k+1}/{len(filenames)}: {filename}')
-
+            progress(k/len(filenames), desc=f"Processing video {k+1}/{len(filenames)}")
+            
             paths = construct_output_paths(filename, outdir, "optical", is_png_8bit=is_png_8bit, is_exr_32bit=True)
 
 
@@ -66,8 +67,14 @@ class DepthPlusOptical:
                 print("Writing exr's to: ", exr_output_path)
 
             frame_count = 0
+            total_frames = int(raw_video.get(cv2.CAP_PROP_FRAME_COUNT))
+            print(f"Processing {total_frames} frames...")
+            
             prev_frame = None
             while raw_video.isOpened():
+                progress((frame_count + 1) / total_frames, 
+                        desc=f"Processing frame {frame_count + 1}/{total_frames}")
+                
                 with torch.no_grad():
                     ret, curr_frame = raw_video.read()  
                     if not ret:

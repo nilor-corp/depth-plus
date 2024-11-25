@@ -1,4 +1,3 @@
-
 import os
 import random
 import shutil
@@ -151,11 +150,18 @@ class DepthPlusDepthAnyVideo:
                 merged,
                 fps
             )
-            return output_path
+            # Verify the file exists and return absolute path
+            if os.path.isfile(output_path):
+                abs_path = os.path.abspath(output_path)
+                print(f"Video created successfully at: {abs_path}")
+                return [abs_path]  # Return as list to match expected format
+            else:
+                print(f"Error: Video file not found at expected path: {output_path}")
+                return None
         else:
             output_path = os.path.join(cfg.output_dir, f"{file_name}_depth.png")
             img_utils.write_image(
                 output_path,
                 merged[0],
             )
-            return output_path
+            return [output_path] if os.path.isfile(output_path) else None

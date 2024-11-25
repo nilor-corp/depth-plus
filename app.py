@@ -173,7 +173,11 @@ def get_all_videos(folder):
 
 def get_latest_video(folder):
     video_files = get_all_videos(folder)
-    latest_video = os.path.join(folder, video_files[-1]) if video_files else None
+    if not video_files:
+        print(f"No video files found in {folder}")
+        return None
+    latest_video = video_files[-1]
+    print(f"Found latest video: {latest_video}")
     return latest_video
 
 def get_latest_video_with_prefix(folder, prefix):
@@ -325,15 +329,27 @@ def run_depth_plus(progress, **kwargs):
         pass
 
     print("Depth+ processing complete")
-
-    if run_depth_anything and len(depth_mp4_paths) > 0:
-        return depth_mp4_paths[0]
-    elif run_optical and len(optical_mp4_paths) > 0:
-        return optical_mp4_paths[0]
-    elif run_segmentation and len(segmentation_mp4_paths) > 0:
-        return segmentation_mp4_paths[0]
     
-    return []
+    # Return the first valid video file path with additional logging
+    if run_depth_anyvideo and depth_mp4_paths:
+        path = depth_mp4_paths[0] if os.path.isfile(depth_mp4_paths[0]) else None
+        print(f"Returning DepthAnyVideo output: {path}")
+        return path
+    elif run_depth_anything and depth_mp4_paths:
+        path = depth_mp4_paths[0] if os.path.isfile(depth_mp4_paths[0]) else None
+        print(f"Returning DepthAnything output: {path}")
+        return path
+    elif run_optical and optical_mp4_paths:
+        path = optical_mp4_paths[0] if os.path.isfile(optical_mp4_paths[0]) else None
+        print(f"Returning Optical output: {path}")
+        return path
+    elif run_segmentation and segmentation_mp4_paths:
+        path = segmentation_mp4_paths[0] if os.path.isfile(segmentation_mp4_paths[0]) else None
+        print(f"Returning Segmentation output: {path}")
+        return path
+    
+    print("No valid output paths found")
+    return None
 
 def update_gif(workflow_name):
     workflow_json = workflow_definitions[workflow_name]["name"]

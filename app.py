@@ -672,7 +672,6 @@ html {
 
 .progress-bar {
     background: linear-gradient(to right, var(--primary-500), var(--secondary-500));
-    border-radius: 8px;
 }
 
 """

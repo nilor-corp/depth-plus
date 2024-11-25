@@ -1,7 +1,5 @@
 import json
-import requests
 import os
-import glob
 import time
 from datetime import datetime
 import gradio as gr
@@ -9,7 +7,6 @@ from pathlib import Path
 from image_downloader import resolve_online_collection
 from image_downloader import organise_local_files
 from image_downloader import copy_uploaded_files_to_local_dir
-from tqdm import tqdm
 import asyncio
 import threading
 
@@ -21,22 +18,8 @@ from segmantation import DepthPlusSegmentation
 import signal
 import sys
 
-with open("config.json") as f:
-    config = json.load(f)
-
 with open("workflow_definitions.json") as f:
     workflow_definitions = json.load(f)
-
-COMFY_IP = config["COMFY_IP"]
-COMFY_PORTS = config["COMFY_PORTS"]
-QUEUE_URLS = []
-
-for port in COMFY_PORTS:
-    QUEUE_URLS.append(f"http://{COMFY_IP}:{port}")
-
-selected_port_url = QUEUE_URLS[0]
-
-print(QUEUE_URLS)
 
 OUT_DIR = os.path.abspath("./output/")
 INPUTS_DIR = os.path.abspath("./inputs/")
@@ -64,132 +47,7 @@ def signal_handler(signum, frame):
     
     sys.exit(0)
 
-def select_correct_port(selector):
-    print(f"Selected Port URL: {selector}")
-    global selected_port_url 
-    selected_port_url = f"http://{COMFY_IP}:{selector}"
-    print(f"Changed Port URL to: {selected_port_url}")
-    
-#region POST REQUESTS
-def comfy_POST(endpoint, message):
-    post_url = selected_port_url + "/" + endpoint
-    data = json.dumps(message).encode("utf-8")
-    print(f"POST {endpoint} on: {post_url}")
-    try:
-        post_response = requests.post(post_url, data=data)
-        #post_response.raise_for_status()
-        #print(f"status {post_response}")
-        return post_response
-    except ConnectionResetError:
-        print("Connection was reset while trying to start the workflow. Retrying...")
-    except requests.RequestException as e:
-        print(f"Error querying the GET endpoint {endpoint}: ", e)
 
-def post_prompt(prompt_workflow):
-    message = {"prompt": prompt_workflow}
-    return comfy_POST("prompt", message)
-
-def post_interrupt():
-    global current_progress_data
-    current_progress_data = {}
-    message = ""
-    return comfy_POST("interrupt", message)
-
-def post_history_clear():
-    message = {"clear": True}
-    return comfy_POST("history", message)
-
-def post_history_delete(prompt_id):
-    message = {"delete": prompt_id}
-    return comfy_POST("history", message)
-#endregion
-
-#region GET REQUESTS
-def comfy_GET(endpoint):
-    get_url = selected_port_url + "/" + endpoint
-    #print(f"GET {endpoint} on: {get_url}\n")
-    try:
-        return requests.get(get_url).json()
-    except ConnectionResetError:
-        print("Connection was reset while trying to start the workflow. Retrying...")
-    except requests.RequestException as e:
-        print(f"Error querying the POST endpoint {endpoint}: ", e)
-        
-def get_queue():
-    global queue, queue_running, queue_pending, queue_failed
-
-    queue = comfy_GET("queue")
-    if (queue is None):
-        print("/queue GET response is empty")
-        return [[], [], []]
-    
-    queue_running = queue.get("queue_running", [])
-    #print(f"queue_running: {len(queue_running)}")
-    
-    queue_pending = queue.get("queue_pending", [])
-    #print(f"queue_pending: {len(queue_pending)}")
-
-    queue_failed = queue.get("queue_failed", [])
-    #print(f"queue_failed: {len(queue_failed)}")
-
-    return [queue_running, queue_pending, queue_failed]
-
-def get_running_prompt_id():
-    [queue_running, queue_pending, queue_failed] = get_queue()
-
-    if (len(queue_running) > 0):
-        prompt_id = queue_running[0][1]
-        print(f"current running prompt id: {prompt_id}")
-        return prompt_id
-    else:
-        return None
-    
-def get_status():
-    global prompt, status
-
-    prompt = comfy_GET("prompt")
-    if (prompt is None):
-        print("/prompt GET response is empty")
-        return "N/A"
-    
-    status = prompt.get("status", "N/A")
-    #print(f"status: {status}")
-
-    return status
-
-def get_history():
-    global history
-
-    history = comfy_GET("history")
-    if (history is None):
-        print("/history GET response is empty")
-        return {}
-
-    #print(f"history: {len(history)}")
-
-    return history
-
-def get_system_stats():
-    global system_stats, devices
-
-    system_stats = comfy_GET("system_stats")
-    if (system_stats is None):
-        print("/system_stats GET response is empty")
-        return [[], []]
-    
-    devices = system_stats.get("devices")
-    if (devices is None):
-        return [system_stats, []]
-    
-    #print(f"devices: {devices}")
-
-    #for device in devices:
-        #print(f"device['name']: {device.get("name")}")
-        #print(f"device['torch_vram_free']: {device.get("torch_vram_free")}")
-        #print(f"device['torch_vram_total']: {device.get("torch_vram_total")}")
-
-    return [system_stats, devices]
-#endregion
 
 #region Content Getters
 def get_all_images(folder):
@@ -219,12 +77,6 @@ def get_latest_image_with_prefix(folder, prefix):
     latest_image = os.path.join(folder, image_files[-1]) if image_files else None
     return latest_image
 
-# def count_images(directory):
-#     extensions = ["*.png", "*.jpg", "*.jpeg", "*.gif", "*.bmp", "*.tiff"]
-#     image_count = sum(
-#         len(glob.glob(os.path.join(directory, ext))) for ext in extensions
-#     )
-#     return image_count
 
 def get_all_videos(folder):
     if not os.path.exists(folder):
@@ -294,68 +146,6 @@ async def wait_for_new_content(previous_content, output_directory):
             return latest_content
         await asyncio.sleep(1)
 #endregion
-
-def run_workflow(workflow_name, progress, **kwargs):
-    global previous_content
-
-    # Print the input arguments for debugging
-    print("inside run workflow with kwargs: " + str(kwargs))
-    # print("workflow_definitions: " + str(workflow_definitions[workflow_name]))
-
-    # Construct the path to the workflow JSON file
-    workflow_json = (
-        "./workflows/" + workflow_name
-    )
-
-    # Open the workflow JSON file
-    with open(workflow_json, "r", encoding="utf-8") as file:
-        # Load the JSON data
-        workflow = json.load(file)
-    
-        # Iterate through changes requested via kwargs
-        for change_request in kwargs.values():
-            # Extract the node path and the new value from the change request
-            node_path = change_request['node-id']
-            new_value = change_request['value']
-    
-            # Log the intended change for debugging
-            print(f"Intending to change {node_path} to {new_value}")
-    
-            # Process the node path into a list of keys
-            path_keys = node_path.strip("[]").split("][")
-            path_keys = [key.strip('"') for key in path_keys]
-    
-            # Navigate through the workflow data to the last key
-            current_section = workflow
-            for key in path_keys[:-1]:  # Exclude the last key for now
-                current_section = current_section[key]
-    
-            # Update the value at the final key
-            final_key = path_keys[-1]
-            print(f"Updating {current_section[final_key]} to {new_value}")
-            current_section[final_key] = new_value
-
-        try:
-            print(f"!!!!!!!!!\nSubmitting workflow:\n{workflow}\n!!!!!!!!!")
-            post_prompt(workflow)
-        except KeyboardInterrupt:
-            print("Interrupted by user. Exiting...")
-            return None
-
-
-def run_workflow_with_name(workflow_name, raw_components, component_info_dict, progress=gr.Progress(track_tqdm=True)):
-    for component in raw_components:
-        print(f"Component: {component.label}")
-
-    def wrapper(*args):
-        # match the component to the arg
-        for component, arg in zip(raw_components, args):
-            # access the component_info_dict using component.elem_id and add a value field = arg
-            component_info_dict[component.elem_id]["value"] = arg
-
-        return run_workflow(workflow_name, progress, **component_info_dict, )
-
-    return wrapper
 
 
 def run_depth_plus_wrapper(raw_components, component_info_dict, progress=gr.Progress(track_tqdm=True)):
@@ -793,7 +583,7 @@ html {
 }
 """
 
-with gr.Blocks(title="Depth+", theme=gr.themes.Monochrome(font=gr.themes.GoogleFont("DM Sans"), primary_hue="yellow", secondary_hue="amber"), css=custom_css) as demo:
+with gr.Blocks(title="Depth+", theme=gr.themes.Citrus(font=gr.themes.GoogleFont("DM Sans"), primary_hue="yellow", secondary_hue="amber"), css=custom_css) as demo:
     #tick_timer = gr.Timer(value=1.0)
     demo.load(fn=load_demo)
     demo.unload(fn=unload_demo)
@@ -820,9 +610,6 @@ with gr.Blocks(title="Depth+", theme=gr.themes.Monochrome(font=gr.themes.GoogleF
                             with gr.Column():
                                 with gr.Group():
                                     with gr.Row(equal_height=True):
-                                        comfy_url_and_port_selector = gr.Dropdown(label="ComfyUI Port", choices=COMFY_PORTS, value=COMFY_PORTS[0], interactive=True, scale=1)
-                                        print(f"Default ComfyUI Port: {comfy_url_and_port_selector.value}")
-                                        comfy_url_and_port_selector.change(select_correct_port, inputs=[comfy_url_and_port_selector])    
                                         run_button = gr.Button("Run Depth+", variant="primary", scale=3, elem_id="run-button")
                                     with gr.Accordion("Workflow Info", open=False, elem_id="workflow-info"):
                                         info = gr.Markdown(workflow_definitions[workflow_name].get("description", ""))
@@ -847,7 +634,7 @@ with gr.Blocks(title="Depth+", theme=gr.themes.Monochrome(font=gr.themes.GoogleF
                         output_player = gr.Video(show_label=False, autoplay=True, loop=True, interactive=False)
                 #output_filepath_component = gr.Markdown("N/A")
                 
-        if (selected_port_url is not None) and (components is not None) and (component_dict is not None):
+        if (components is not None) and (component_dict is not None):
             run_button.click(
                 fn=run_depth_plus_wrapper(components, component_dict),
                 inputs=components,

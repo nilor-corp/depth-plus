@@ -17,6 +17,10 @@ from segmantation import DepthPlusSegmentation
 
 import signal
 import sys
+import io
+from contextlib import contextmanager
+import queue
+from threading import Thread
 
 with open("workflow_definitions.json") as f:
     workflow_definitions = json.load(f)
@@ -29,6 +33,57 @@ output_type = ""
 threads = []
 previous_content = ""
 tick_timer = None
+log_queue = queue.Queue()
+log_history = []
+
+class StreamToQueue(io.TextIOBase):
+    def __init__(self, queue):
+        super().__init__()
+        self.queue = queue
+
+    def write(self, text):
+        if text.strip():  # Only queue non-empty strings
+            self.queue.put(text)
+            # Print to original stdout/stderr
+            print(text, end='\n', file=sys.__stdout__)
+            return len(text)
+
+    def flush(self):
+        pass
+
+@contextmanager
+def redirect_stdout_stderr():
+    stdout_queue = queue.Queue()
+    stderr_queue = queue.Queue()
+    
+    stdout_redirector = StreamToQueue(stdout_queue)
+    stderr_redirector = StreamToQueue(stderr_queue)
+    
+    old_stdout = sys.stdout
+    old_stderr = sys.stderr
+    
+    sys.stdout = stdout_redirector
+    sys.stderr = stderr_redirector
+    
+    def queue_reader(q, prefix=''):
+        while True:
+            try:
+                line = q.get()
+                log_queue.put(f"{prefix}{line}")
+            except:
+                break
+
+    stdout_thread = Thread(target=queue_reader, args=(stdout_queue,), daemon=True)
+    stderr_thread = Thread(target=queue_reader, args=(stderr_queue, 'ERROR: '), daemon=True)
+    
+    stdout_thread.start()
+    stderr_thread.start()
+    
+    try:
+        yield
+    finally:
+        sys.stdout = old_stdout
+        sys.stderr = old_stderr
 
 def signal_handler(signum, frame):
     global running, tick_timer, threads
@@ -47,6 +102,22 @@ def signal_handler(signum, frame):
     
     sys.exit(0)
 
+
+def get_logs():
+    logs = []
+    while True:
+        try:
+            log = log_queue.get_nowait()
+            log_history.append(log)
+            logs.append(log)
+        except queue.Empty:
+            break
+    
+    # Keep last 1000 lines
+    if len(log_history) > 1000:
+        del log_history[:len(log_history)-1000]
+    
+    return "\n".join(log_history)
 
 
 #region Content Getters
@@ -542,19 +613,14 @@ def create_tab_interface(workflow_name):
 
 def load_demo():
     global tick_timer
-    print("Loading the demo!!!")
-
+    print("Loading the demo...")
     tick_timer = gr.Timer(value=1.0)
 
 def unload_demo():
     global tick_timer
     print("Unloading the demo...")
-
-    # Deactivate timer
     if tick_timer:
         tick_timer.active = False
-
-    time.sleep(2.0)
 
 def setup_signal_handlers():
     if threading.current_thread() is threading.main_thread():
@@ -581,10 +647,16 @@ custom_css = """
 html {
     overflow-y: scroll;
 }
+
+.logs textarea {
+    font-family: monospace;
+    font-size: 12px;
+    background-color: var(--neutral-950);
+    color: var(--neutral-100);
+}
 """
 
 with gr.Blocks(title="Depth+", theme=gr.themes.Citrus(font=gr.themes.GoogleFont("DM Sans"), primary_hue="yellow", secondary_hue="amber"), css=custom_css) as demo:
-    #tick_timer = gr.Timer(value=1.0)
     demo.load(fn=load_demo)
     demo.unload(fn=unload_demo)
 
@@ -634,6 +706,22 @@ with gr.Blocks(title="Depth+", theme=gr.themes.Citrus(font=gr.themes.GoogleFont(
                         output_player = gr.Video(show_label=False, autoplay=True, loop=True, interactive=False)
                 #output_filepath_component = gr.Markdown("N/A")
                 
+            # Modified logs section
+            gr.Markdown("### Console Output")
+            with gr.Accordion("View Logs", open=False):
+                log_output = gr.TextArea(
+                    value="", 
+                    label="Logs",
+                    interactive=False,
+                    autoscroll=True,
+                    lines=20,
+                    elem_classes="logs"
+                )
+                
+                # Create timer and connect it to log updates
+                timer = gr.Timer(1)  # Updates every 1 second
+                timer.tick(fn=get_logs, outputs=[log_output])
+
         if (components is not None) and (component_dict is not None):
             run_button.click(
                 fn=run_depth_plus_wrapper(components, component_dict),
@@ -643,8 +731,11 @@ with gr.Blocks(title="Depth+", theme=gr.themes.Citrus(font=gr.themes.GoogleFont(
                 #show_progress="full"
             )
 
-    if __name__ == "__main__":
-        setup_signal_handlers()
+
+
+if __name__ == "__main__":
+    setup_signal_handlers()
+    with redirect_stdout_stderr():
         demo.launch(
             allowed_paths=[
                 OUT_DIR,

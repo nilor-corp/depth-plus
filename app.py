@@ -669,6 +669,12 @@ html {
     background-color: var(--neutral-950);
     color: var(--neutral-100);
 }
+
+.progress-bar {
+    background: linear-gradient(to right, var(--primary-500), var(--secondary-500));
+    border-radius: 8px;
+}
+
 """
 
 with gr.Blocks(title="Depth+", theme=gr.themes.Citrus(font=gr.themes.GoogleFont("DM Sans"), primary_hue="yellow", secondary_hue="amber"), css=custom_css) as demo:

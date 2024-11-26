@@ -136,7 +136,6 @@ class DepthPlusDepthAnyVideo:
             if not mp4_out.isOpened():
                 print(f"Failed to open MP4 writer at path: {mp4_output_path}")
                 
-            frame_count = 0
             total_frames = int(raw_video.get(cv2.CAP_PROP_FRAME_COUNT))
 
             raw_video.release()  # Release it since we'll read it again with img_utils
@@ -178,19 +177,10 @@ class DepthPlusDepthAnyVideo:
                 )
                 
             disparity = pipe_out.disparity
-            #disparity_colored = pipe_out.disparity_colored
-            #image = pipe_out.image
-            # (N, H, 2 * W, 3)
-            # merged = np.concatenate(
-            #     [
-            #         image,
-            #         disparity_colored,
-            #     ],
-            #     axis=2,
-            # )
 
             print(f"Processing {total_frames} frames...")
 
+            frame_count = 0
             for frame_count, frame in enumerate(disparity):
                 print(f"Processing frame {frame_count + 1}/{total_frames}")
                 progress((frame_count + 1) / total_frames, 

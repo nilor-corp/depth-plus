@@ -330,13 +330,13 @@ def run_depth_plus(progress, **kwargs):
     print("Depth+ processing complete")
     
     # Return the first valid video file path with additional logging
-    if run_depth_anyvideo and depth_mp4_paths:
-        path = depth_mp4_paths[0] if os.path.isfile(depth_mp4_paths[0]) else None
-        print(f"Returning DepthAnyVideo output: {path}")
-        return path
-    elif run_depth_anything and depth_mp4_paths:
+    if run_depth_anything and depth_mp4_paths:
         path = depth_mp4_paths[0] if os.path.isfile(depth_mp4_paths[0]) else None
         print(f"Returning DepthAnything output: {path}")
+        return path
+    elif run_depth_anyvideo and depth_mp4_paths:
+        path = depth_mp4_paths[0] if os.path.isfile(depth_mp4_paths[0]) else None
+        print(f"Returning DepthAnyVideo output: {path}")
         return path
     elif run_optical and optical_mp4_paths:
         path = optical_mp4_paths[0] if os.path.isfile(optical_mp4_paths[0]) else None

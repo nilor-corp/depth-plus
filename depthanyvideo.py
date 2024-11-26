@@ -179,42 +179,28 @@ class DepthPlusDepthAnyVideo:
 
             # MP4 video output handling
             if mp4:
-                print(f"Writing MP4 frame to: {mp4_output_path}")
+                print(f"Writing MP4 to: {mp4_output_path}")
                 depth = disparity
                 depth_mp4 = (depth - depth.min()) / (depth.max() - depth.min()) * 255
                 depth_mp4 = depth_mp4.astype(np.uint8)
                 depth_mp4 = np.repeat(depth_mp4[..., np.newaxis], 3, axis=-1)
-                #mp4_out.write(depth_mp4)
                 img_utils.write_video(mp4_output_path, depth_mp4, fps)
+                print(f"MP4 written to {mp4_output_path}")
+                
                 mp4s_out.append(mp4_output_path)
                 #mp4_out.release()
-                print(f"MP4 written to {mp4_output_path}")
 
             if png or exr:
-                frame_count = 0
                 for frame_count, frame in enumerate(disparity):
                     print(f"Processing frame {frame_count + 1}/{total_frames}")
                     progress((frame_count + 1) / total_frames, 
                             desc=f"Processing frame {frame_count + 1}/{total_frames}")
                     
                     depth = disparity[frame_count]
-
-                    # if mp4:
-                    #     print("Writing MP4 frame to: ", mp4_output_path)
-                    #     depth_mp4 = (depth - depth.min()) / (depth.max() - depth.min()) * 255
-                    #     depth_mp4 = depth_mp4.astype(np.uint8)
-                    #     depth_mp4 = np.repeat(depth_mp4[..., np.newaxis], 3, axis=-1)
-                    #     mp4_out.write(depth_mp4)
-                    #     img_utils.write_video(
-                    #         mp4_output_path,
-                    #         disparity,
-                    #         fps
-                    #     )
-                    #     print(f"Frame {frame_count + 1} written to MP4")
                     
                     # PNG image sequence output handling
                     if png:
-                        print("Writing PNG to: ", png_output_path)
+                        print("Writing PNG frame to: ", png_output_path)
                         if is_png_8bit:
                             bitsize, nptype = get_bitsize_from_torch_type(torch.float8_e4m3fn)
                         else:
@@ -228,7 +214,7 @@ class DepthPlusDepthAnyVideo:
                             
                     # EXR image sequence output handling
                     if exr:
-                        print("Writing EXs to: ", exr_output_path)
+                        print("Writing EXR frame to: ", exr_output_path)
                         bitsize, nptype = get_bitsize_from_torch_type(torch.float32)
                         depth_exr = depth.astype(nptype)
                         exr_filename = os.path.join(exr_output_path, '{:04d}.exr'.format(frame_count))

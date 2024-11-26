@@ -93,12 +93,17 @@ class DepthPlusOptical:
                     flo = flow_up[0].permute(1, 2, 0).cpu().numpy()
                     flo = flow_viz.flow_to_image(flo) 
 
+                    # MP4 video output handling
                     if mp4:
+                        print(f"Writing MP4 frame to: {mp4_output_path}")
                         #force 8 bit if mp4
                         bitsize, nptype = get_bitsize_from_torch_type(torch.float8_e4m3fn)
                         mp4_frame = (flo[:,:,[2,1,0]] * bitsize).astype(nptype)
                         mp4_out.write(mp4_frame)
+                        
+                    # PNG image sequence output handling
                     if png:
+                        print(f"Writing PNG frame to:  {png_output_path}")
                         if is_png_8bit:
                             bitsize, nptype = get_bitsize_from_torch_type(torch.float8_e4m3fn)
                         else:
@@ -108,7 +113,10 @@ class DepthPlusOptical:
                         success = cv2.imwrite(png_filename, png_frame)
                         if not success:
                             raise ValueError("Error writing png file")
+                        
+                    # EXR image sequence output handling
                     if exr:
+                        print(f"Writing EXR frame to: {exr_output_path}")
                         bitsize, nptype = get_bitsize_from_torch_type(torch.float32)
                         exr_frame = ((flo[:,:,[2,1,0]]/255.0) * bitsize).astype(nptype)
                         exr_filename = os.path.join(exr_output_path, '{:04d}.exr'.format(frame_count))

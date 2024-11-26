@@ -144,15 +144,18 @@ class DepthPlusDepth:
                 
                 depth = model.infer_image(frame, 1024)
 
+                # MP4 video output handling
                 if mp4:
-                    print("Writing MP4 frame to: ", mp4_output_path)
+                    print(f"Writing MP4 frame to: {mp4_output_path}")
                     #force 8 bit if mp4
                     depth_mp4 = (depth - depth.min()) / (depth.max() - depth.min()) * 255
                     depth_mp4 = depth_mp4.astype(np.uint8) 
                     depth_mp4 = np.repeat(depth_mp4[..., np.newaxis], 3, axis=-1)
                     mp4_out.write(depth_mp4)
+                    
+                # PNG image sequence output handling
                 if png:
-                    print("Writing PNG to: ", png_output_path)
+                    print("Writing PNG frame to: ", png_output_path)
                     if is_png_8bit:
                         bitsize, nptype = get_bitsize_from_torch_type(torch.float8_e4m3fn) 
                     else:
@@ -163,6 +166,8 @@ class DepthPlusDepth:
                     success = cv2.imwrite(png_filename, depth_png)
                     if not success:
                         print(f"Error writing {png_filename}")
+                        
+                # EXR image sequence output handling
                 if exr:
                     print("Writing EXR to: ", exr_output_path)
                     bitsize, nptype = get_bitsize_from_torch_type(model_dtype)

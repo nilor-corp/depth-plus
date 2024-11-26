@@ -124,7 +124,7 @@ class DepthPlusOptical:
                 mp4s_out.append(mp4_output_path)
                 mp4_out.release()
                 
-            print("Optical flow processing complete")
+            print("Optical Flow processing complete")
 
         return mp4s_out
 

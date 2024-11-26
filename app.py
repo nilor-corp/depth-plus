@@ -310,7 +310,7 @@ def run_depth_plus(progress, **kwargs):
         depth_mp4_paths = depth.process_depth(progress=progress, video_path=in_dir, outdir=out_dir, metric=metric, mp4=mp4, png=png, exr=exr, is_png_8bit=is_png_8bit)
     if run_depth_anyvideo:
         depth = DepthPlusDepthAnyVideo()
-        depth_mp4_paths = depth.process_depth(progress=progress, video_path=in_dir, outdir=out_dir)
+        depth_mp4_paths = depth.process_depth(progress=progress, video_path=in_dir, outdir=out_dir, mp4=mp4, png=png, exr=exr, is_png_8bit=is_png_8bit)
     if run_optical:
         optical = DepthPlusOptical()
         optical_mp4_paths = optical.process_optical(progress=progress, video_path=in_dir, outdir=out_dir, mp4=mp4, png=png, exr=exr, is_png_8bit=is_png_8bit)

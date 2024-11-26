@@ -200,7 +200,7 @@ class DepthPlusDepthAnyVideo:
                     
                     # PNG image sequence output handling
                     if png:
-                        print("Writing PNG frame to: ", png_output_path)
+                        print(f"Writing PNG frame to: {png_output_path}")
                         if is_png_8bit:
                             bitsize, nptype = get_bitsize_from_torch_type(torch.float8_e4m3fn)
                         else:
@@ -214,13 +214,19 @@ class DepthPlusDepthAnyVideo:
                             
                     # EXR image sequence output handling
                     if exr:
-                        print("Writing EXR frame to: ", exr_output_path)
+                        print(f"Writing EXR frame to: {exr_output_path}")
                         bitsize, nptype = get_bitsize_from_torch_type(torch.float32)
                         depth_exr = depth.astype(nptype)
                         exr_filename = os.path.join(exr_output_path, '{:04d}.exr'.format(frame_count))
+
+                        # Log the shape and dtype of the depth_exr array
+                        print(f"EXR frame shape: {depth_exr.shape}, dtype: {depth_exr.dtype}")
+
                         success = make_exr(exr_filename, depth_exr)
                         if not success:
                             print(f"Error writing {exr_filename}")
+                        else:
+                            print(f"Successfully wrote {exr_filename}")
 
         print("Depth processing complete")
         progress(1.0, desc="Complete")

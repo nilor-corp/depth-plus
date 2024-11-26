@@ -155,7 +155,7 @@ class DepthPlusDepth:
                     
                 # PNG image sequence output handling
                 if png:
-                    print("Writing PNG frame to: ", png_output_path)
+                    print(f"Writing PNG frame to: {png_output_path}")
                     if is_png_8bit:
                         bitsize, nptype = get_bitsize_from_torch_type(torch.float8_e4m3fn) 
                     else:
@@ -166,10 +166,10 @@ class DepthPlusDepth:
                     success = cv2.imwrite(png_filename, depth_png)
                     if not success:
                         print(f"Error writing {png_filename}")
-                        
+
                 # EXR image sequence output handling
                 if exr:
-                    print("Writing EXR to: ", exr_output_path)
+                    print(f"Writing EXR frame to: {exr_output_path}")
                     bitsize, nptype = get_bitsize_from_torch_type(model_dtype)
                     depth_exr = depth.astype(nptype)
                     exr_filename = os.path.join(exr_output_path, '{:04d}.exr'.format(frame_count))

@@ -100,24 +100,26 @@ def make_exr(filename_prefix, data=None):
         current_folder = os.path.dirname(os.path.abspath(__file__))
         filename_prefix = os.path.join(current_folder, filename_prefix)
 
-    # print(f"len(data): {len(data.shape)}")
-    # print(f"data: {data}")
+    print(f"len(data): {len(data.shape)}")
+    print(f"data: {data}")
 
     # Determine if the data is single-channel or multi-channel
     num_channels, width, height = determine_image_type(data)
-    #print(f"width: {width}, height: {height}, num_channels: {num_channels}")
+    print(f"width: {width}, height: {height}, num_channels: {num_channels}")
 
     # Prepare the data for writing
     exr_data = {}
 
     if num_channels == 1:
         # Single-channel image
+        print(f"single-channel image")
         exr_data["R"] = data.astype(np.float32)
     elif num_channels > 1:
         # Multi-channel image
+        print(f"multi-channel image")
         default_names = ["R", "G", "B", "A"] + [f"Channel{i}" for i in range(4, num_channels)]
         for k in range(num_channels):
-            # print(f"Channel {k}: {default_names[k]}")
+            print(f"Channel {k}: {default_names[k]}")
             # print(f"Data shape: {data.shape}")
             # print(f"Data type: {data.dtype}")
 
@@ -126,7 +128,7 @@ def make_exr(filename_prefix, data=None):
     else:
         raise ValueError("Unsupported tensor shape")
 
-    # print(f"EXR data: {exr_data}")
+    print(f"EXR data: {exr_data}")
 
     # Write the EXR file
     return write_exr(filename_prefix, exr_data, width, height)
@@ -139,16 +141,20 @@ def write_exr(writepath, exr_data, width, height):
         header['channels'] = {name: Imath.Channel(Imath.PixelType(Imath.PixelType.FLOAT)) for name in exr_data.keys()}
 
         # Create the EXR file
+        print(f"create exr_file")
         exr_file = OpenEXR.OutputFile(writepath, header)
 
         # Convert the channel data to bytes
+        print(f"channel_data")
         channel_data = {name: data.tobytes() for name, data in exr_data.items()}
 
         # Write the channel data to the EXR file
+        print(f"exr_file writePixels")
         exr_file.writePixels(channel_data)
+        print(f"exr_file close")
         exr_file.close()
 
-        #print(f"EXR file saved successfully to {writepath}")
+        print(f"EXR file saved successfully to {writepath}")
 
         success = True
         

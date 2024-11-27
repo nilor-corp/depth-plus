@@ -10,18 +10,16 @@ pinned: false
 license: apache-2.0
 ---
 
-Check out the configuration reference at https://huggingface.co/docs/hub/spaces-config-reference
-
 # Depth+
 
-## Dependencies:
+## Dependencies
 - Python
 - Cuda version 12.1
 - SSH connection to Nilor Corp HuggingFace organization: https://huggingface.co/nilor-corp
 - Git and LFS
 
 ## Installation
-**Disclaimer:** These commands have only been tested using Powershell with Administrative privileges.
+**Disclaimer:** These commands have only been tested using Powershell with **Administrative** privileges.
 
 ### Setup python environment
 ```
@@ -32,13 +30,13 @@ python -m venv venv
 ```
 
 ### Install Depth+
-- in the `.\nilor-corp\` dir:
+In the `.\nilor-corp\` dir:
 ```
 git clone git@hf.co:spaces/nilor-corp/depth-plus
 ```
 
 ### Install torch dependencies
-- in the `.\nilor-corp\` dir:
+In the `.\nilor-corp\` dir:
 ```
 pip install torch torchvision torchaudio xformers --index-url https://download.pytorch.org/whl/cu121
 ```
@@ -48,7 +46,7 @@ pip install torch torchvision torchaudio xformers --index-url https://download.p
   - if you're coming back here from an `fbgemm.dll` error, check this link and perform the manual copy and rename of `libiomp5md.dll` as stated: https://github.com/comfyanonymous/ComfyUI/issues/3703#issuecomment-2253349160
 
 ### Install other dependencies
-- in the `.\nilor-corp\` dir:
+In the `.\nilor-corp\` dir:
 ```
 cd depth-plus
 python -m pip install -r requirements.txt
@@ -60,8 +58,10 @@ After finishing installation, your directory structure should look like this:
   - depth-plus
   - venv
 
-## Run Depth+
-- in the `.\nilor-corp\` dir:
+## Usage
+
+### Run Zenerator
+In the `.\nilor-corp\` dir:
 ```
 .\venv\scripts\activate.ps1
 cd depth-plus
@@ -74,3 +74,10 @@ Follow the Gradio UI instructions carefully, especially about the input dir if s
 
 ### Output
 Generated output can be found in: `.\nilor-corp\depth-plus\output` dir.
+
+### DepthAnyVideo Disclaimer
+The DepthAnyVideo model can be quite resource intensive. In our testing with a RTX 4090, the model often runs at 100% GPU utilization, rendering the machine unusable during processing.
+
+To avoid `Out of Memory (OOM)` errors while using DepthAnyVideo, we recommend that you first test it on a 1 second video of a small resolution (eg. 512x512) and work upward from there. 
+
+For any video that you find can't be processed by DepthAnyVideo, use DepthAnythingV2 instead.

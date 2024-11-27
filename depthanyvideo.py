@@ -112,7 +112,7 @@ class DepthPlusDepthAnyVideo:
         mp4s_out = []
         for k, filename in enumerate(filenames):
             print(f'Processing video {k+1}/{len(filenames)}: {filename}')
-            progress(0, desc=f"Processing video {k+1}/{len(filenames)}")
+            progress(0, desc="Reading video frames")
             
             # Determine the suffix based on the processing type
             model_type = "relative"     # TODO: Add support for absolute depth?
@@ -137,6 +137,7 @@ class DepthPlusDepthAnyVideo:
 
             raw_video.release()  # Release it since we'll read it again with img_utils
 
+            progress(0.2, desc="Preprocessing frames")
             
             num_interp_frames = cfg.num_interp_frames
             num_overlap_frames = cfg.num_overlap_frames
@@ -160,9 +161,11 @@ class DepthPlusDepthAnyVideo:
             )
             image_tensor = torch.from_numpy(image_tensor).to(DEVICE)
 
-            
-            print(f"DAV pipe processing...")
+            progress(0.3, desc="Loading models")
             pipe = self.load_models(MODEL_BASE, DEVICE)
+            
+            progress(0.4, desc="Extracting depth with DAV")
+            print(f"DAV pipe processing...")
             with torch.no_grad(), torch.autocast(device_type=DEVICE_TYPE, dtype=torch.float16):
                 pipe_out = pipe(
                     image_tensor,
@@ -179,6 +182,7 @@ class DepthPlusDepthAnyVideo:
 
             # MP4 video output handling
             if mp4:
+                progress(0.5, desc=f"Processing video")
                 print(f"Writing MP4 to: {mp4_output_path}")
                 depth = disparity
                 depth_mp4 = (depth - depth.min()) / (depth.max() - depth.min()) * 255
@@ -216,14 +220,7 @@ class DepthPlusDepthAnyVideo:
                     if exr:
                         print(f"Writing EXR frame to: {exr_output_path}")
                         depth_exr = depth.astype(np.float32) # explicity set to 32-bit float from np instead of using get_bitsize_from_torch_type
-                        
-                        # Log the minimum, maximum, and mean values of the depth_exr array
-                        print(f"EXR frame min: {depth_exr.min()}, max: {depth_exr.max()}, mean: {depth_exr.mean()}")
-                        
                         exr_filename = os.path.join(exr_output_path, '{:04d}.exr'.format(frame_count))
-
-                        # Log the shape and dtype of the depth_exr array
-                        print(f"EXR frame shape: {depth_exr.shape}, dtype: {depth_exr.dtype}")
 
                         success = make_exr(exr_filename, depth_exr)
                         if not success:

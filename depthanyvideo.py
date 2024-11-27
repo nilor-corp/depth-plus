@@ -215,8 +215,11 @@ class DepthPlusDepthAnyVideo:
                     # EXR image sequence output handling
                     if exr:
                         print(f"Writing EXR frame to: {exr_output_path}")
-                        bitsize, nptype = get_bitsize_from_torch_type(torch.float32)
-                        depth_exr = depth.astype(nptype)
+                        depth_exr = depth.astype(np.float32) # explicity set to 32-bit float from np instead of using get_bitsize_from_torch_type
+                        
+                        # Log the minimum, maximum, and mean values of the depth_exr array
+                        print(f"EXR frame min: {depth_exr.min()}, max: {depth_exr.max()}, mean: {depth_exr.mean()}")
+                        
                         exr_filename = os.path.join(exr_output_path, '{:04d}.exr'.format(frame_count))
 
                         # Log the shape and dtype of the depth_exr array

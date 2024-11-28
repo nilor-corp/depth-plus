@@ -27,7 +27,6 @@ Depth+ is a tool for locally extracting depth, optical flow, and segmentation in
 ## Dependencies
 - Python
 - Cuda version 12.11
-- SSH connection to the [Nilor Corp organization on HuggingFace](https://huggingface.co/nilor-corp)
 - Git and LFS
 
 ## Installation

@@ -1,82 +1,124 @@
 {
     "depth-plus":{
-        "name": "Depth Plus",
-        "description": "Take video input and create data necessary to recreate the footage in a 3D engine",
+        "name": "Depth+",
+        "filename": "depth-plus.json",
+        "description": "Takes in a video and outputs data necessary to recreate the footage in a 3D engine, such as depth map, optical flow, and segmentation masks.",
         "inputs": {
-            "images-01": {
-                "type": "video",
-                "label": "Path to Video",
-                "node-id": "[\"771\"][\"inputs\"][\"string\"]"
-            },
-            "text-01": {
+            "input-dir": {
                 "type": "text",
-                "label": "Output Path",
-                "node-id": "[\"773\"][\"inputs\"][\"string\"]"
+                "label": "Path to Video Input",
+                "node-id": "[\"771\"][\"inputs\"][\"string\"]",
+                "value": ""
             },
-            "radio-01": {
-                "type": "radio",
-                "label": "Output Type",
-                "node-id": "[\"422\"][\"inputs\"][\"string\"]",
-                "choices": ["Depth", "Optical Flow", "Segmentation", "Depth + Flow", "Depth + Seg", "Flow + Seg", "All"],
-                "value": "Depth" 
-            },
-            "radio-02": {
-                "type": "radio",
-                "label": "Depth Type",
-                "node-id": "[\"416\"][\"inputs\"][\"string\"]",
-                "choices": ["Relative", "Metric"],
-                "value": "Relative"
-            },
-            "bool-01":{
-                "type": "bool",
-                "label": "PNG",
-                "node-id": "[\"393\"][\"inputs\"][\"boolean\"]",
-                "group": "Output Type",
-                "value": false
-            },
-            "bool-02":{
-                "type": "bool",
-                "label": "MP4",
-                "node-id": "[\"399\"][\"inputs\"][\"boolean\"]",
-                "group": "Output Type",
-                "value": true
-            },
-            "bool-03":{
-                "type": "bool",
-                "label": "EXR",
-                "node-id": "[\"401\"][\"inputs\"][\"boolean\"]",
-                "group": "Output Type",
-                "value": false
-            },
-            "radio-03":{
-                "type": "radio",
-                "label": "PNG Bit Depth",
-                "node-id": "[\"390\"][\"inputs\"][\"string\"]",
-                "choices": ["8 Bit", "16 Bit"],
-                "value": "8 Bit"
-            },
-            "text-02":{
+            "output-dir": {
                 "type": "text",
-                "label": "Segmentation Prompt",
-                "node-id": "[\"761\"][\"inputs\"][\"string\"]",
-                "group": "Segmantation Parameters"
+                "label": "Output Directory",
+                "node-id": "[\"773\"][\"inputs\"][\"string\"]",
+                "value": "./output/"
             },
-            "bool-04":{
-                "type": "bool",
-                "label": "Segmentation Threshold Filtering",
-                "node-id": "",
-                "value": false,
-                "group": "Segmantation Parameters"
+            
+            "output-types": {
+                "type": "group",
+                "label": "Output Types",
+                "inputs": {
+                    "depthanything":{
+                        "type": "toggle-group",
+                        "label": "Depth (DepthAnythingV2)",
+                        "node-id": "[\"422\"][\"inputs\"][\"string\"]",
+                        "value": true,
+                        "inputs": {
+                            "depth-type": {
+                                "type": "radio",
+                                "label": "Depth Type",
+                                "node-id": "[\"416\"][\"inputs\"][\"string\"]",
+                                "choices": ["Relative", "Metric"],
+                                "value": "Relative"
+                            }
+                        }
+                    },
+                    "depthanyvideo":{
+                        "type": "bool",
+                        "label": "Depth (Depth Any Video)",
+                        "node-id": "[\"422\"][\"inputs\"][\"string\"]",
+                        "value": true
+                    },
+                    "flow":{
+                        "type": "bool",
+                        "label": "Optical Flow",
+                        "node-id": "[\"422\"][\"inputs\"][\"string\"]",
+                        "value": false
+                    },
+                    "segmentation":{
+                        "type": "bool",
+                        "label": "Segmentation",
+                        "node-id": "[\"422\"][\"inputs\"][\"string\"]",
+                        "value": false
+                    }
+                }
             },
-            "slider-01":{
-                "type": "slider",
-                "label": "Segmentation Threshold",
-                "node-id": "",
-                "value": 0.0,
-                "group": "Segmantation Parameters",
-                "minimum": -2.5,
-                "maximum": 2.5
-             
+
+            "output-filetype": {
+                "type": "group",
+                "label": "Output Filetype",
+                "inputs": {
+                    "png": {
+                        "type": "toggle-group",
+                        "label": "PNG",
+                        "node-id": "[\"393\"][\"inputs\"][\"boolean\"]",
+                        "value": false,
+                        "inputs": {
+                            "png-bit-depth":{
+                                "type": "radio",
+                                "label": "PNG Bit Depth",
+                                "node-id": "[\"390\"][\"inputs\"][\"string\"]",
+                                "choices": ["8 Bit", "16 Bit"],
+                                "value": "8 Bit"
+                            }
+                        }
+                    },
+                    "mp4":{
+                        "type": "bool",
+                        "label": "MP4",
+                        "node-id": "[\"399\"][\"inputs\"][\"boolean\"]",
+                        "value": true
+                    },
+                    "exr":{
+                        "type": "bool",
+                        "label": "EXR",
+                        "node-id": "[\"401\"][\"inputs\"][\"boolean\"]",
+                        "value": false
+                    }
+                }
+            },
+            
+            "segmentation-params": {
+                "type": "group",
+                "label": "Segmentation Parameters",
+                "inputs": {
+                    "segmentation-prompt":{
+                        "type": "text",
+                        "label": "Segmentation Prompt",
+                        "node-id": "[\"761\"][\"inputs\"][\"string\"]",
+                        "value": ""
+                    },
+                    "segmentation-filter": {
+                        "type": "toggle-group",
+                        "label": "Segmentation Threshold Filtering",
+                        "node-id": "",
+                        "value": false,
+                        "inputs": {
+                            "filter-threshold":{
+                                "type": "slider",
+                                "label": "Segmentation Threshold",
+                                "node-id": "",
+                                "minimum": -2.5,
+                                "maximum": 2.5,
+                                "step": 0.5,
+                                "value": 0.0
+                            }
+                        }
+                    }
+                }
             }
         },
         "outputs": {

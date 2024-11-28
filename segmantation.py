@@ -19,17 +19,22 @@ from transformers.dynamic_module_utils import get_imports
 def fixed_get_imports(filename: str | os.PathLike) -> list[str]:
     if not str(filename).endswith("modeling_florence2.py"):
         return get_imports(filename)
+    
     imports = get_imports(filename)
-    imports.remove("flash_attn")
+
+    if "flash_attn" in imports: 
+        imports.remove("flash_attn")
+        
     return imports
 #---------
 
 from transformers import AutoProcessor, AutoModelForCausalLM
 import cv2
 import numpy as np
+import gradio as gr
 
 class DepthPlusSegmentation:
-    def process_segmentation(self, video_path=None, outdir=None, mp4=True, png=False, exr=False, is_png_8bit=False, segmentation_prompt=None, seg_filter=False, filter_threshold=0.0):
+    def process_segmentation(self, progress=gr.Progress(), video_path=None, outdir=None, mp4=True, png=False, exr=False, is_png_8bit=False, segmentation_prompt=None, seg_filter=False, filter_threshold=0.0):
         print("Processing segmentation")
         if(video_path is None or video_path == ""):
             #video_path=r"test-video\S1_DOLPHINS_A_v1.mp4"
@@ -67,10 +72,12 @@ class DepthPlusSegmentation:
         out_paths = construct_output_paths(video_path, outdir, "segmentation", is_png_8bit=is_png_8bit, is_exr_32bit=True)
 
         #iterate through all videos and process one by one
+        mp4s_out = []
         for k, filename in enumerate(filenames):
-            print(f'Progress: {k+1}/{len(filenames)}: {filename}')
-            jpg_dir, width, height, frame_rate = write_out_video_as_jpeg_sequence(video_path,filename)
-
+            progress(k/len(filenames), desc=f"Processing video {k+1}/{len(filenames)}")
+            
+            jpg_dir, width, height, frame_rate = write_out_video_as_jpeg_sequence(video_path, filename)
+            
             self.florence_object_detection(jpg_dir, task_prompt, search_term, seg_filter, filter_threshold)
 
             if mp4:
@@ -93,7 +100,11 @@ class DepthPlusSegmentation:
                 frame_count = 0
                 if(len(jpg_list) != len(obj_list)):
                     print(f"Error: number of jpgs and txts do not match: {len(jpg_list)} != {len(obj_list)}")
+                total_frames = len(jpg_list)
+                print(f"Processing {total_frames} frames...")
                 for i, filename in enumerate(jpg_list):
+                    progress((i + 1) / total_frames, 
+                            desc=f"Processing frame {i + 1}/{total_frames}")
                     with open(f"{jpg_dir}/{obj_list[i]}", "r") as f:
                         content = f.read()
                         parsed_object = json.loads(content)
@@ -145,11 +156,11 @@ class DepthPlusSegmentation:
                             raise ValueError("Segmentation: Error writing exr file")
 
                     frame_count += 1
+
             if mp4:
-                mp4_out.release()    
+                mp4s_out.append(mp4_output_path)
+                mp4_out.release()
             
-
-
             #NOTE! This was too RAM heavy, but maybe we want to enable this option later..
             # self.video_prediction(
             #     model_config_path,
@@ -163,9 +174,12 @@ class DepthPlusSegmentation:
             #     mp4_out
             # )
 
-
             #clean up temp jpgs
             delete_directory(jpg_dir)
+
+            print("Segmentation processing complete")
+
+        return mp4s_out
     
     #Warning -- RAM hungry
     def video_prediction(self,

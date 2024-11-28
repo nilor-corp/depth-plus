@@ -1,5 +1,4 @@
 import torch
-import torch
 import torch.nn.functional as F
 from torchvision import transforms
 import os
@@ -9,6 +8,7 @@ from utils import load_torch_file, get_bitsize_from_torch_type, make_exr, constr
 from depth_anything_v2.dpt import DepthAnythingV2
 import cv2
 import numpy as np
+import gradio as gr
 
 try:
     from accelerate import init_empty_weights
@@ -66,8 +66,16 @@ class DepthPlusDepth:
         return da_model
 
     #relative mp4 is default
-    def process_depth(self, video_path=None, outdir=None, metric=False, mp4=True, png=False, exr=False, is_png_8bit=True):
-
+    def process_depth(
+            self, 
+            progress=gr.Progress(), 
+            video_path=None, 
+            outdir=None, 
+            metric=False, 
+            mp4=True, 
+            png=False, 
+            exr=False, 
+            is_png_8bit=True):
         if(video_path is None or video_path == ""):
             video_path=r"test-video"
         if(outdir is None or outdir == ""):    
@@ -92,16 +100,18 @@ class DepthPlusDepth:
                 filenames = [video_path]
             else:
                 raise ValueError("The file is not an mp4 file")
-        else :
+        else:
             filenames = os.listdir(video_path)
             filenames = [os.path.join(video_path, file) for file in filenames if file.endswith(".mp4")]
 
-        print(f"outdier: {outdir}")
+        print(f"outdir: {outdir}")
         os.makedirs(outdir, exist_ok=True)
 
-        #iterate through all videos and process one by one
+        # Iterate through all videos and process one by one
+        mp4s_out = []
         for k, filename in enumerate(filenames):
-            print(f'Progress: {k+1}/{len(filenames)}: {filename}')
+            print(f'Processing video {k+1}/{len(filenames)}: {filename}')
+            progress(0, desc=f"Processing video {k+1}/{len(filenames)}")
 
             # Determine the suffix based on the processing type
             model_type = "metric" if metric else "relative"
@@ -110,34 +120,42 @@ class DepthPlusDepth:
             raw_video = cv2.VideoCapture(filename)
             frame_width, frame_height = int(raw_video.get(cv2.CAP_PROP_FRAME_WIDTH)), int(raw_video.get(cv2.CAP_PROP_FRAME_HEIGHT))
             frame_rate = raw_video.get(cv2.CAP_PROP_FPS)
-            output_width = frame_width
 
             if mp4:
                 mp4_output_path = paths['mp4']
-                mp4_out = cv2.VideoWriter(mp4_output_path, cv2.VideoWriter_fourcc(*'mp4v'), frame_rate, (output_width, frame_height))
-                print("Writing mp4 to: ", mp4_output_path)
+                mp4_out = cv2.VideoWriter(mp4_output_path, cv2.VideoWriter_fourcc(*'mp4v'), frame_rate, (frame_width, frame_height))
             if png:
                 png_output_path = paths['png']
-                print("Writing png's to: ", png_output_path)
             if exr:
                 exr_output_path = paths['exr']
-                print("Writing exr's to: ", exr_output_path)
 
             frame_count = 0
+            total_frames = int(raw_video.get(cv2.CAP_PROP_FRAME_COUNT))
+
+            print(f"Processing {total_frames} frames...")
+
             while raw_video.isOpened():
                 ret, frame = raw_video.read()
                 if not ret:
                     break
                 
+                progress((frame_count + 1) / total_frames, 
+                        desc=f"Processing frame {frame_count + 1}/{total_frames}")
+                
                 depth = model.infer_image(frame, 1024)
 
+                # MP4 video output handling
                 if mp4:
+                    print(f"Writing MP4 frame to: {mp4_output_path}")
                     #force 8 bit if mp4
                     depth_mp4 = (depth - depth.min()) / (depth.max() - depth.min()) * 255
                     depth_mp4 = depth_mp4.astype(np.uint8) 
                     depth_mp4 = np.repeat(depth_mp4[..., np.newaxis], 3, axis=-1)
                     mp4_out.write(depth_mp4)
+                    
+                # PNG image sequence output handling
                 if png:
+                    print(f"Writing PNG frame to: {png_output_path}")
                     if is_png_8bit:
                         bitsize, nptype = get_bitsize_from_torch_type(torch.float8_e4m3fn) 
                     else:
@@ -148,7 +166,10 @@ class DepthPlusDepth:
                     success = cv2.imwrite(png_filename, depth_png)
                     if not success:
                         print(f"Error writing {png_filename}")
+
+                # EXR image sequence output handling
                 if exr:
+                    print(f"Writing EXR frame to: {exr_output_path}")
                     bitsize, nptype = get_bitsize_from_torch_type(model_dtype)
                     depth_exr = depth.astype(nptype)
                     exr_filename = os.path.join(exr_output_path, '{:04d}.exr'.format(frame_count))
@@ -156,14 +177,19 @@ class DepthPlusDepth:
                     if not success:
                         print(f"Error writing {exr_filename}")
 
-                
                 frame_count += 1
 
-
             raw_video.release()
+
             if mp4:
+                mp4s_out.append(mp4_output_path)
                 mp4_out.release()
+
         print("Depth processing complete")
+        progress(1.0, desc="Complete")
+
+        return mp4s_out
+            
 
             
 

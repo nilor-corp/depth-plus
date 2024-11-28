@@ -22,6 +22,8 @@
 # Depth+
 Depth+ is a tool for locally extracting depth, optical flow, and segmentation information from videos using the latest open-source AI models.
 
+<!-- TODO: brag about how Depth+ has already been used to make production-quality work -->
+
 ## Dependencies
 - Python
 - Cuda version 12.11

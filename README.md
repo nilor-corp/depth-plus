@@ -40,6 +40,7 @@ Depth+ is a tool for locally extracting depth, optical flow, and segmentation in
   cd nilor-corp
   python -m venv venv
   .\venv\Scripts\activate
+  python.exe -m pip install --upgrade pip
   ```
 
 ### Clone Depth+ and Install Dependencies

@@ -196,7 +196,7 @@ def write_out_video_as_jpeg_sequence(video_path, filename, outdir=None):
         ret, frame = raw_video.read()
         if not ret:
             break
-        jpeg_filename = os.path.join(outdir, "{:04d}.jpg".format(frame_count))
+        jpeg_filename = os.path.join(outdir, "{:05d}.jpg".format(frame_count))
         success = cv2.imwrite(jpeg_filename, frame)
         if not success:
             print(f"Error writing {jpeg_filename}")

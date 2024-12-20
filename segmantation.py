@@ -143,14 +143,14 @@ class DepthPlusSegmentation:
                         else:
                             bitsize, npytype = get_bitsize_from_torch_type(torch.float16)
                         png_frame = (combined_mask * bitsize).astype(npytype)
-                        png_filename = os.path.join(png_output_path, '{:04d}.png'.format(frame_count))
+                        png_filename = os.path.join(png_output_path, '{:05d}.png'.format(frame_count))
                         success = cv2.imwrite(png_filename, png_frame)
                         if not success:
                             raise ValueError("Segmentation: Error writing png file")
                     if exr:
                         bitsize, nptype = get_bitsize_from_torch_type(torch.float32)
                         exr_frame = (combined_mask * bitsize).astype(nptype)
-                        exr_filename = os.path.join(exr_output_path, '{:04d}.exr'.format(frame_count))
+                        exr_filename = os.path.join(exr_output_path, '{:05d}.exr'.format(frame_count))
                         success = make_exr(exr_filename, exr_frame)
                         if not success:
                             raise ValueError("Segmentation: Error writing exr file")

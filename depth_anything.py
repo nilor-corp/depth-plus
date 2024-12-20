@@ -162,7 +162,7 @@ class DepthPlusDepth:
                         bitsize, nptype = get_bitsize_from_torch_type(torch.float16)
                     depth_png = (depth - depth.min()) / (depth.max() - depth.min()) * bitsize
                     depth_png = depth_png.astype(nptype)
-                    png_filename = os.path.join(png_output_path, '{:04d}.png'.format(frame_count))
+                    png_filename = os.path.join(png_output_path, '{:05d}.png'.format(frame_count))
                     success = cv2.imwrite(png_filename, depth_png)
                     if not success:
                         print(f"Error writing {png_filename}")
@@ -172,7 +172,7 @@ class DepthPlusDepth:
                     print(f"Writing EXR frame to: {exr_output_path}")
                     bitsize, nptype = get_bitsize_from_torch_type(model_dtype)
                     depth_exr = depth.astype(nptype)
-                    exr_filename = os.path.join(exr_output_path, '{:04d}.exr'.format(frame_count))
+                    exr_filename = os.path.join(exr_output_path, '{:05d}.exr'.format(frame_count))
                     success = make_exr(exr_filename, depth_exr)
                     if not success:
                         print(f"Error writing {exr_filename}")

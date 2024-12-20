@@ -211,7 +211,7 @@ class DepthPlusDepthAnyVideo:
                             bitsize, nptype = get_bitsize_from_torch_type(torch.float16)
                         depth_png = (depth - depth.min()) / (depth.max() - depth.min()) * bitsize
                         depth_png = depth_png.astype(nptype)
-                        png_filename = os.path.join(png_output_path, '{:04d}.png'.format(frame_count))
+                        png_filename = os.path.join(png_output_path, '{:05d}.png'.format(frame_count))
                         success = cv2.imwrite(png_filename, depth_png)
                         if not success:
                             print(f"Error writing {png_filename}")
@@ -220,7 +220,7 @@ class DepthPlusDepthAnyVideo:
                     if exr:
                         print(f"Writing EXR frame to: {exr_output_path}")
                         depth_exr = depth.astype(np.float32) # explicity set to 32-bit float from np instead of using get_bitsize_from_torch_type
-                        exr_filename = os.path.join(exr_output_path, '{:04d}.exr'.format(frame_count))
+                        exr_filename = os.path.join(exr_output_path, '{:05d}.exr'.format(frame_count))
 
                         success = make_exr(exr_filename, depth_exr)
                         if not success:

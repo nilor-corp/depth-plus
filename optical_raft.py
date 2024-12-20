@@ -109,7 +109,7 @@ class DepthPlusOptical:
                         else:
                             bitsize, nptype = get_bitsize_from_torch_type(torch.float16)
                         png_frame = ((flo[:,:,[2,1,0]]/255.0) * bitsize).astype(nptype)
-                        png_filename = os.path.join(png_output_path, '{:04d}.png'.format(frame_count))
+                        png_filename = os.path.join(png_output_path, '{:05d}.png'.format(frame_count))
                         success = cv2.imwrite(png_filename, png_frame)
                         if not success:
                             raise ValueError("Error writing png file")
@@ -119,7 +119,7 @@ class DepthPlusOptical:
                         print(f"Writing EXR frame to: {exr_output_path}")
                         bitsize, nptype = get_bitsize_from_torch_type(torch.float32)
                         exr_frame = ((flo[:,:,[2,1,0]]/255.0) * bitsize).astype(nptype)
-                        exr_filename = os.path.join(exr_output_path, '{:04d}.exr'.format(frame_count))
+                        exr_filename = os.path.join(exr_output_path, '{:05d}.exr'.format(frame_count))
                         success = make_exr(exr_filename, exr_frame)
                         if not success:
                             raise ValueError("Error writing exr file")

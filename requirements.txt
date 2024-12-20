@@ -1,8 +1,13 @@
-gradio==5.6.0
+torch
+torchvision 
+torchaudio
+--extra-index-url https://download.pytorch.org/whl/cu121 
+
+gradio>=5.7.1
 python-dotenv>=1.0.1
 safetensors==0.4.5
 OpenEXR==3.3.2
-opencv-python==4.10.0.84
+opencv-python
 easydict==1.13
 diffusers==0.31.0
 matplotlib==3.9.2

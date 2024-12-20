@@ -25,8 +25,8 @@ Depth+ is a tool for locally extracting depth, optical flow, and segmentation in
 <!-- TODO: brag about how Depth+ has already been used to make production-quality work -->
 
 ## Dependencies
-- Python
-- Cuda version 12.11
+- [Python 3.12.7](https://www.python.org/downloads/release/python-3127/)
+- [CUDA 12.11](https://developer.nvidia.com/cuda-12-1-1-download-archive)
 - Git and LFS
 
 ## Installation
@@ -48,12 +48,6 @@ Depth+ is a tool for locally extracting depth, optical flow, and segmentation in
   git clone https://github.com/nilor-corp/depth-plus.git
   cd depth-plus
   python -m pip install -r requirements.txt
-  ```
-
-### Install torch
-* In the `.\nilor-corp\depth-plus\` or `.\nilor-corp\` directory:
-  ```console
-  pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121
   ```
 
 > [!WARNING]

@@ -26,7 +26,7 @@ Depth+ is a tool for locally extracting depth, optical flow, and segmentation in
 
 ## Dependencies
 - [Python 3.12.7](https://www.python.org/downloads/release/python-3127/)
-- [CUDA 12.11](https://developer.nvidia.com/cuda-12-1-1-download-archive)
+- [CUDA 12.1 Update 1](https://developer.nvidia.com/cuda-12-1-1-download-archive)
 - Git and LFS
 
 ## Installation
